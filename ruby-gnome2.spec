@@ -14,18 +14,23 @@ Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
 # Source0-md5:	9634396c864a75e84edd3cfa559d1c2e
 Patch0:		%{name}-extconf.patch
+Patch1:		%{name}-extconf-2.patch
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	gtk+2-devel >= 2.2
+BuildRequires:	gnome-panel-devel >= 2.0
 BuildRequires:	gnome-vfs2-devel >= 2.0
 BuildRequires:	gstreamer-plugins-devel
 BuildRequires:	gtkglext-devel >= 1.0
+BuildRequires:	gtksourceview-devel
 BuildRequires:	libart_lgpl-devel >= 2.0
+BuildRequires:	libgda-devel
 BuildRequires:	libglade2-devel >= 2.0
 BuildRequires:	libgnomecanvas-devel >= 2.0
 BuildRequires:	libgnomeui-devel >= 2.0
-BuildRequires:	libgtkhtml >= 2.0
+BuildRequires:	libgtkhtml-devel >= 2.0
+BuildRequires:	libpng-devel
 BuildRequires:	pango-devel
 BuildRequires:	pkgconfig
 BuildRequires:	ruby
@@ -41,6 +46,7 @@ Biblioteki GNOME 2 dla Ruby, w³±cznie z GTKHtml2.
 %prep
 %setup -q -n %{name}-all-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 find . -name '*.rb' | xargs perl -pi -e "s#local/bin/ruby#bin/ruby#"
