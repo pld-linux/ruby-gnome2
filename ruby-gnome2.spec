@@ -4,17 +4,16 @@
 #
 %define	ruby_archdir	%(ruby -r rbconfig -e 'print Config::CONFIG["archdir"]')
 %define	ruby_rubylibdir	%(ruby -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
+%define	ruby_ridir	%(ruby -r rbconfig -e 'include Config; print File.join(CONFIG["datadir"], "ri", CONFIG["ruby_version"], "system")')
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
-Version:	0.10.0
-Release:	2
+Version:	0.10.1
+Release:	1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
-# Source0-md5:	9634396c864a75e84edd3cfa559d1c2e
-Patch0:		%{name}-extconf.patch
-Patch1:		%{name}-extconf-2.patch
+# Source0-md5:	36bd796f53e1a0f14a90edf650d73ced
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
@@ -45,17 +44,18 @@ Biblioteki GNOME 2 dla Ruby, w³±cznie z GTKHtml2.
 
 %prep
 %setup -q -n %{name}-all-%{version}
-%patch0 -p1
-%patch1 -p1
 
 %build
 find . -name '*.rb' | xargs perl -pi -e "s#local/bin/ruby#bin/ruby#"
 ruby extconf.rb --enable-glib-experimental
 %{__make}
 
+rdoc -o rdoc
+rdoc --ri -o ri
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir}} \
+install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir},%{ruby_ridir}} \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/{gtkhtml2,gnomecanvas,libart,libglade,gtkglext,gtk/gtk-demo,gtk/misc,gtk/testgtk,gnome/test-gnome,gdkpixbuf,pango}
 
 install panel-applet/panelapplet2.so \
@@ -131,12 +131,16 @@ install gtk/sample/testgtk/*.rb \
 install gnome/sample/test-gnome/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gnome/test-gnome
 
+rm ri/ri/TC* ri/ri/Test* -r
+cp -a ri/ri/* $RPM_BUILD_ROOT%{ruby_ridir}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README ChangeLog
+%doc README ChangeLog rdoc
 %attr(755,root,root) %{ruby_archdir}/*.so
 %{ruby_rubylibdir}/*.rb
+%{ruby_ridir}/*
 %{_examplesdir}/%{name}-%{version}
