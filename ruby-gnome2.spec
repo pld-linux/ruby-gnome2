@@ -4,8 +4,8 @@
 #
 %define	ruby_archdir	%(ruby -r rbconfig -e 'print Config::CONFIG["archdir"]')
 %define	ruby_rubylibdir	%(ruby -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
-Summary:	Gnome2 libraries for Ruby
-Summary(pl):	Biblioteki Gnome2 dla Ruby
+Summary:	GNOME 2 libraries for Ruby
+Summary(pl):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
 Version:	0.10.0
 Release:	1
@@ -33,10 +33,10 @@ Requires:	ruby-rbogl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Gnome2 libraries for Ruby, including GTKHtml2.
+GNOME 2 libraries for Ruby, including GTKHtml2.
 
 %description -l pl
-Biblioteki Gnome2 dla Ruby, w³±cznie z GTKHtml2.
+Biblioteki GNOME 2 dla Ruby, w³±cznie z GTKHtml2.
 
 %prep
 %setup -q -n %{name}-all-%{version}
