@@ -1,6 +1,6 @@
-diff -ur ruby-gnome2-all-0.7.0-orig/glib/extconf.rb ruby-gnome2-all-0.7.0/glib/extconf.rb
---- ruby-gnome2-all-0.7.0-orig/glib/extconf.rb	2003-09-07 06:00:32.000000000 -0600
-+++ ruby-gnome2-all-0.7.0/glib/extconf.rb	2003-09-07 09:43:04.000000000 -0600
+diff -ur ruby-gnome2-all-0.10.0-orig/glib/extconf.rb ruby-gnome2-all-0.10.0/glib/extconf.rb
+--- ruby-gnome2-all-0.10.0-orig/glib/extconf.rb	2004-08-08 11:14:49.000000000 -0600
++++ ruby-gnome2-all-0.10.0/glib/extconf.rb	2004-08-08 17:13:49.318608286 -0600
 @@ -7,6 +7,7 @@
  require 'mkmf-gnome2'
  
@@ -9,4 +9,16 @@ diff -ur ruby-gnome2-all-0.7.0-orig/glib/extconf.rb ruby-gnome2-all-0.7.0/glib/e
  check_win32
  
  set_output_lib('libruby-glib2.a')
-Only in ruby-gnome2-all-0.7.0/glib: extconf.rb~
+diff -ur ruby-gnome2-all-0.10.0-orig/gtksourceview/extconf.rb ruby-gnome2-all-0.10.0/gtksourceview/extconf.rb
+--- ruby-gnome2-all-0.10.0-orig/gtksourceview/extconf.rb	2004-08-08 11:14:49.000000000 -0600
++++ ruby-gnome2-all-0.10.0/gtksourceview/extconf.rb	2004-08-08 17:14:04.834805454 -0600
+@@ -14,7 +14,7 @@
+ check_win32
+ 
+ top = File.expand_path(File.dirname(__FILE__) + '/..')
+-$CFLAGS += " " + ['glib/src'].map{|d|
++$CFLAGS += " " + ['glib/src', 'gtk/src'].map{|d|
+   "-I" + File.join(top, d)
+ }.join(" ")
+ 
+Only in ruby-gnome2-all-0.10.0/gtksourceview: extconf.rb~
