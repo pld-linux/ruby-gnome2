@@ -131,7 +131,7 @@ install gtk/sample/testgtk/*.rb \
 install gnome/sample/test-gnome/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gnome/test-gnome
 
-rm ri/ri/TC* ri/ri/Test* -r
+rm ri/ri/TC* ri/ri/Test* ri/ri/Array ri/ri/Object -r
 cp -a ri/ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 
 %clean
