@@ -60,50 +60,13 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir},%{ruby_ridir}} \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/{gtkhtml2,gnomecanvas,libart,libglade,gtkglext,gtk/gtk-demo,gtk/misc,gtk/testgtk,gnome/test-gnome,gdkpixbuf,pango}
 
-install atk/src/atk.so \
-	gconf/src/gconf2.so \
-	gdkpixbuf/gdk_pixbuf2.so \
-	glib/src/glib2.so \
-	gnomecanvas/src/gnomecanvas2.so \
-	gnomeprint/src/gnomeprint2.so \
-	gnomeprintui/src/gnomeprintui2.so \
-	gnome/src/gnome2.so \
-	gnomevfs/src/gnomevfs.so \
-	gstreamer/src/gst.so \
-	gtkglext/src/gtkglext.so \
-	gtkhtml2/src/gtkhtml2.so \
-	gtksourceview/src/gtksourceview.so \
-	gtk/src20/gtk20.so \
-	gtk/src22/gtk22.so \
-	gtk/src/gtk2.so \
-	libart/src/libart2.so \
-	libgda/src/libgda.so \
-	libglade/libglade2.so \
-	panel-applet/panelapplet2.so \
-	pango/src/pango.so \
-	rsvg/src/rsvg2.so \
-	$RPM_BUILD_ROOT%{ruby_archdir}
+for dir in `find . -type d -maxdepth 2 -mindepth 1 -name src`; do
+	%{__make} -C $dir install \
+					RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
+					sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
+					RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
+done
 
-
-
-install atk/src/lib/atk.rb \
-	gconf/src/lib/gconf2.rb \
-	glib/src/lib/glib2.rb \
-	glib/src/lib/mkmf-gnome2.rb \
-	gnomecanvas/src/lib/gnomecanvas2.rb \
-	gnomeprint/src/lib/gnomeprint2.rb \
-	gnomeprintui/src/lib/gnomeprintui2.rb \
-	gnome/src/lib/gnome2.rb \
-	gnomevfs/src/lib/gnomevfs.rb \
-	gstreamer/src/lib/gst.rb \
-	gtkglext/src/lib/gtkglext.rb \
-	gtkhtml2/src/lib/gtkhtml2.rb \
-	gtksourceview/src/lib/gtksourceview.rb \
-	gtk/src/lib/gtk2.rb \
-	libgda/src/lib/libgda.rb \
-	pango/src/lib/pango.rb \
-	rsvg/src/lib/rsvg2.rb \
-	$RPM_BUILD_ROOT%{ruby_rubylibdir}
 
 install gtkhtml2/sample/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtkhtml2
@@ -151,6 +114,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README ChangeLog rdoc
 %attr(755,root,root) %{ruby_archdir}/*.so
+%attr(644,root,root) %{ruby_archdir}/*.h
 %{ruby_rubylibdir}/*.rb
 %{ruby_ridir}/*
 %{_examplesdir}/%{name}-%{version}
