@@ -45,11 +45,16 @@ GNOME 2 libraries for Ruby, including GTKHtml2.
 Biblioteki GNOME 2 dla Ruby, w³±cznie z GTKHtml2.
 
 %package devel
-Summary: Header files for Ruby-GNOME2
-Group:	Development/Libraries
+Summary:	Header files for Ruby-GNOME2
+Summary(pl):	Pliki nag³ówkowe dla Ruby-GNOME2
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for Ruby-GNOME2.
+
+%description devel -l pl
+Pliki nag³ówkowe dla Ruby-GNOME2.
 
 %prep
 %setup -q -n %{name}-all-%{version}
@@ -126,4 +131,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_examplesdir}/%{name}-%{version}
 
 %files devel
+%defattr(644,root,root,755)
 %{ruby_archdir}/*.h
