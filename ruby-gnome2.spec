@@ -17,7 +17,7 @@ Source0:	http://unc.dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
-BuildRequires:	gtk+2-devel >= 2.2
+BuildRequires:	gtk+2-devel >= 2:2.2
 BuildRequires:	gnome-panel-devel >= 2.0
 BuildRequires:	gnome-vfs2-devel >= 2.0
 BuildRequires:	gstreamer-plugins-devel
