@@ -3,7 +3,7 @@
 #   - subpackages
 #
 %define	ruby_archdir	%(ruby -r rbconfig -e 'print Config::CONFIG["archdir"]')
-%define	ruby_libdir	%(ruby -r rbconfig -e 'print Config::CONFIG["libdir"]')
+%define	ruby_rubylibdir	%(ruby -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
 Summary:	Gnome2 library for Ruby
 Name:		ruby-gnome2
 Version:	0.7.0
@@ -35,7 +35,7 @@ ruby extconf.rb
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_libdir}}
+install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir}}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}/{gtkhtml2,gnomecanvas,libart,libglade,gtkglext,gstreamer,gtk/gtk-demo,gtk/misc,gtk/testgtk,gnome/test-gnome,gdkpixbuf,pango}
 
 install gtkglext/src/gtkglext.so gnomevfs/src/gnomevfs.so \
@@ -53,7 +53,7 @@ install gconf/src/lib/gconf2.rb gdkpixbuf/lib/gdk_pixbuf2.rb \
 	gtk/src/lib/gtk2.rb gtkhtml2/src/lib/gtkhtml2.rb \
 	libglade/lib/libglade2.rb pango/src/lib/pango.rb \
 	gtkglext/src/lib/gtkglext.rb \
-	$RPM_BUILD_ROOT%{ruby_libdir}
+	$RPM_BUILD_ROOT%{ruby_rubylibdir}
 
 install gtkhtml2/sample/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}/gtkhtml2/
@@ -101,5 +101,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README ChangeLog
 %attr(755,root,root) %{ruby_archdir}/*.so
-%attr(644,root,root) %{ruby_libdir}/*.rb
+%attr(644,root,root) %{ruby_rubylibdir}/*.rb
 %{_examplesdir}/*
