@@ -56,6 +56,7 @@ install gtkglext/src/gtkglext.so gnomevfs/src/gnomevfs.so \
 	gnomecanvas/src/gnomecanvas2.so gnome/src/gnome2.so \
 	gconf/src/gconf2.so gdkpixbuf/gdk_pixbuf2.so \
 	glib/src/glib2.so gtk/src/gtk2.so \
+	atk/src/atk.so \
 	gtk/src20/gtk20.so gtk/src22/gtk22.so gtkhtml2/src/gtkhtml2.so \
 	libart/src/libart2.so libglade/libglade2.so pango/src/pango.so \
 	$RPM_BUILD_ROOT%{ruby_archdir}
