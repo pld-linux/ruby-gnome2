@@ -27,9 +27,11 @@ BuildRequires:	libart_lgpl-devel >= 2.0
 BuildRequires:	libgda-devel
 BuildRequires:	libglade2-devel >= 2.0
 BuildRequires:	libgnomecanvas-devel >= 2.0
+BuildRequires:	libgnomeprintui-devel
 BuildRequires:	libgnomeui-devel >= 2.0
 BuildRequires:	libgtkhtml-devel >= 2.0
 BuildRequires:	libpng-devel
+BuildRequires:	librsvg-devel
 BuildRequires:	pango-devel
 BuildRequires:	pkgconfig
 BuildRequires:	ruby
