@@ -1,0 +1,412 @@
+Index: glib/extconf.rb
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/glib/extconf.rb,v
+retrieving revision 1.18
+diff -u -r1.18 extconf.rb
+--- glib/extconf.rb	27 Aug 2003 17:48:05 -0000	1.18
++++ glib/extconf.rb	16 Sep 2003 19:09:25 -0000
+@@ -18,6 +18,13 @@
+ Dir.chdir "src"
+ begin
+   $defs << "-DRUBY_GLIB2_COMPILATION"
++  print "enabling experimental glib features... "
++  if enable_config('glib-experimental')
++    puts "yes"
++    $defs << "-DRBGLIB_ENABLE_EXPERIMENTAL"
++  else
++    puts "no"
++  end
+   create_makefile("glib2", srcdir)
+ ensure
+   Dir.chdir('..')
+Index: glib/src/rbgobj_object.c
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/glib/src/rbgobj_object.c,v
+retrieving revision 1.52
+diff -u -r1.52 rbgobj_object.c
+--- glib/src/rbgobj_object.c	3 Sep 2003 07:11:02 -0000	1.52
++++ glib/src/rbgobj_object.c	16 Sep 2003 19:09:29 -0000
+@@ -555,11 +555,42 @@
+     }
+ }
+ 
++VALUE rbgobj_iface_dispatch(VALUE obj, ID func, VALUE args)
++{
++  volatile VALUE val = rb_funcall2(obj, func, RARRAY(args)->len, RARRAY(args)->ptr);
++
++  printf("Returning: ");
++  rb_p(val);
++  return val;
++}
++
++static VALUE
++register_implements_interface(int argc, VALUE* argv, VALUE self)
++{
++    VALUE interface;
++    const RGObjClassInfo* cinfo = rbgobj_lookup_class(self);
++    const RGObjClassInfo* iinfo;
++    
++    if (cinfo->klass != self)
++        rb_raise(rb_eTypeError, "not a registered GObjectClass");
++
++    rb_scan_args(argc, argv, "10", &interface);
++    
++    iinfo = rbgobj_lookup_class(interface);
++    
++    if (iinfo->table == NULL)
++        rb_notimplement();
++
++    g_type_add_interface_static(cinfo->gtype, iinfo->gtype, iinfo->table);
++    return Qnil;
++}
++
+ static void
+ Init_gobject_subclass()
+ {
+     VALUE cGObject = GTYPE2CLASS(G_TYPE_OBJECT);
+     rb_define_singleton_method(cGObject, "register_type", register_type, -1);
++    rb_define_singleton_method(cGObject, "implements", register_implements_interface, -1);
+ 
+     rb_global_variable(&proc_mod_eval);
+     proc_mod_eval = rb_eval_string("lambda{|obj,proc| obj.module_eval(&proc)}");
+Index: glib/src/rbgobj_type.c
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/glib/src/rbgobj_type.c,v
+retrieving revision 1.42
+diff -u -r1.42 rbgobj_type.c
+--- glib/src/rbgobj_type.c	20 Aug 2003 16:52:57 -0000	1.42
++++ glib/src/rbgobj_type.c	16 Sep 2003 19:09:31 -0000
+@@ -77,10 +77,12 @@
+ rbgobj_lookup_class_by_gtype(gtype)
+     GType gtype;
+ {
+-    RGObjClassInfo* cinfo;
++    RGObjClassInfo* cinfo=NULL;
+     VALUE c = rb_hash_aref(gtype_to_cinfo, INT2NUM(gtype));
+ 
+-    if (!NIL_P(c)){
++    /*fprintf(stderr, "rbgobjlookup_pre; %p : 0%lx -> 0%lx\n", gtype_to_cinfo, gtype, c);
++    fflush(0);*/
++    if (!NIL_P(c) && (TYPE(c) == T_DATA)){
+         Data_Get_Struct(c, RGObjClassInfo, cinfo);
+     } else {
+         void* gclass = NULL;
+@@ -107,8 +109,7 @@
+ 
+           default:
+             /* we should raise exception? */
+-            fprintf(stderr,
+-                    "%s: %s's fundamental type %s isn't supported\n",
++            rb_warn("%s: %s's fundamental type %s isn't supported\n",
+                     "rbgobj_lookup_class_by_gtype",
+                     g_type_name(gtype),
+                     g_type_name(G_TYPE_FUNDAMENTAL(gtype)));
+@@ -119,6 +120,7 @@
+         cinfo->mark  = NULL;
+         cinfo->free  = NULL;
+         cinfo->flags = 0;
++        cinfo->table = NULL;
+ 
+         rb_hash_aset(klass_to_cinfo, cinfo->klass, c);
+         rb_hash_aset(gtype_to_cinfo, INT2NUM(gtype), c);
+@@ -704,10 +706,10 @@
+     id_new = rb_intern("new");
+     id_superclass = rb_intern("superclass");
+ 
+-    rb_global_variable(&gtype_to_cinfo);
+-    rb_global_variable(&klass_to_cinfo);
+     gtype_to_cinfo = rb_hash_new();
+     klass_to_cinfo = rb_hash_new();
++    rb_global_variable(&gtype_to_cinfo);
++    rb_global_variable(&klass_to_cinfo);
+ 
+     _register_fundamental_klass_to_gtype(rb_cFixnum, G_TYPE_LONG);
+     _register_fundamental_klass_to_gtype(rb_cFloat, G_TYPE_DOUBLE);
+Index: glib/src/rbgobject.c
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/glib/src/rbgobject.c,v
+retrieving revision 1.33
+diff -u -r1.33 rbgobject.c
+--- glib/src/rbgobject.c	25 Aug 2003 01:50:30 -0000	1.33
++++ glib/src/rbgobject.c	16 Sep 2003 19:09:32 -0000
+@@ -136,7 +136,7 @@
+         }
+         g_object_unref(holder->gobj);
+     }
+-    free(holder);
++    g_free(holder);
+ }
+ 
+ VALUE
+Index: glib/src/rbgobject.h
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/glib/src/rbgobject.h,v
+retrieving revision 1.46
+diff -u -r1.46 rbgobject.h
+--- glib/src/rbgobject.h	3 Sep 2003 07:11:02 -0000	1.46
++++ glib/src/rbgobject.h	16 Sep 2003 19:09:32 -0000
+@@ -83,6 +83,7 @@
+     void (*mark)(gpointer);
+     void (*free)(gpointer);
+     int flags; /* RGObjClassFlag */
++    gpointer table; /* For interfaces */
+ } RGObjClassInfo;
+ 
+ /* rbgobject.c */
+@@ -147,6 +148,9 @@
+ /* rbgobj_object.c */
+ extern void rbgobj_register_property_setter(GType gtype, const char* prop_name, RValueToGValueFunc func);
+ extern void rbgobj_register_property_getter(GType gtype, const char* prop_name, GValueToRValueFunc func);
++#ifdef RBGLIB_ENABLE_EXPERIMENTAL
++extern VALUE rbgobj_iface_dispatch(VALUE obj, ID function, VALUE args);
++#endif
+ 
+ /* rbgobj_boxed.c */
+ extern VALUE rbgobj_boxed_create(VALUE klass);
+Index: gtk/extconf.rb
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/gtk/extconf.rb,v
+retrieving revision 1.43
+diff -u -r1.43 extconf.rb
+--- gtk/extconf.rb	30 Aug 2003 13:22:40 -0000	1.43
++++ gtk/extconf.rb	16 Sep 2003 19:09:34 -0000
+@@ -63,6 +63,13 @@
+ #
+ # create Makefiles
+ #
++print "enabling experimental glib features... "
++if enable_config('glib-experimental')
++    puts "yes"
++    $defs << "-DRBGLIB_ENABLE_EXPERIMENTAL"
++else
++    puts "no"
++end
+ 
+ begin
+   src_dir   = File.expand_path(File.dirname(__FILE__) + '/src')
+Index: gtk/src/rbgdkatom.c
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/gtk/src/rbgdkatom.c,v
+retrieving revision 1.8
+diff -u -r1.8 rbgdkatom.c
+--- gtk/src/rbgdkatom.c	17 Aug 2003 08:46:06 -0000	1.8
++++ gtk/src/rbgdkatom.c	16 Sep 2003 19:09:34 -0000
+@@ -58,8 +58,14 @@
+   
+     rb_scan_args(argc, argv, "11", &name, &exist);
+ 
+-    return BOXED2RVAL(gdk_atom_intern(RVAL2CSTR(name), RTEST(exist)), 
++    
++    if (TYPE(name) == T_STRING)
++      return BOXED2RVAL(gdk_atom_intern(RVAL2CSTR(name), RTEST(exist)), 
+                       GDK_TYPE_ATOM);
++    else if (TYPE(name) == T_FIXNUM)
++      return BOXED2RVAL((GdkAtom)FIX2INT(name), GDK_TYPE_ATOM);
++    else
++      rb_raise(rb_eTypeError, "Gdk::Atom.intern requires either a String or a Fixnum");
+ }
+ 
+ static VALUE
+@@ -76,6 +82,21 @@
+ }
+ 
+ static VALUE
++gdkatom_to_i(self)
++    VALUE self;
++{
++    return UINT2NUM(_SELF(self));
++}
++
++
++static VALUE
++gdkatom_nil(self)
++    VALUE self;
++{
++    return UINT2NUM(_SELF(self)) == 0 ? Qtrue : Qfalse;
++}
++
++static VALUE
+ gdkatom_eq(self, other)
+     VALUE self, other;
+ {
+@@ -90,6 +111,8 @@
+     rb_define_singleton_method(gdkAtom, "intern", gdkatom_s_intern, -1);
+ 
+     rb_define_method(gdkAtom, "name", gdkatom_name, 0);
++    rb_define_method(gdkAtom, "to_i", gdkatom_to_i, 0);
++    rb_define_method(gdkAtom, "nil?", gdkatom_nil, 0);
+     rb_define_method(gdkAtom, "==", gdkatom_eq, 1);
+     rb_define_method(gdkAtom, "===", gdkatom_eq, 1);
+     rb_define_method(gdkAtom, "eql?", gdkatom_eq, 1);
+Index: gtk/src/rbgtk.h
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/gtk/src/rbgtk.h,v
+retrieving revision 1.50
+diff -u -r1.50 rbgtk.h
+--- gtk/src/rbgtk.h	22 Jun 2003 17:37:51 -0000	1.50
++++ gtk/src/rbgtk.h	16 Sep 2003 19:09:35 -0000
+@@ -18,6 +18,7 @@
+ #include "ruby.h"
+ #include "rubysig.h"
+ #include "rbgobject.h"
++#include "rbgutil.h"
+ #include <gtk/gtk.h>
+ 
+ #include <signal.h>
+Index: gtk/src/rbgtkitemfactory.c
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/gtk/src/rbgtkitemfactory.c,v
+retrieving revision 1.20
+diff -u -r1.20 rbgtkitemfactory.c
+--- gtk/src/rbgtkitemfactory.c	4 Jul 2003 18:34:04 -0000	1.20
++++ gtk/src/rbgtkitemfactory.c	16 Sep 2003 19:09:36 -0000
+@@ -27,7 +27,7 @@
+     VALUE obj = rb_eval_string("eval('self', binding)");
+     G_RELATIVE(obj, self);
+     RBGTK_INITIALIZE(self, gtk_item_factory_new(FIX2INT(type), RVAL2CSTR(path),
+-                                                RVAL2ACCEL(accel)));
++                                                NIL_P(accel) ? NULL : RVAL2ACCEL(accel)));
+    
+     return Qnil;
+ }
+Index: gtk/src/rbgtktextmark.c
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/gtk/src/rbgtktextmark.c,v
+retrieving revision 1.6
+diff -u -r1.6 rbgtktextmark.c
+--- gtk/src/rbgtktextmark.c	19 Jan 2003 14:28:25 -0000	1.6
++++ gtk/src/rbgtktextmark.c	16 Sep 2003 19:09:36 -0000
+@@ -30,7 +30,9 @@
+ get_name(self)
+     VALUE self;
+ {
+-    return rb_str_new2(gtk_text_mark_get_name(GTK_TEXT_MARK(RVAL2GOBJ(self))));
++    gchar *name;
++    name = gtk_text_mark_get_name(GTK_TEXT_MARK(RVAL2GOBJ(self)));
++    return name ? rb_str_new2(name) : Qnil;
+ }
+ 
+ static VALUE
+Index: gtk/src/rbgtktreeiter.c
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/gtk/src/rbgtktreeiter.c,v
+retrieving revision 1.16
+diff -u -r1.16 rbgtktreeiter.c
+--- gtk/src/rbgtktreeiter.c	9 Sep 2003 15:17:22 -0000	1.16
++++ gtk/src/rbgtktreeiter.c	16 Sep 2003 19:09:36 -0000
+@@ -201,11 +201,78 @@
+     return Qtrue;
+ }
+ 
++#ifdef RBGLIB_ENABLE_EXPERIMENTAL
++#define SIG ((gpointer)123456)
++
++static VALUE
++treeiter_initialize(self,model)
++    VALUE self,model;
++{
++    GtkTreeIter iter = { 0, NULL, NULL, NULL };
++    iter.user_data3 = RVAL2GOBJ(model);
++    G_INITIALIZE(self, &iter);
++    return Qnil;
++}
++
++static VALUE
++treeiter_stamp(self)
++    VALUE self;
++{
++    return LONG2NUM(_SELF(self)->stamp);
++}
++
++static VALUE
++treeiter_user_data(self)
++    VALUE self;
++{
++    GtkTreeIter *iter = _SELF(self);
++    /*if (iter->user_data2 == SIG)
++      return (VALUE)(iter->user_data);
++    else*/
++      return LONG2NUM((long)iter->user_data);
++}
++
++static VALUE
++treeiter_set_stamp(self, val)
++    VALUE self, val;
++{
++    _SELF(self)->stamp = NUM2LONG(val);
++    return self;
++}
++
++static VALUE
++treeiter_set_user_data(self, val)
++    VALUE self, val;
++{
++    GtkTreeIter *iter = _SELF(self);
++    /*if (TYPE(val) == T_FIXNUM)
++    {*/
++      iter->user_data = (gpointer)NUM2LONG(val);
++      /*iter->user_data2 = 0;
++    }
++    else
++    {
++      // Another reference *must* be kept elsewhere or this may be GC'd
++      iter->user_data = (gpointer)val;
++      iter->user_data2 = SIG;
++    }*/
++    return val;
++}
++#endif
++
+ void 
+ Init_gtk_treeiter()
+ {
+     VALUE gTreeIter = G_DEF_CLASS(GTK_TYPE_TREE_ITER, "TreeIter", mGtk);
+ 
++#ifdef RBGLIB_ENABLE_EXPERIMENTAL
++    rb_define_method(gTreeIter, "initialize", treeiter_initialize, 1);
++    rb_define_method(gTreeIter, "stamp", treeiter_stamp, 0);
++    rb_define_method(gTreeIter, "user_data", treeiter_user_data, 0);
++    rb_define_method(gTreeIter, "stamp=", treeiter_set_stamp, 1);
++    rb_define_method(gTreeIter, "user_data=", treeiter_set_user_data, 1);
++#endif
++    
+     rb_define_method(gTreeIter, "first!", treeiter_first, 0);
+     rb_define_method(gTreeIter, "next!", treeiter_next, 0);
+     rb_define_method(gTreeIter, "get_value", treeiter_get_value, 1);
+Index: gtk/src/rbgtktreemodel.c
+===================================================================
+RCS file: /cvsroot/ruby-gnome2/ruby-gnome2/gtk/src/rbgtktreemodel.c,v
+retrieving revision 1.20
+diff -u -r1.20 rbgtktreemodel.c
+--- gtk/src/rbgtktreemodel.c	31 Aug 2003 15:29:44 -0000	1.20
++++ gtk/src/rbgtktreemodel.c	16 Sep 2003 19:09:37 -0000
+@@ -201,10 +201,28 @@
+     return rb_ary_new3(4, GOBJ2RVAL(model), TREEPATH2RVAL(path), ITR2RVAL(iter), orders);
+ }
+ 
++static VALUE mTreeModel = Qnil;
++
++#ifdef RBGLIB_ENABLE_EXPERIMENTAL
++ #include "treemodel.iface.h"
++#endif
++
+ void 
+ Init_gtk_treemodel()
+ {
+-    VALUE mTreeModel = G_DEF_INTERFACE(GTK_TYPE_TREE_MODEL, "TreeModel", mGtk);
++    mTreeModel = G_DEF_INTERFACE(GTK_TYPE_TREE_MODEL, "TreeModel", mGtk);
++    
++#ifdef RBGLIB_ENABLE_EXPERIMENTAL
++    {
++    RGObjClassInfo* cinfo=(RGObjClassInfo*)rbgobj_lookup_class_by_gtype(GTK_TYPE_TREE_MODEL);
++    static GInterfaceInfo treemodel_iface_info = {
++        (GInterfaceInitFunc) rbglib_GtkTreeModel__interface_init,     /* interface_init */
++        NULL,                                                         /* interface_finalize */
++        NULL                                                          /* interface_finalize */
++    };
++    cinfo->table = &treemodel_iface_info;
++  }
++#endif
+ 
+     rb_define_method(mTreeModel, "flags", treemodel_get_flags, 0);
+     rb_define_method(mTreeModel, "n_columns", treemodel_get_n_columns, 0);
