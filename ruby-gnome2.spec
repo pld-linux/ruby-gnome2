@@ -4,27 +4,22 @@
 #
 %define	ruby_archdir	%(ruby -r rbconfig -e 'print Config::CONFIG["archdir"]')
 %define	ruby_rubylibdir	%(ruby -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
-%define cvs 20031108
 Summary:	Gnome2 libraries for Ruby
 Summary(pl):	Biblioteki Gnome2 dla Ruby
 Name:		ruby-gnome2
-Version:	0.8.0
-Release:	0.%{cvs}.1
+Version:	0.9.0
+Release:	1
 License:	GPL
 Group:		Development/Languages
-#Source0:	http://dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
-Source0:	%{name}-cvs-%{cvs}.tar.gz
-# Source0-md5:	a0d7afbabe18bbc6db63bbe31745bdb5
-Source1:	http://www.intersect-uk.co.uk/~iugeoff/glibinterface.tar.gz
-# Source1-md5:	4b33c9c638dd3861e8da7fa43cfe9a1f
+Source0:	http://dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
+# Source0-md5:	bacb2cbdf31cad86f0339d13b0c1f0bb
 Patch0:		%{name}-extconf.patch
-Patch1:		%{name}-glibinterface.patch
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	gtk+2-devel >= 2.2
 BuildRequires:	gnome-vfs2-devel >= 2.0
-BuildRequires:	gstreamer-media-info-devel >= 0.6
+BuildRequires:	gstreamer-plugins-devel
 BuildRequires:	gtkglext-devel >= 1.0
 BuildRequires:	libart_lgpl-devel >= 2.0
 BuildRequires:	libglade2-devel >= 2.0
@@ -44,12 +39,11 @@ Gnome2 libraries for Ruby, including gstreamer and GTKHtml2.
 Biblioteki Gnome2 dla Ruby, w³±cznie z gstreamer i GTKHtml2.
 
 %prep
-%setup -q -n %{name}-all-%{version} -a1
+%setup -q -n %{name}-all-%{version}
 %patch0 -p1
-%patch1 -p0
 
 %build
-cp glibinterface/treemodel.iface.h gtk/src
+find . -name '*.rb' | xargs perl -pi -e "s#local/bin/ruby#bin/ruby#"
 ruby extconf.rb --enable-glib-experimental
 %{__make}
 
