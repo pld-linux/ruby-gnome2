@@ -4,15 +4,17 @@
 #
 %define	ruby_archdir	%(ruby -r rbconfig -e 'print Config::CONFIG["archdir"]')
 %define	ruby_rubylibdir	%(ruby -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
+%define cvs 20031108
 Summary:	Gnome2 libraries for Ruby
 Summary(pl):	Biblioteki Gnome2 dla Ruby
 Name:		ruby-gnome2
-Version:	0.7.0
-Release:	1
+Version:	0.8.0
+Release:	0.%{cvs}.1
 License:	GPL
 Group:		Development/Languages
-Source0:	http://dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
-# Source0-md5:	412292423f145ef756edf918f0892d7e
+#Source0:	http://dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
+Source0:	%{name}-cvs-%{cvs}.tar.gz
+# Source0-md5:	a0d7afbabe18bbc6db63bbe31745bdb5
 Source1:	http://www.intersect-uk.co.uk/~iugeoff/glibinterface.tar.gz
 # Source1-md5:	4b33c9c638dd3861e8da7fa43cfe9a1f
 Patch0:		%{name}-extconf.patch
