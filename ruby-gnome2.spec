@@ -34,7 +34,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	librsvg-devel
 BuildRequires:	pango-devel
 BuildRequires:	pkgconfig
-BuildRequires:	ruby
+BuildRequires:	ruby-devel
 Requires:	ruby-rbogl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
