@@ -12,7 +12,10 @@ License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
 # Source0-md5:	412292423f145ef756edf918f0892d7e
+Source1:	http://www.intersect-uk.co.uk/~iugeoff/glibinterface.tar.gz
+# Source1-md5:	4b33c9c638dd3861e8da7fa43cfe9a1f
 Patch0:	%{name}-extconf.patch
+Patch1:	%{name}-glibinterface.patch
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	gnome-vfs2-devel
 BuildRequires:	gtkglext-devel
@@ -26,11 +29,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Gnome2 Libraries for Ruby, including gstreamer and GTKHtml2
 
 %prep
-%setup -q -n %{name}-all-%{version}
+%setup -q -n %{name}-all-%{version} -a1
 %patch0 -p1
+%patch1 -p0
 
 %build
-ruby extconf.rb
+cp glibinterface/treemodel.iface.h gtk/src
+ruby extconf.rb --enable-glib-experimental
 %{__make}
 
 %install
