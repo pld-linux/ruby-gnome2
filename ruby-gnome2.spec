@@ -18,9 +18,19 @@ Source1:	http://www.intersect-uk.co.uk/~iugeoff/glibinterface.tar.gz
 Patch0:		%{name}-extconf.patch
 Patch1:		%{name}-glibinterface.patch
 URL:		http://ruby-gnome2.sourceforge.jp/
-BuildRequires:	gnome-vfs2-devel
-BuildRequires:	gtkglext-devel
-BuildRequires:	gtkhtml-devel
+BuildRequires:	GConf2-devel >= 2.0
+BuildRequires:	glib2-devel >= 2.0
+BuildRequires:	gtk+2-devel >= 2.2
+BuildRequires:	gnome-vfs2-devel >= 2.0
+BuildRequires:	gstreamer-media-info-devel >= 0.6
+BuildRequires:	gtkglext-devel >= 1.0
+BuildRequires:	libart_lgpl-devel >= 2.0
+BuildRequires:	libglade2-devel >= 2.0
+BuildRequires:	libgnomecanvas-devel >= 2.0
+BuildRequires:	libgnomeui-devel >= 2.0
+BuildRequires:	libgtkhtml >= 2.0
+BuildRequires:	pango-devel
+BuildRequires:	pkgconfig
 BuildRequires:	ruby
 Requires:	ruby-rbogl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
