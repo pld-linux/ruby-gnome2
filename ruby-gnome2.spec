@@ -44,6 +44,13 @@ GNOME 2 libraries for Ruby, including GTKHtml2.
 %description -l pl
 Biblioteki GNOME 2 dla Ruby, w³±cznie z GTKHtml2.
 
+%package devel
+Summary: Header files for Ruby-GNOME2
+Group:	Development/Libraries
+
+%description devel
+Header files for Ruby-GNOME2.
+
 %prep
 %setup -q -n %{name}-all-%{version}
 
@@ -66,7 +73,6 @@ for dir in `find . -type d -maxdepth 2 -mindepth 1 -name src`; do
 					sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
 					RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
 done
-
 
 install gtkhtml2/sample/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtkhtml2
@@ -118,3 +124,6 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_rubylibdir}/*.rb
 %{ruby_ridir}/*
 %{_examplesdir}/%{name}-%{version}
+
+%files devel
+%{ruby_archdir}/*.h
