@@ -12,7 +12,7 @@ Version:	0.11.0
 Release:	2
 License:	GPL
 Group:		Development/Languages
-Source0:	http://unc.dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
 # Source0-md5:	a4fe0c52f971bf01e2382479f4c56470
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
