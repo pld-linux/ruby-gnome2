@@ -1,0 +1,12 @@
+diff -ur ruby-gnome2-all-0.7.0-orig/glib/extconf.rb ruby-gnome2-all-0.7.0/glib/extconf.rb
+--- ruby-gnome2-all-0.7.0-orig/glib/extconf.rb	2003-09-07 06:00:32.000000000 -0600
++++ ruby-gnome2-all-0.7.0/glib/extconf.rb	2003-09-07 09:43:04.000000000 -0600
+@@ -7,6 +7,7 @@
+ require 'mkmf-gnome2'
+ 
+ PKGConfig.have_package('gobject-2.0') or exit 1
++PKGConfig.have_package('glib-2.0') or exit 1
+ check_win32
+ 
+ set_output_lib('libruby-glib2.a')
+Only in ruby-gnome2-all-0.7.0/glib: extconf.rb~
