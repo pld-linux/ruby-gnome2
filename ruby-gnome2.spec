@@ -8,7 +8,7 @@ Summary:	GNOME 2 libraries for Ruby
 Summary(pl):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
 Version:	0.10.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-all-%{version}.tar.gz
@@ -19,7 +19,7 @@ BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	gtk+2-devel >= 2.2
 BuildRequires:	gnome-vfs2-devel >= 2.0
-#BuildRequires:	gstreamer-plugins-devel
+BuildRequires:	gstreamer-plugins-devel
 BuildRequires:	gtkglext-devel >= 1.0
 BuildRequires:	libart_lgpl-devel >= 2.0
 BuildRequires:	libglade2-devel >= 2.0
@@ -52,22 +52,41 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir}} \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/{gtkhtml2,gnomecanvas,libart,libglade,gtkglext,gtk/gtk-demo,gtk/misc,gtk/testgtk,gnome/test-gnome,gdkpixbuf,pango}
 
-install gtkglext/src/gtkglext.so gnomevfs/src/gnomevfs.so \
-	gnomecanvas/src/gnomecanvas2.so gnome/src/gnome2.so \
-	gconf/src/gconf2.so gdkpixbuf/gdk_pixbuf2.so \
-	glib/src/glib2.so gtk/src/gtk2.so \
+install panel-applet/panelapplet2.so \
+	libglade/libglade2.so \
+	gtkglext/src/gtkglext.so \
+	gdkpixbuf/gdk_pixbuf2.so \
+	gnome/src/gnome2.so \
+	libart/src/libart2.so \
+	gtk/src20/gtk20.so \
+	gtk/src22/gtk22.so \
+	gtk/src/gtk2.so \
+	libgda/src/libgda.so \
+	gtkhtml2/src/gtkhtml2.so \
+	gtksourceview/src/gtksourceview.so \
 	atk/src/atk.so \
-	gtk/src20/gtk20.so gtk/src22/gtk22.so gtkhtml2/src/gtkhtml2.so \
-	libart/src/libart2.so libglade/libglade2.so pango/src/pango.so \
+	glib/src/glib2.so \
+	gconf/src/gconf2.so \
+	pango/src/pango.so \
+	gnomecanvas/src/gnomecanvas2.so \
+	gnomevfs/src/gnomevfs.so \
+	gstreamer/src/gst.so \
 	$RPM_BUILD_ROOT%{ruby_archdir}
 
-install gconf/src/lib/gconf2.rb gdkpixbuf/lib/gdk_pixbuf2.rb \
-	glib/src/lib/mkmf-gnome2.rb glib/src/lib/glib2.rb \
-	gnome/src/lib/gnome2.rb gnomecanvas/src/lib/gnomecanvas2.rb \
+install	atk/src/lib/atk.rb \
+	gconf/src/lib/gconf2.rb \
+	glib/src/lib/glib2.rb \
+	glib/src/lib/mkmf-gnome2.rb \
+	gnomecanvas/src/lib/gnomecanvas2.rb \
+	gnome/src/lib/gnome2.rb \
 	gnomevfs/src/lib/gnomevfs.rb \
-	gtk/src/lib/gtk2.rb gtkhtml2/src/lib/gtkhtml2.rb \
-	libglade/lib/libglade2.rb pango/src/lib/pango.rb \
+	gstreamer/src/lib/gst.rb \
 	gtkglext/src/lib/gtkglext.rb \
+	gtkhtml2/src/lib/gtkhtml2.rb \
+	gtksourceview/src/lib/gtksourceview.rb \
+	gtk/src/lib/gtk2.rb \
+	libgda/src/lib/libgda.rb \
+	pango/src/lib/pango.rb \
 	$RPM_BUILD_ROOT%{ruby_rubylibdir}
 
 install gtkhtml2/sample/*.rb \
