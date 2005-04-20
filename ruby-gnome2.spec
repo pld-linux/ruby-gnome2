@@ -9,7 +9,7 @@ Summary:	GNOME 2 libraries for Ruby
 Summary(pl):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
 Version:	0.12.0
-Release:	1
+Release:	1.1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
@@ -79,6 +79,11 @@ for dir in `find . -type d -maxdepth 2 -mindepth 1 -name src`; do
 					RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
 done
 
+%{__make} -C gdkpixbuf install \
+	RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
+	sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
+	RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
+
 install gtkhtml2/sample/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtkhtml2
 
@@ -115,8 +120,8 @@ install gtk/sample/testgtk/*.rb \
 install gnome/sample/test-gnome/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gnome/test-gnome
 
-rm ri/ri/TC* ri/ri/Test* ri/ri/Array ri/ri/Object -r
 cp -a ri/ri/* $RPM_BUILD_ROOT%{ruby_ridir}
+rm -rf $RPM_BUILD_ROOT%{ruby_ridir}/ri/ri/{Array,Object,TC*,Test*}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -125,7 +130,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README ChangeLog rdoc
 %attr(755,root,root) %{ruby_archdir}/*.so
-%attr(644,root,root) %{ruby_archdir}/*.h
 %{ruby_rubylibdir}/*.rb
 %{ruby_ridir}/*
 %{_examplesdir}/%{name}-%{version}
