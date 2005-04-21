@@ -79,6 +79,12 @@ for dir in `find . -type d -maxdepth 2 -mindepth 1 -name src`; do
 					RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
 done
 
+%{__make} -C libglade install \
+	RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
+	sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
+	RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir} \
+	BINDIR==$RPM_BUILD_ROOT%{_bindir}
+
 %{__make} -C gdkpixbuf install \
 	RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
 	sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
