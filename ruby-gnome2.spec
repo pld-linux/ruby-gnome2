@@ -8,12 +8,12 @@
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
-Version:	0.12.0
-Release:	3
+Version:	0.13.0
+Release:	1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	3aa40a574f0365361745d852494240a3
+# Source0-md5:	4d48893b05b39b9fe0c34f0b0ce14e34
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
