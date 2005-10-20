@@ -8,12 +8,12 @@
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
-Version:	0.13.0
+Version:	0.14.0
 Release:	1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	4d48893b05b39b9fe0c34f0b0ce14e34
+# Source0-md5:	025262fd1953e2b2dee07b8753e3ee53
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
@@ -72,23 +72,10 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir},%{ruby_ridir}} \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/{gtkhtml2,gnomecanvas,libart,libglade,gtkglext,gtk/gtk-demo,gtk/misc,gtk/testgtk,gnome/test-gnome,gdkpixbuf,pango}
 
-for dir in `find . -type d -maxdepth 2 -mindepth 1 -name src`; do
-	%{__make} -C $dir install \
-					RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
-					sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
-					RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
-done
-
-%{__make} -C libglade install \
-	RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
-	sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
-	RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir} \
-	BINDIR==$RPM_BUILD_ROOT%{_bindir}
-
-%{__make} -C gdkpixbuf install \
-	RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
-	sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
-	RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
+%{__make} install \
+		RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
+		sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
+		RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
 
 install gtkhtml2/sample/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtkhtml2
