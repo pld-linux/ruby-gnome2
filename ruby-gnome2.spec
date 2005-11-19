@@ -2,9 +2,6 @@
 # TODO:
 #   - subpackages
 #
-%define	ruby_archdir	%(ruby -r rbconfig -e 'print Config::CONFIG["archdir"]')
-%define	ruby_rubylibdir	%(ruby -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
-%define	ruby_ridir	%(ruby -r rbconfig -e 'include Config; print File.join(CONFIG["datadir"], "ri", CONFIG["ruby_version"], "system")')
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
@@ -17,10 +14,10 @@ Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
-BuildRequires:	gtk+2-devel >= 2:2.2
 BuildRequires:	gnome-panel-devel >= 2.0
 BuildRequires:	gnome-vfs2-devel >= 2.0
 BuildRequires:	gstreamer-plugins-devel
+BuildRequires:	gtk+2-devel >= 2:2.2
 BuildRequires:	gtkglext-devel >= 1.0
 BuildRequires:	gtksourceview-devel
 BuildRequires:	libart_lgpl-devel >= 2.0
@@ -34,7 +31,9 @@ BuildRequires:	libpng-devel
 BuildRequires:	librsvg-devel
 BuildRequires:	pango-devel
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.263
 BuildRequires:	ruby-devel
+BuildRequires:	sed >= 4.0
 Requires:	ruby-rbogl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -58,9 +57,9 @@ Pliki nag³ówkowe dla Ruby-GNOME2.
 
 %prep
 %setup -q -n %{name}-all-%{version}
+find . -name '*.rb' | xargs sed -i -e '1s,#.*local/bin/ruby,#!%{_bindir}/ruby,'
 
 %build
-find . -name '*.rb' | xargs perl -pi -e "s#local/bin/ruby#bin/ruby#"
 ruby extconf.rb --enable-glib-experimental
 %{__make}
 
