@@ -31,10 +31,11 @@ BuildRequires:	libpng-devel
 BuildRequires:	librsvg-devel
 BuildRequires:	pango-devel
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.263
+BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel
 BuildRequires:	sed >= 4.0
 Requires:	ruby-rbogl
+%ruby_mod_ver_requires_eq
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
