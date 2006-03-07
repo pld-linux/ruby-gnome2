@@ -16,7 +16,7 @@ BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	gnome-panel-devel >= 2.0
 BuildRequires:	gnome-vfs2-devel >= 2.0
-BuildRequires:	gstreamer-plugins-devel
+BuildRequires:	gstreamer-plugins-base-devel
 BuildRequires:	gtk+2-devel >= 2:2.2
 BuildRequires:	gtkglext-devel >= 1.0
 BuildRequires:	gtksourceview-devel
