@@ -1,12 +1,8 @@
-#
-# TODO:
-#   - subpackages
-#
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
 Version:	0.14.1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
@@ -55,6 +51,29 @@ Header files for Ruby-GNOME2.
 
 %description devel -l pl
 Pliki nag³ówkowe dla Ruby-GNOME2.
+
+%package rdoc
+Summary:	Ruby-GNOME2 rdoc documentation
+Summary(pl):	Dokumentacja rdoc Ruby-GNOME2
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description rdoc
+Ruby-GNOME2 rdoc documentation.
+
+%description rdoc -l pl
+Dokumentacja rdoc Ruby-GNOME2.
+
+%package examples
+Summary:	Ruby-GNOME2 examples
+Summary(pl):	Przyk~ady do Ruby-GNOME2
+Group:		Development/Libraries
+
+%description examples
+Ruby-GNOME2 examples.
+
+%description examples -l pl
+Przyk~ady do Ruby-GNOME2
 
 %prep
 %setup -q -n %{name}-all-%{version}
@@ -126,9 +145,15 @@ rm -rf $RPM_BUILD_ROOT
 %doc README ChangeLog rdoc
 %attr(755,root,root) %{ruby_archdir}/*.so
 %{ruby_rubylibdir}/*.rb
-%{ruby_ridir}/*
-%{_examplesdir}/%{name}-%{version}
 
 %files devel
 %defattr(644,root,root,755)
 %{ruby_archdir}/*.h
+
+%files rdoc
+%defattr(644,root,root,755)
+%{ruby_ridir}/*
+
+%files examples
+%defattr(644,root,root,755)
+%{_examplesdir}/%{name}-%{version}
