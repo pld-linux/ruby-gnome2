@@ -52,28 +52,28 @@ Header files for Ruby-GNOME2.
 %description devel -l pl
 Pliki nag³ówkowe dla Ruby-GNOME2.
 
-%package rdoc
-Summary:	Ruby-GNOME2 rdoc documentation
-Summary(pl):	Dokumentacja rdoc Ruby-GNOME2
-Group:		Development/Libraries
+%package doc-ri
+Summary:	Ruby-GNOME2 ri documentation
+Summary(pl):	Dokumentacja dla Ruby-GNOME2 w formacie ri.
+Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
 
-%description rdoc
-Ruby-GNOME2 rdoc documentation.
+%description doc-ri
+Ruby-GNOME2 ri documentation.
 
-%description rdoc -l pl
-Dokumentacja rdoc Ruby-GNOME2.
+%description doc-ri -l pl
+Dokumentacja dla Ruby-GNOME2 w formacie ri.
 
 %package examples
 Summary:	Ruby-GNOME2 examples
-Summary(pl):	Przyk~ady do Ruby-GNOME2
+Summary(pl):	Przyk³ady do Ruby-GNOME2
 Group:		Development/Libraries
 
 %description examples
 Ruby-GNOME2 examples.
 
 %description examples -l pl
-Przyk~ady do Ruby-GNOME2
+Przyk³ady do Ruby-GNOME2
 
 %prep
 %setup -q -n %{name}-all-%{version}
@@ -150,7 +150,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{ruby_archdir}/*.h
 
-%files rdoc
+%files doc-ri
 %defattr(644,root,root,755)
 %{ruby_ridir}/*
 
