@@ -73,7 +73,7 @@ Group:		Development/Libraries
 Ruby-GNOME2 examples.
 
 %description examples -l pl
-Przyk³ady do Ruby-GNOME2
+Przyk³ady do Ruby-GNOME2.
 
 %prep
 %setup -q -n %{name}-all-%{version}
