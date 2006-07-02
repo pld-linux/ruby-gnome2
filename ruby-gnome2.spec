@@ -1,12 +1,12 @@
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
-Version:	0.14.1
-Release:	2
+Version:	0.15.0
+Release:	1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	94c7ac07571fcb4d20d8bb87caf3b4b7
+# Source0-md5:	3e5b89b674a2b60ff9d3a2eeac0468e9
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
@@ -30,6 +30,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel
 BuildRequires:	sed >= 4.0
+Requires:	ruby-rcairo
 Requires:	ruby-rbogl
 %{?ruby_mod_ver_requires_eq}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -145,6 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc README ChangeLog rdoc
 %attr(755,root,root) %{ruby_archdir}/*.so
 %{ruby_rubylibdir}/*.rb
+%{ruby_rubylibdir}/gtk2
 
 %files devel
 %defattr(644,root,root,755)
