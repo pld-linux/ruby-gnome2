@@ -30,6 +30,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel
 BuildRequires:	sed >= 4.0
+BuildRequires:	vte-devel
 Requires:	ruby-rcairo
 Requires:	ruby-rbogl
 %{?ruby_mod_ver_requires_eq}
