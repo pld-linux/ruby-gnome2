@@ -1,5 +1,5 @@
 Summary:	GNOME 2 libraries for Ruby
-Summary(pl):	Biblioteki GNOME 2 dla Ruby
+Summary(pl.UTF-8):   Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
 Version:	0.15.0
 Release:	1
@@ -39,43 +39,43 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 GNOME 2 libraries for Ruby, including GTKHtml2.
 
-%description -l pl
-Biblioteki GNOME 2 dla Ruby, w≥±cznie z GTKHtml2.
+%description -l pl.UTF-8
+Biblioteki GNOME 2 dla Ruby, w≈ÇƒÖcznie z GTKHtml2.
 
 %package devel
 Summary:	Header files for Ruby-GNOME2
-Summary(pl):	Pliki nag≥Ûwkowe dla Ruby-GNOME2
+Summary(pl.UTF-8):   Pliki nag≈Ç√≥wkowe dla Ruby-GNOME2
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for Ruby-GNOME2.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe dla Ruby-GNOME2.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe dla Ruby-GNOME2.
 
 %package doc-ri
 Summary:	Ruby-GNOME2 ri documentation
-Summary(pl):	Dokumentacja dla Ruby-GNOME2 w formacie ri.
+Summary(pl.UTF-8):   Dokumentacja dla Ruby-GNOME2 w formacie ri.
 Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
 
 %description doc-ri
 Ruby-GNOME2 ri documentation.
 
-%description doc-ri -l pl
+%description doc-ri -l pl.UTF-8
 Dokumentacja dla Ruby-GNOME2 w formacie ri.
 
 %package examples
 Summary:	Ruby-GNOME2 examples
-Summary(pl):	Przyk≥ady do Ruby-GNOME2
+Summary(pl.UTF-8):   Przyk≈Çady do Ruby-GNOME2
 Group:		Development/Libraries
 
 %description examples
 Ruby-GNOME2 examples.
 
-%description examples -l pl
-Przyk≥ady do Ruby-GNOME2.
+%description examples -l pl.UTF-8
+Przyk≈Çady do Ruby-GNOME2.
 
 %prep
 %setup -q -n %{name}-all-%{version}
