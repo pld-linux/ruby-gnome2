@@ -1,5 +1,5 @@
 Summary:	GNOME 2 libraries for Ruby
-Summary(pl.UTF-8):   Biblioteki GNOME 2 dla Ruby
+Summary(pl.UTF-8):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
 Version:	0.15.0
 Release:	1
@@ -44,7 +44,7 @@ Biblioteki GNOME 2 dla Ruby, włącznie z GTKHtml2.
 
 %package devel
 Summary:	Header files for Ruby-GNOME2
-Summary(pl.UTF-8):   Pliki nagłówkowe dla Ruby-GNOME2
+Summary(pl.UTF-8):	Pliki nagłówkowe dla Ruby-GNOME2
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -56,7 +56,7 @@ Pliki nagłówkowe dla Ruby-GNOME2.
 
 %package doc-ri
 Summary:	Ruby-GNOME2 ri documentation
-Summary(pl.UTF-8):   Dokumentacja dla Ruby-GNOME2 w formacie ri.
+Summary(pl.UTF-8):	Dokumentacja dla Ruby-GNOME2 w formacie ri.
 Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
 
@@ -68,7 +68,7 @@ Dokumentacja dla Ruby-GNOME2 w formacie ri.
 
 %package examples
 Summary:	Ruby-GNOME2 examples
-Summary(pl.UTF-8):   Przykłady do Ruby-GNOME2
+Summary(pl.UTF-8):	Przykłady do Ruby-GNOME2
 Group:		Development/Libraries
 
 %description examples
