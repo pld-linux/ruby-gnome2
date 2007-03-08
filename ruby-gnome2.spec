@@ -134,7 +134,7 @@ install gtk/sample/testgtk/*.rb \
 install gnome/sample/test-gnome/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gnome/test-gnome
 
-cp -a ri/ri/* $RPM_BUILD_ROOT%{ruby_ridir}
+cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 rm -rf $RPM_BUILD_ROOT%{ruby_ridir}/ri/ri/{Array,Object,TC*,Test*}
 
 rm -f $RPM_BUILD_ROOT%{ruby_ridir}/Array/cdesc-Array.yaml
