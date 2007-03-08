@@ -1,12 +1,12 @@
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
-Version:	0.15.0
+Version:	0.16.0
 Release:	1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	3e5b89b674a2b60ff9d3a2eeac0468e9
+# Source0-md5:	b3b4f81ef0fe2ce6b3f965bb7c6d3686
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
@@ -135,7 +135,7 @@ install gnome/sample/test-gnome/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gnome/test-gnome
 
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
-rm -rf $RPM_BUILD_ROOT%{ruby_ridir}/ri/ri/{Array,Object,TC*,Test*}
+rm -rf $RPM_BUILD_ROOT%{ruby_ridir}/ri/{Array,Object,TC*,Test*}
 
 rm -f $RPM_BUILD_ROOT%{ruby_ridir}/Array/cdesc-Array.yaml
 
