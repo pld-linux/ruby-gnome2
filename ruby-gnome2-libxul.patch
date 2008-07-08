@@ -1,0 +1,96 @@
+diff -urN ruby-gnome2-all-0.16.0/gtkmozembed/extconf.rb ruby-gnome2-all-0.16.0.new/gtkmozembed/extconf.rb
+--- ruby-gnome2-all-0.16.0/gtkmozembed/extconf.rb	2006-12-29 14:17:28.000000000 +0100
++++ ruby-gnome2-all-0.16.0.new/gtkmozembed/extconf.rb	2008-07-08 22:34:51.000000000 +0200
+@@ -45,7 +45,7 @@
+ 
+ if mozpath 
+   # please comment the CFLAGS line if you don't want a default comp_path
+-  $CFLAGS << " -DDEFAULT_MOZILLA_FIVE_HOME='\"" << mozpath << "\"' "
++  $CFLAGS << " -I/usr/include/xulrunner/gtkembedmoz " << " -DDEFAULT_MOZILLA_FIVE_HOME='\"" << mozpath << "\"' "
+   $LDFLAGS << " -Wl,-rpath " << mozpath
+ else
+   $stderr.puts "${package_id}.pc cannot be found."
+@@ -55,7 +55,7 @@
+ add_depend_package("glib2", "glib/src", TOPDIR)
+ add_depend_package("gtk2", "gtk/src", TOPDIR)
+ 
+-have_library("gtkembedmoz") or exit 1
++have_library("xul") or exit 1
+ 
+ have_func('gtk_moz_embed_new') or exit 1
+ have_func('gtk_moz_embed_set_profile_path') or exit 1
+diff -urN ruby-gnome2-all-0.16.0/gtkmozembed/src/rbgtkmozembed.c ruby-gnome2-all-0.16.0.new/gtkmozembed/src/rbgtkmozembed.c
+--- ruby-gnome2-all-0.16.0/gtkmozembed/src/rbgtkmozembed.c	2006-12-29 14:17:28.000000000 +0100
++++ ruby-gnome2-all-0.16.0.new/gtkmozembed/src/rbgtkmozembed.c	2008-07-08 22:33:52.000000000 +0200
+@@ -113,7 +113,8 @@
+  *
+  * path: the mozilla component path (String).
+  *
+- * You should call this method before the constructor. 
++ * You should call this method before the constructor. It's 
++ * used in gecko-libs 1.8.
+  *
+  * The path should be something like /usr/lib/mozilla or
+  * /usr/lib/mozilla-firefox depending on your installation and
+@@ -133,6 +134,33 @@
+     return Qnil;
+ }
+ 
++/* 
++ * Class method: set_path(path)
++ *
++ * path: the mozilla component path (String).
++ *
++ * You should call this method before the constructor. This 
++ * function is used in gecko-libs 1.9 instead of the old one,
++ * set_comp_path(String).
++ *
++ * The path should be something like /usr/lib/mozilla or
++ * /usr/lib/mozilla-firefox depending on your installation and
++ * distribution.
++ *
++ * We call this inside Init_gtkmozembed() and set the value at 
++ * compile time before initializing XPCOM.
++ *
++ * Returns: nil.
++ *
++ */
++static VALUE
++moz_set_path(self, path)
++    VALUE self, path;
++{
++    gtk_moz_embed_set_path(RVAL2CSTR(path));
++    return Qnil;
++}
++
+ /*
+  * Method: load_url(url)
+  *
+@@ -315,6 +343,18 @@
+     return CSTR2RVAL(title);
+ }
+ 
++
++#ifndef GTK_TYPE_MOZ_EMBED_RELOAD_FLAGS
++GtkType gtk_moz_embed_reload_flags_get_type(void);
++#define GTK_TYPE_MOZ_EMBED_RELOAD_FLAGS \
++        (gtk_moz_embed_reload_flags_get_type())
++#endif
++#ifndef GTK_TYPE_MOZ_EMBED_CHROME_FLAGS
++GtkType gtk_moz_embed_chrome_flags_get_type(void);
++#define GTK_TYPE_MOZ_EMBED_CHROME_FLAGS \
++        (gtk_moz_embed_chrome_flags_get_type())
++#endif
++
+ /*
+  * Method: reload(flags)
+  *
+@@ -680,6 +720,8 @@
+                               moz_set_profile_path, 2);
+     rb_define_module_function(moz, "set_comp_path", 
+                               moz_set_comp_path, 1);
++    rb_define_module_function(moz, "set_path", 
++                              moz_set_path, 1);
+ 
+     rb_define_method(moz, "initialize", moz_initialize, 0);
+     rb_define_method(moz, "load_url", moz_load_url, 1);
