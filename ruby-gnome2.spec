@@ -28,6 +28,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	librsvg-devel
 BuildRequires:	pango-devel
 BuildRequires:	pkgconfig
+BuildRequires:	poppler-glib-devel
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel
 BuildRequires:	sed >= 4.0
