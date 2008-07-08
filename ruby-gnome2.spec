@@ -7,6 +7,7 @@ License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
 # Source0-md5:	b3b4f81ef0fe2ce6b3f965bb7c6d3686
+Patch0:		%{name}-libxul.patch
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
@@ -31,8 +32,9 @@ BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel
 BuildRequires:	sed >= 4.0
 BuildRequires:	vte-devel
-Requires:	ruby-rcairo
+BuildRequires:	xulrunner-devel >= 1.9-5
 Requires:	ruby-rbogl
+Requires:	ruby-rcairo
 %{?ruby_mod_ver_requires_eq}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -79,6 +81,7 @@ Przykłady do Ruby-GNOME2.
 
 %prep
 %setup -q -n %{name}-all-%{version}
+%patch0 -p1
 find . -name '*.rb' | xargs sed -i -e '1s,#.*local/bin/ruby,#!%{_bindir}/ruby,'
 
 %build
