@@ -1,0 +1,24 @@
+diff -urN ruby-gnome2-all-0.18.1/panel-applet/extconf.rb ruby-gnome2-all-0.18.1.new/panel-applet/extconf.rb
+--- ruby-gnome2-all-0.18.1/panel-applet/extconf.rb	2008-10-23 15:23:53.000000000 +0200
++++ ruby-gnome2-all-0.18.1.new/panel-applet/extconf.rb	2009-04-09 13:59:45.267912154 +0200
+@@ -14,6 +14,7 @@
+ require 'mkmf-gnome2'
+ 
+ PKGConfig.have_package(PACKAGE_ID, 2, 6) or exit 1
++PKGConfig.have_package('libgnomeui-2.0') or exit 1
+ setup_win32(PACKAGE_NAME)
+ 
+ add_depend_package("glib2", "glib/src", TOPDIR)
+diff -urN ruby-gnome2-all-0.18.1/panel-applet/rbpanel-applet.c ruby-gnome2-all-0.18.1.new/panel-applet/rbpanel-applet.c
+--- ruby-gnome2-all-0.18.1/panel-applet/rbpanel-applet.c	2008-10-23 15:23:53.000000000 +0200
++++ ruby-gnome2-all-0.18.1.new/panel-applet/rbpanel-applet.c	2009-04-09 13:59:58.401814463 +0200
+@@ -16,6 +16,9 @@
+ #  undef _
+ #endif
+ 
++#include <libgnomeui/gnome-ui-init.h>
++#include <libgnomeui/gnome-client.h>
++
+ #include <orbit/orbit.h>
+ #include <panel-applet.h>
+ #include <panel-applet-gconf.h>
