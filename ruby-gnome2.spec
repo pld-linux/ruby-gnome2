@@ -2,7 +2,7 @@ Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
 Version:	0.19.4
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages
 Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
@@ -106,9 +106,10 @@ install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir},%{ruby_ridir}} \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/{gtkhtml2,gnomecanvas,libart,libglade,gtkglext,gtk/{gtk-demo,misc,testgtk},gnome/test-gnome,gdkpixbuf,pango}
 
 %{__make} install \
-		RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
-		sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
-		RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
+	DESTDIR=$RPM_BUILD_ROOT \
+	RUBYLIBDIR=$RPM_BUILD_ROOT%{ruby_rubylibdir} \
+	sitearchdir=$RPM_BUILD_ROOT%{ruby_archdir} \
+	RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
 
 install gtkhtml2/sample/*.rb \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtkhtml2
@@ -179,6 +180,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{ruby_archdir}/libart2.so
 %attr(755,root,root) %{ruby_archdir}/libglade2.so
 %attr(755,root,root) %{ruby_archdir}/panelapplet2.so
+%attr(755,root,root) %{ruby_archdir}/panelapplet2_main.so
 %attr(755,root,root) %{ruby_archdir}/pango.so
 %attr(755,root,root) %{ruby_archdir}/poppler.so
 %attr(755,root,root) %{ruby_archdir}/rsvg2.so
@@ -189,6 +191,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{ruby_archdir}/*.h
+%{_pkgconfigdir}/*.pc
 
 %files doc-ri
 %defattr(644,root,root,755)
