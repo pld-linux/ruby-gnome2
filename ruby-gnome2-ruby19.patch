@@ -1,0 +1,11 @@
+--- ruby-gnome2-all-0.19.4/glib/src/lib/glib-mkenums.rb.orig	2010-07-31 23:18:04.303915210 +0200
++++ ruby-gnome2-all-0.19.4/glib/src/lib/glib-mkenums.rb	2010-07-31 23:28:22.970166438 +0200
+@@ -145,7 +145,7 @@
+       @targets = []
+       files.each do |path|
+         data = ""
+-        File.open(path) do |i|
++        File.open(path, "r:ASCII-8BIT") do |i|
+           data = i.read
+         end
+         @targets << [path, EnumDefinition.parse(data, g_type_prefix, options)]

@@ -9,6 +9,7 @@ Source0:	http://dl.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
 # Source0-md5:	40451e4173e2c8bcd5046aea7e499ef9
 Patch0:		%{name}-libxul.patch
 Patch1:		%{name}-libgnomeui.patch
+Patch2:		%{name}-ruby19.patch
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	glib2-devel >= 2.0
@@ -34,7 +35,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	poppler-glib-devel >= 0.5.2
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel
-BuildRequires:	ruby-rcairo
+BuildRequires:	ruby-rcairo >= 1.8.1-3
 BuildRequires:	sed >= 4.0
 BuildRequires:	vte-devel >= 0.12.1
 BuildRequires:	xulrunner-devel >= 1.9-5
@@ -89,6 +90,7 @@ Przykłady do Ruby-GNOME2.
 %setup -q -n %{name}-all-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 find . -name '*.rb' | xargs sed -i -e '1s,#.*local/bin/ruby,#!%{_bindir}/ruby,'
 
 %build
