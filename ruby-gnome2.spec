@@ -1,12 +1,12 @@
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla Ruby
 Name:		ruby-gnome2
-Version:	0.90.6
-Release:	2
+Version:	0.90.8
+Release:	0.1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	089986860203f87c5fcfa0c375637d60
+# Source0-md5:	bde7833035837ae2f4fe4fe1618c786c
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	glib2-devel >= 1:2.16.0
 BuildRequires:	goocanvas-devel >= 0.8
@@ -145,7 +145,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{ruby_archdir}/gio2.so
 %attr(755,root,root) %{ruby_archdir}/glib2.so
 %attr(755,root,root) %{ruby_archdir}/gst.so
-%attr(755,root,root) %{ruby_archdir}/gtk2.so
+#%%attr(755,root,root) %{ruby_archdir}/gtk2.so
 %attr(755,root,root) %{ruby_archdir}/gtkmozembed.so
 %attr(755,root,root) %{ruby_archdir}/gtksourceview2.so
 %attr(755,root,root) %{ruby_archdir}/pango.so
@@ -153,7 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{ruby_archdir}/rsvg2.so
 %attr(755,root,root) %{ruby_archdir}/vte.so
 %{ruby_rubylibdir}/*.rb
-%{ruby_rubylibdir}/gtk2
+#%%{ruby_rubylibdir}/gtk2
 
 %files devel
 %defattr(644,root,root,755)
