@@ -24,6 +24,7 @@ BuildRequires:	poppler-glib-devel >= 0.8.0
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel >= 1.8.5
 BuildRequires:	ruby-pkg-config
+BuildRequires:	ruby-rcairo-devel
 BuildRequires:	ruby-rubygems
 BuildRequires:	sed >= 4.0
 BuildRequires:	vte0-devel >= 0.12.1
@@ -183,6 +184,34 @@ Header files for Ruby/GTK2 library.
 
 %description -n ruby-gtk2-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Ruby/GTK2.
+
+%package -n ruby-goocanvas
+Summary:	Ruby/GooCanvas - Ruby binding of GooCanvas
+Summary(pl.UTF-8):	Ruby/GooCanvas - wiązanie języka Ruby do biblioteki GooCanvas
+Group:		Development/Languages
+Requires:	goocanvas >= 0.8
+Requires:	ruby-gtk2 = %{version}-%{release}
+Requires:	ruby-rcairo
+
+%description -n ruby-goocanvas
+Ruby/GooCanvas is a Ruby binding of GooCanvas.
+
+%description -n ruby-goocanvas -l pl.UTF-8
+Ruby/GooCanvas to wiązanie języka Ruby do biblioteki GooCanvas.
+
+%package -n ruby-goocanvas-devel
+Summary:	Header files for Ruby/GooCanvas library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GooCanvas
+Group:		Development/Libraries
+Requires:	goocanvas-devel >= 0.8
+Requires:	ruby-gtk2-devel = %{version}-%{release}
+Requires:	ruby-rcairo-devel
+
+%description -n ruby-goocanvas-devel
+Header files for Ruby/GooCanvas library.
+
+%description -n ruby-goocanvas-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Ruby/GooCanvas.
 
 %package -n ruby-gstreamer
 Summary:	Ruby/GStreamer - Ruby binding of GStreamer
@@ -510,6 +539,16 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_archdir}/rbgtkconversions.h
 %{ruby_archdir}/rbgtkmacros.h
 %{_pkgconfigdir}/ruby-gtk2.pc
+
+%files -n ruby-goocanvas
+%defattr(644,root,root,755)
+%doc goocanvas/README
+%attr(755,root,root) %{ruby_archdir}/goocanvas.so
+%{ruby_rubylibdir}/goocanvas.rb
+
+%files -n ruby-goocanvas-devel
+%defattr(644,root,root,755)
+%{_pkgconfigdir}/ruby-goocanvas.pc
 
 %files -n ruby-gstreamer
 %defattr(644,root,root,755)
