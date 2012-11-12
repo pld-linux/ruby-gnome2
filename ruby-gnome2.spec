@@ -2,7 +2,7 @@ Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
 Name:		ruby-gnome2
 Version:	1.1.5
-Release:	0.1
+Release:	1
 License:	LGPL v2.1
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
@@ -467,6 +467,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_rubylibdir}/glib-mkenums.rb
 %{ruby_rubylibdir}/glib2.rb
 %{ruby_rubylibdir}/gnome2-raketask.rb
+# these files are expected to exist not only on Win32
 %{ruby_rubylibdir}/gnome2-win32-binary-build-task.rb
 %{ruby_rubylibdir}/gnome2-win32-binary-download-task.rb
 %{ruby_rubylibdir}/mkmf-gnome2.rb
