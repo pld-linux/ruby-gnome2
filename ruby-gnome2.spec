@@ -2,7 +2,7 @@ Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
 Name:		ruby-gnome2
 Version:	1.1.5
-Release:	1
+Release:	2
 License:	LGPL v2.1
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
@@ -361,7 +361,7 @@ Pliki nagłówkowe biblioteki Ruby/VTE.
 Summary:	Ruby-GNOME2 ri documentation
 Summary(pl.UTF-8):	Dokumentacja dla Ruby-GNOME2 w formacie ri
 Group:		Documentation
-Requires:	%{name} = %{version}-%{release}
+#Requires:	%{name} = %{version}-%{release}
 
 %description doc-ri
 Ruby-GNOME2 ri documentation.
@@ -373,7 +373,7 @@ Dokumentacja dla Ruby-GNOME2 w formacie ri.
 Summary:	Ruby-GNOME2 HTML documentation
 Summary(pl.UTF-8):	Dokumentacja dla Ruby-GNOME2 w formacie HTML
 Group:		Documentation
-Requires:	%{name} = %{version}-%{release}
+#Requires:	%{name} = %{version}-%{release}
 
 %description doc-html
 Ruby-GNOME2 HTML documentation.
