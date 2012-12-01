@@ -361,7 +361,7 @@ Pliki nagłówkowe biblioteki Ruby/VTE.
 Summary:	Ruby-GNOME2 ri documentation
 Summary(pl.UTF-8):	Dokumentacja dla Ruby-GNOME2 w formacie ri
 Group:		Documentation
-#Requires:	%{name} = %{version}-%{release}
+Requires:	ruby
 
 %description doc-ri
 Ruby-GNOME2 ri documentation.
@@ -373,7 +373,6 @@ Dokumentacja dla Ruby-GNOME2 w formacie ri.
 Summary:	Ruby-GNOME2 HTML documentation
 Summary(pl.UTF-8):	Dokumentacja dla Ruby-GNOME2 w formacie HTML
 Group:		Documentation
-#Requires:	%{name} = %{version}-%{release}
 
 %description doc-html
 Ruby-GNOME2 HTML documentation.
