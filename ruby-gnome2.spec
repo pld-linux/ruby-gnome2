@@ -23,6 +23,7 @@ License:	LGPL v2.1
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
 # Source0-md5:	852a528f8e58ca2729dada994c938be0
+Patch0:		parse-error.patch
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	atk-devel >= 1.0
 BuildRequires:	cairo-devel >= 1.10.0
@@ -409,6 +410,7 @@ Przykłady do Ruby-GNOME2.
 %prep
 %setup -q -n %{name}-all-%{version}
 find . -name '*.rb' | xargs sed -i -e '1s,#.*local/bin/ruby,#!%{_bindir}/ruby,'
+%patch0 -p1
 
 cp -p glib2/README README.glib2
 cp -p glib2/TODO TODO.glib2
