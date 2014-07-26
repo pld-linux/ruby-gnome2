@@ -1,12 +1,28 @@
+# TODO
+# - update to 2.2.0
+# - gtk3 packages (or create separate ruby-gtk2, ruby-gtk3 packages besides ruby-gnome2?)
+# - cairo-gobject
+# - gobject-introspection
+#        /usr/lib/ruby/2.0/cairo_gobject.so
+#        /usr/lib/ruby/2.0/gobject_introspection.so
+#        /usr/lib/ruby/2.0/rbgio2.h
+#        /usr/lib/ruby/2.0/rbgio2conversions.h
+#        /usr/share/ruby/2.0/cairo-gobject.rb
+#        /usr/share/ruby/2.0/gobject-introspection
+#        /usr/share/ruby/2.0/gobject-introspection.rb
+#
+# Conditional build:
+%bcond_with	gtk3		# build GTK+3
+
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
 Name:		ruby-gnome2
-Version:	1.1.5
-Release:	3
+Version:	1.1.9
+Release:	1
 License:	LGPL v2.1
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	6158ad49d59a1faa9f1f67356124a3c7
+# Source0-md5:	852a528f8e58ca2729dada994c938be0
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	atk-devel >= 1.0
 BuildRequires:	cairo-devel >= 1.10.0
@@ -40,7 +56,6 @@ Biblioteki GNOME 2 dla języka Ruby.
 Summary:	Ruby/Glib2, Ruby/GIO2 - Ruby bindings of GLib 2.x
 Summary(pl.UTF-8):	Ruby/Glib2, Ruby/GIO2 - wiązania języka Ruby do bibliotek GLib 2.x
 Group:		Development/Languages
-%{?ruby_mod_ver_requires_eq}
 Requires:	glib2 >= 1:2.16.0
 Requires:	ruby >= 1.8.5
 Obsoletes:	ruby-gnome2
@@ -174,9 +189,9 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GTK2
 Group:		Development/Libraries
 Requires:	gtk+2-devel >= 2:2.12.0
 Requires:	ruby-atk-devel = %{version}-%{release}
-Requires:	ruby-gtk2 = %{version}-%{release}
 Requires:	ruby-gdk_pixbuf2-devel = %{version}-%{release}
 Requires:	ruby-glib2-devel = %{version}-%{release}
+Requires:	ruby-gtk2 = %{version}-%{release}
 Requires:	ruby-pango-devel = %{version}-%{release}
 
 %description -n ruby-gtk2-devel
@@ -401,8 +416,35 @@ cp -p gio2/README README.gio2
 cp -p gio2/TODO TODO.gio2
 
 %build
+# echo */extconf.rb | xargs -l1 dirname
+
+comps="
+	atk
+	cairo-gobject
+	gdk_pixbuf2
+	gio2
+	glib2
+	gobject-introspection
+	goocanvas
+	gstreamer
+	gtk2
+	gtksourceview2
+	pango
+	poppler
+	rsvg2
+	vte
+%if %{with gtk3}
+	gdk3
+	gtk3
+	gtksourceview3
+	vte3
+%endif
+"
+
 ruby extconf.rb \
-	--enable-glib-experimental
+	--vendor \
+	--enable-glib-experimental \
+	$comps
 %{__make}
 
 rdoc -o rdoc
