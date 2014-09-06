@@ -1,15 +1,6 @@
 # TODO
 # - update to 2.2.0
 # - gtk3 packages (or create separate ruby-gtk2, ruby-gtk3 packages besides ruby-gnome2?)
-# - cairo-gobject
-# - gobject-introspection
-#        /usr/lib/ruby/2.0/cairo_gobject.so
-#        /usr/lib/ruby/2.0/gobject_introspection.so
-#        /usr/lib/ruby/2.0/rbgio2.h
-#        /usr/lib/ruby/2.0/rbgio2conversions.h
-#        /usr/share/ruby/2.0/cairo-gobject.rb
-#        /usr/share/ruby/2.0/gobject-introspection
-#        /usr/share/ruby/2.0/gobject-introspection.rb
 #
 # Conditional build:
 %bcond_with	gtk3		# build GTK+3
@@ -29,6 +20,7 @@ BuildRequires:	atk-devel >= 1.0
 BuildRequires:	cairo-devel >= 1.10.0
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	glib2-devel >= 1:2.16.0
+BuildRequires:	gobject-introspection-devel >= 1.35.4
 BuildRequires:	goocanvas-devel >= 0.8
 BuildRequires:	gstreamer0.10-devel >= 0.10.35
 BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.35
@@ -84,6 +76,20 @@ Header files for Ruby/GLib2 and Ruby/GIO2 libraries.
 %description -n ruby-glib2-devel -l pl.UTF-8
 Pliki nagłówkowe bibliotek Ruby/GLib2 i Ruby/GIO2.
 
+%package -n ruby-gobject-introspection
+Summary:	Ruby/GObjectIntrospection - Ruby binding of GObject Introspection
+Summary(pl.UTF-8):	Ruby/GObjectIntrospection - wiązania języka Ruby do biblioteki GObject Introspection
+Group:		Development/Languages
+Requires:	gobject-introspection >= 1.35.4
+Requires:	ruby-glib2 = %{version}-%{release}
+
+%description -n ruby-gobject-introspection
+Ruby/GObjectIntrospection is a Ruby binding of GObject Introspection.
+
+%description -n ruby-gobject-introspection -l pl.UTF-8
+Ruby/GObjectIntrospection to wiązanie języka Ruby do biblioteki
+GObject Introspection.
+
 %package -n ruby-atk
 Summary:	Ruby/ATK - Ruby binding of ATK
 Summary(pl.UTF-8):	Ruby/ATK - wiązanie języka Ruby do biblioteki ATK
@@ -110,6 +116,19 @@ Header files for Ruby/ATK library.
 
 %description -n ruby-atk-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Ruby/ATK.
+
+%package -n ruby-cairo-gobject
+Summary:	Ruby/CairoGObject - Ruby binding of cairo-gobject library
+Summary(pl.UTF-8):	Ruby/CairoGObject - wiązania języka Ruby do biblioteki cairo-gobject
+Group:		Development/Languages
+Requires:	ruby-glib2 = %{version}-%{release}
+Requires:	ruby-rcairo
+
+%description -n ruby-cairo-gobject
+Ruby/CairoGObject is a Ruby binding of cairo-gobject library.
+
+%description -n ruby-cairo-gobject -l pl.UTF-8
+Ruby/CairoGObject to wiązanie języka Ruby do biblioteki cairo-gobject.
 
 %package -n ruby-pango
 Summary:	Ruby/Pango - Ruby binding of pango 1.x
@@ -495,7 +514,7 @@ cp -a vte/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/vte
 
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Object,TC_*,Test*}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Object,RbConfig,TC_*,Test*,page-*,rdoc,ri}
 %{__rm} $RPM_BUILD_ROOT%{ruby_ridir}/{cache.ri,created.rid}
 
 %clean
@@ -521,6 +540,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{ruby_archdir}/glib-enum-types.h
 %{ruby_archdir}/rbgcompat.h
+%{ruby_archdir}/rbgio2.h
+%{ruby_archdir}/rbgio2conversions.h
 %{ruby_archdir}/rbglib.h
 %{ruby_archdir}/rbglib2conversions.h
 %{ruby_archdir}/rbglibdeprecated.h
@@ -530,6 +551,13 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_archdir}/rbgutildeprecated.h
 %{_pkgconfigdir}/ruby-gio2.pc
 %{_pkgconfigdir}/ruby-glib2.pc
+
+%files -n ruby-gobject-introspection
+%defattr(644,root,root,755)
+%doc gobject-introspection/README.md
+%attr(755,root,root) %{ruby_archdir}/gobject_introspection.so
+%{ruby_rubylibdir}/gobject-introspection.rb
+%{ruby_rubylibdir}/gobject-introspection
 
 %files -n ruby-atk
 %defattr(644,root,root,755)
@@ -542,6 +570,12 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_archdir}/rbatk.h
 %{ruby_archdir}/rbatkversion.h
 %{_pkgconfigdir}/ruby-atk.pc
+
+%files -n ruby-cairo-gobject
+%defattr(644,root,root,755)
+%doc cairo-gobject/README.md
+%attr(755,root,root) %{ruby_archdir}/cairo_gobject.so
+%{ruby_rubylibdir}/cairo-gobject.rb
 
 %files -n ruby-pango
 %defattr(644,root,root,755)
@@ -657,9 +691,12 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/ButtonBoxSample
 %{ruby_ridir}/ButtonSample
 %{ruby_ridir}/Cairo
+%{ruby_ridir}/CairoGObject
+%{ruby_ridir}/CairoGObjectTestUtils
 %{ruby_ridir}/Canvas
 %{ruby_ridir}/CanvasSampleArrowhead
 %{ruby_ridir}/CanvasSampleFifteen
+%{ruby_ridir}/CanvasSamplePrimitives
 %{ruby_ridir}/CheckButtonSample
 %{ruby_ridir}/ColorSelectionSample
 %{ruby_ridir}/Demo
@@ -667,6 +704,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/DialogSample
 %{ruby_ridir}/DraggableWidget
 %{ruby_ridir}/EntrySample
+%{ruby_ridir}/FileChooserSample
 %{ruby_ridir}/FileSelectionSample
 %{ruby_ridir}/FontSelectionSample
 %{ruby_ridir}/GLib
@@ -674,8 +712,11 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/GNOME2Package
 %{ruby_ridir}/GNOME2Win32BinaryBuildTask
 %{ruby_ridir}/GNOME2Win32BinaryDownloadTask
+%{ruby_ridir}/GObjectIntrospection
+%{ruby_ridir}/GObjectIntrospectionTestUtils
 %{ruby_ridir}/GammaCurveSample
 %{ruby_ridir}/Gdk
+%{ruby_ridir}/GdkX11
 %{ruby_ridir}/Gesture
 %{ruby_ridir}/GestureProcessor
 %{ruby_ridir}/GesturedWidget
@@ -685,8 +726,10 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/Gst
 %{ruby_ridir}/GstTestUtils
 %{ruby_ridir}/Gtk
+%{ruby_ridir}/GtkSource
 %{ruby_ridir}/GtkTestUtils
 %{ruby_ridir}/Inspector
+%{ruby_ridir}/LabelSample
 %{ruby_ridir}/Layout
 %{ruby_ridir}/LayoutSample
 %{ruby_ridir}/MediaInfo
@@ -734,6 +777,24 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/Vte
 %{ruby_ridir}/WMHintsSample
 %{ruby_ridir}/Window
+%{ruby_ridir}/atk
+%{ruby_ridir}/cairo-gobject
+%{ruby_ridir}/gdk3
+%{ruby_ridir}/gdk_pixbuf2
+%{ruby_ridir}/gio2
+%{ruby_ridir}/glib2
+%{ruby_ridir}/gobject-introspection
+%{ruby_ridir}/goocanvas
+%{ruby_ridir}/gstreamer
+%{ruby_ridir}/gtk2
+%{ruby_ridir}/gtk3
+%{ruby_ridir}/gtksourceview2
+%{ruby_ridir}/gtksourceview3
+%{ruby_ridir}/pango
+%{ruby_ridir}/poppler
+%{ruby_ridir}/rsvg2
+%{ruby_ridir}/vte
+%{ruby_ridir}/vte3
 
 %files examples
 %defattr(644,root,root,755)
