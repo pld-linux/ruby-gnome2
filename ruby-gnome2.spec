@@ -1,9 +1,8 @@
 # TODO
 # - update to 2.2.0
-# - gtk3 packages (or create separate ruby-gtk2, ruby-gtk3 packages besides ruby-gnome2?)
 #
 # Conditional build:
-%bcond_with	gtk3		# build GTK+3
+%bcond_without	gtk3		# GTK+ 3.x based packages too
 
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
@@ -25,18 +24,22 @@ BuildRequires:	goocanvas-devel >= 0.8
 BuildRequires:	gstreamer0.10-devel >= 0.10.35
 BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.35
 BuildRequires:	gtk+2-devel >= 2:2.12.0
-BuildRequires:	gtksourceview2-devel
+%{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.4.2}
+BuildRequires:	gtksourceview2-devel >= 2
+%{?with_gtk3:BuildRequires:	gtksourceview3-devel >= 3}
 BuildRequires:	librsvg-devel >= 2.8
 BuildRequires:	pango-devel >= 1:1.0
 BuildRequires:	pkgconfig
 BuildRequires:	poppler-glib-devel >= 0.8.0
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel >= 1.8.5
+%{?with_gtk3:BuildRequires:	ruby-devel >= 1.9.2}
 BuildRequires:	ruby-pkg-config
 BuildRequires:	ruby-rcairo-devel
 BuildRequires:	ruby-rubygems
 BuildRequires:	sed >= 4.0
 BuildRequires:	vte0-devel >= 0.12.1
+%{?with_gtk3:BuildRequires:	vte-devel >= 0.28}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -300,6 +303,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GtkSourceView2
 Group:		Development/Libraries
 Requires:	gtksourceview2-devel >= 2.0.0
 Requires:	ruby-gtk2-devel = %{version}-%{release}
+Requires:	ruby-gtksourceview2 = %{version}-%{release}
 
 %description -n ruby-gtksourceview2-devel
 Header files for Ruby/GtkSourceView2 library.
@@ -384,6 +388,7 @@ Summary:	Header files for Ruby/VTE library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/VTE
 Group:		Development/Libraries
 Requires:	ruby-gtk2-devel = %{version}-%{release}
+Requires:	ruby-vte = %{version}-%{release}
 Requires:	vte0-devel >= 0.12.1
 
 %description -n ruby-vte-devel
@@ -391,6 +396,97 @@ Header files for Ruby/VTE library.
 
 %description -n ruby-vte-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Ruby/VTE.
+
+%package -n ruby-gtk3
+Summary:	Ruby/GTK3 - Ruby binding of GTK+ 3.x
+Summary(pl.UTF-8):	Ruby/GTK3 - wiązanie języka Ruby do bibliotek GTK+ 3.x
+Group:		Development/Languages
+Requires:	gtk+3 >= 3.4.2
+Requires:	ruby >= 1.9.2
+Requires:	ruby-atk = %{version}-%{release}
+Requires:	ruby-gdk_pixbuf2 = %{version}-%{release}
+Requires:	ruby-glib2 = %{version}-%{release}
+Requires:	ruby-pango = %{version}-%{release}
+
+%description -n ruby-gtk3
+Ruby/GTK3 is a Ruby binding of GTK+ 3.x.
+
+%description -n ruby-gtk3 -l pl.UTF-8
+Ruby/GTK3 to wiązanie języka Ruby do bibliotek GTK+ 3.x.
+
+%package -n ruby-gtk3-devel
+Summary:	Header files for Ruby/GTK3 library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GTK3
+Group:		Development/Libraries
+Requires:	gtk+3-devel >= 3.4.2
+Requires:	ruby-atk-devel = %{version}-%{release}
+Requires:	ruby-devel >= 1.9.2
+Requires:	ruby-gdk_pixbuf2-devel = %{version}-%{release}
+Requires:	ruby-glib2-devel = %{version}-%{release}
+Requires:	ruby-gtk3 = %{version}-%{release}
+Requires:	ruby-pango-devel = %{version}-%{release}
+
+%description -n ruby-gtk3-devel
+Header files for Ruby/GTK3 library.
+
+%description -n ruby-gtk3-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Ruby/GTK3.
+
+%package -n ruby-gtksourceview3
+Summary:	Ruby/GtkSourceView3 - Ruby binding of gtksourceview 3.x
+Summary(pl.UTF-8):	Ruby/GtkSourceView3 - wiązanie języka Ruby do biblioteki gtksourceview 3.x
+Group:		Development/Languages
+Requires:	gtksourceview3 >= 3
+Requires:	ruby-gtk3 = %{version}-%{release}
+
+%description -n ruby-gtksourceview3
+Ruby/GtkSourceView3 is a Ruby binding of gtksourceview 3.x.
+
+%description -n ruby-gtksourceview3 -l pl.UTF-8
+Ruby/GtkSourceView3 to wiązanie języka Ruby do biblioteki
+gtksourceview 3.x.
+
+%package -n ruby-gtksourceview3-devel
+Summary:	Header files for Ruby/GtkSourceView3 library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GtkSourceView3
+Group:		Development/Libraries
+Requires:	gtksourceview3-devel >= 3
+Requires:	ruby-gtk3-devel = %{version}-%{release}
+Requires:	ruby-gtksourceview3 = %{version}-%{release}
+
+%description -n ruby-gtksourceview3-devel
+Header files for Ruby/GtkSourceView3 library.
+
+%description -n ruby-gtksourceview3-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Ruby/GtkSourceView3.
+
+%package -n ruby-vte3
+Summary:	Ruby/VTE3 - Ruby binding of VTE on GTK+ 3.x
+Summary(pl.UTF-8):	Ruby/VTE3 - wiązanie języka Ruby do biblioteki VTE na GTK+ 3.x
+Group:		Development/Languages
+Requires:	ruby-gtk3 = %{version}-%{release}
+Requires:	vte >= 0.28
+
+%description -n ruby-vte3
+Ruby/VTE3 is a Ruby binding of VTE on GTK+ 3.x.
+
+%description -n ruby-vte3 -l pl.UTF-8
+Ruby/VTE3 to wiązanie języka Ruby do biblioteki VTE opartej na GTK+
+3.x.
+
+%package -n ruby-vte3-devel
+Summary:	Header files for Ruby/VTE3 library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/VTE3
+Group:		Development/Libraries
+Requires:	ruby-gtk3-devel = %{version}-%{release}
+Requires:	ruby-vte3 = %{version}-%{release}
+Requires:	vte-devel >= 0.28
+
+%description -n ruby-vte3-devel
+Header files for Ruby/VTE3 library.
+
+%description -n ruby-vte3-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Ruby/VTE3.
 
 %package doc-ri
 Summary:	Ruby-GNOME2 ri documentation
@@ -435,6 +531,8 @@ cp -p glib2/README README.glib2
 cp -p glib2/TODO TODO.glib2
 cp -p gio2/README README.gio2
 cp -p gio2/TODO TODO.gio2
+cp -p gdk3/README.md README.gdk3.md
+cp -p gtk3/README.md README.gtk3.md
 
 %build
 # echo */extconf.rb | xargs -l1 dirname
@@ -515,6 +613,9 @@ cp -a vte/sample \
 
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 %{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Object,RbConfig,TC_*,Test*,page-*,rdoc,ri}
+%if %{without gtk3}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{gdk3,gtk3,gtksourceview3,vte3}
+%endif
 %{__rm} $RPM_BUILD_ROOT%{ruby_ridir}/{cache.ri,created.rid}
 
 %clean
@@ -670,6 +771,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-vte
 %defattr(644,root,root,755)
+%doc vte/README
 %attr(755,root,root) %{ruby_archdir}/vte.so
 %{ruby_rubylibdir}/vte.rb
 %{ruby_rubylibdir}/vte
@@ -677,6 +779,49 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ruby-vte-devel
 %defattr(644,root,root,755)
 %{_pkgconfigdir}/ruby-vte.pc
+
+%if %{with gtk3}
+%files -n ruby-gtk3
+%defattr(644,root,root,755)
+%doc README.gdk3.md README.gtk3.md
+%attr(755,root,root) %{ruby_archdir}/gdk3.so
+%attr(755,root,root) %{ruby_archdir}/gtk3.so
+%{ruby_rubylibdir}/gdk3.rb
+%{ruby_rubylibdir}/gdk3
+%{ruby_rubylibdir}/gtk3.rb
+%{ruby_rubylibdir}/gtk3
+
+%files -n ruby-gtk3-devel
+%defattr(644,root,root,755)
+%{ruby_archdir}/rbgdk3.h
+%{ruby_archdir}/rbgdk3conversions.h
+%{ruby_archdir}/rbgtk3.h
+%{ruby_archdir}/rbgtk3conversions.h
+%{_pkgconfigdir}/ruby-gdk3.pc
+%{_pkgconfigdir}/ruby-gtk3.pc
+
+%files -n ruby-gtksourceview3
+%defattr(644,root,root,755)
+%doc gtksourceview3/README
+%attr(755,root,root) %{ruby_archdir}/gtksourceview3.so
+%{ruby_rubylibdir}/gtksourceview3.rb
+%{ruby_rubylibdir}/gtksourceview3
+
+%files -n ruby-gtksourceview3-devel
+%defattr(644,root,root,755)
+%{_pkgconfigdir}/ruby-gtksourceview3.pc
+
+%files -n ruby-vte3
+%defattr(644,root,root,755)
+%doc vte3/README
+%attr(755,root,root) %{ruby_archdir}/vte3.so
+%{ruby_rubylibdir}/vte3.rb
+%{ruby_rubylibdir}/vte3
+
+%files -n ruby-vte3-devel
+%defattr(644,root,root,755)
+%{_pkgconfigdir}/ruby-vte3.pc
+%endif
 
 %files doc-html
 %defattr(644,root,root,755)
@@ -779,7 +924,6 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/Window
 %{ruby_ridir}/atk
 %{ruby_ridir}/cairo-gobject
-%{ruby_ridir}/gdk3
 %{ruby_ridir}/gdk_pixbuf2
 %{ruby_ridir}/gio2
 %{ruby_ridir}/glib2
@@ -787,14 +931,17 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/goocanvas
 %{ruby_ridir}/gstreamer
 %{ruby_ridir}/gtk2
-%{ruby_ridir}/gtk3
 %{ruby_ridir}/gtksourceview2
-%{ruby_ridir}/gtksourceview3
 %{ruby_ridir}/pango
 %{ruby_ridir}/poppler
 %{ruby_ridir}/rsvg2
 %{ruby_ridir}/vte
+%if %{with gtk3}
+%{ruby_ridir}/gdk3
+%{ruby_ridir}/gtk3
+%{ruby_ridir}/gtksourceview3
 %{ruby_ridir}/vte3
+%endif
 
 %files examples
 %defattr(644,root,root,755)
