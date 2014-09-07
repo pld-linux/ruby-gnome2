@@ -7,16 +7,18 @@
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
 Name:		ruby-gnome2
-Version:	1.1.9
+Version:	1.2.6
 Release:	1
 License:	LGPL v2.1
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	852a528f8e58ca2729dada994c938be0
-Patch0:		parse-error.patch
+# Source0-md5:	5ed08cab5ba94bc1f5f1478f2740279a
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	atk-devel >= 1.0
 BuildRequires:	cairo-devel >= 1.10.0
+BuildRequires:	cairo-gobject-devel >= 1.12.10
+#BuildRequires:	clutter-devel >= 1.12.0
+#%{?with_gtk3:BuildRequires:	clutter-gtk-devel >= 1.2.0}
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	glib2-devel >= 1:2.16.0
 BuildRequires:	gobject-introspection-devel >= 1.35.4
@@ -26,7 +28,7 @@ BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.35
 BuildRequires:	gtk+2-devel >= 2:2.12.0
 %{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.4.2}
 BuildRequires:	gtksourceview2-devel >= 2
-%{?with_gtk3:BuildRequires:	gtksourceview3-devel >= 3}
+%{?with_gtk3:BuildRequires:	gtksourceview3-devel >= 3.4.2}
 BuildRequires:	librsvg-devel >= 2.8
 BuildRequires:	pango-devel >= 1:1.0
 BuildRequires:	pkgconfig
@@ -39,7 +41,9 @@ BuildRequires:	ruby-rcairo-devel
 BuildRequires:	ruby-rubygems
 BuildRequires:	sed >= 4.0
 BuildRequires:	vte0-devel >= 0.12.1
-%{?with_gtk3:BuildRequires:	vte-devel >= 0.28}
+%{?with_gtk3:BuildRequires:	vte-devel >= 0.32.2}
+#BuildRequires:	gtk-webkit-devel >= 1.8.1
+#%{?with_gtk3:BuildRequires:	gtk-webkit3-devel >= 1.8.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -93,6 +97,19 @@ Ruby/GObjectIntrospection is a Ruby binding of GObject Introspection.
 Ruby/GObjectIntrospection to wiązanie języka Ruby do biblioteki
 GObject Introspection.
 
+%package -n ruby-gobject-introspection-devel
+Summary:	Header files for Ruby/GObjectIntrospection library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GObjectIntrospection
+Group:		Development/Languages
+Requires:	ruby-glib2-devel = %{version}-%{release}
+Requires:	ruby-gobject-introspection = %{version}-%{release}
+
+%description -n ruby-gobject-introspection-devel
+Header files for Ruby/GObjectIntrospection library.
+
+%description -n ruby-gobject-introspection-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Ruby/GObjectIntrospection.
+
 %package -n ruby-atk
 Summary:	Ruby/ATK - Ruby binding of ATK
 Summary(pl.UTF-8):	Ruby/ATK - wiązanie języka Ruby do biblioteki ATK
@@ -124,6 +141,7 @@ Pliki nagłówkowe biblioteki Ruby/ATK.
 Summary:	Ruby/CairoGObject - Ruby binding of cairo-gobject library
 Summary(pl.UTF-8):	Ruby/CairoGObject - wiązania języka Ruby do biblioteki cairo-gobject
 Group:		Development/Languages
+Requires:	cairo-gobject >= 1.12.10
 Requires:	ruby-glib2 = %{version}-%{release}
 Requires:	ruby-rcairo
 
@@ -436,7 +454,7 @@ Pliki nagłówkowe biblioteki Ruby/GTK3.
 Summary:	Ruby/GtkSourceView3 - Ruby binding of gtksourceview 3.x
 Summary(pl.UTF-8):	Ruby/GtkSourceView3 - wiązanie języka Ruby do biblioteki gtksourceview 3.x
 Group:		Development/Languages
-Requires:	gtksourceview3 >= 3
+Requires:	gtksourceview3 >= 3.4.2
 Requires:	ruby-gtk3 = %{version}-%{release}
 
 %description -n ruby-gtksourceview3
@@ -450,7 +468,7 @@ gtksourceview 3.x.
 Summary:	Header files for Ruby/GtkSourceView3 library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GtkSourceView3
 Group:		Development/Libraries
-Requires:	gtksourceview3-devel >= 3
+Requires:	gtksourceview3-devel >= 3.4.2
 Requires:	ruby-gtk3-devel = %{version}-%{release}
 Requires:	ruby-gtksourceview3 = %{version}-%{release}
 
@@ -465,7 +483,7 @@ Summary:	Ruby/VTE3 - Ruby binding of VTE on GTK+ 3.x
 Summary(pl.UTF-8):	Ruby/VTE3 - wiązanie języka Ruby do biblioteki VTE na GTK+ 3.x
 Group:		Development/Languages
 Requires:	ruby-gtk3 = %{version}-%{release}
-Requires:	vte >= 0.28
+Requires:	vte >= 0.32.2
 
 %description -n ruby-vte3
 Ruby/VTE3 is a Ruby binding of VTE on GTK+ 3.x.
@@ -480,7 +498,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/VTE3
 Group:		Development/Libraries
 Requires:	ruby-gtk3-devel = %{version}-%{release}
 Requires:	ruby-vte3 = %{version}-%{release}
-Requires:	vte-devel >= 0.28
+Requires:	vte-devel >= 0.32.2
 
 %description -n ruby-vte3-devel
 Header files for Ruby/VTE3 library.
@@ -525,7 +543,6 @@ Przykłady do Ruby-GNOME2.
 %prep
 %setup -q -n %{name}-all-%{version}
 find . -name '*.rb' | xargs sed -i -e '1s,#.*local/bin/ruby,#!%{_bindir}/ruby,'
-%patch0 -p1
 
 cp -p glib2/README README.glib2
 cp -p glib2/TODO TODO.glib2
@@ -539,6 +556,8 @@ cp -p gtk3/README.md README.gtk3.md
 
 comps="
 	atk
+	clutter
+	clutter-gtk
 	cairo-gobject
 	gdk_pixbuf2
 	gio2
@@ -552,11 +571,14 @@ comps="
 	poppler
 	rsvg2
 	vte
+	webkit-gtk2
 %if %{with gtk3}
+	clutter-gtk
 	gdk3
 	gtk3
 	gtksourceview3
 	vte3
+	webkit-gtk
 %endif
 "
 
@@ -612,9 +634,9 @@ cp -a vte/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/vte
 
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Object,RbConfig,TC_*,Test*,page-*,rdoc,ri}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,RbConfig,TC_*,Test*,page-*,rdoc,ri}
 %if %{without gtk3}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{gdk3,gtk3,gtksourceview3,vte3}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{ClutterGtk*,WebKitGtk,clutter-gtk,gdk3,gtk3,gtksourceview3,vte3,webkit-gtk}
 %endif
 %{__rm} $RPM_BUILD_ROOT%{ruby_ridir}/{cache.ri,created.rid}
 
@@ -659,6 +681,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{ruby_archdir}/gobject_introspection.so
 %{ruby_rubylibdir}/gobject-introspection.rb
 %{ruby_rubylibdir}/gobject-introspection
+
+%files -n ruby-gobject-introspection-devel
+%defattr(644,root,root,755)
+%{ruby_archdir}/rb-gobject-introspection.h
+%{_pkgconfigdir}/ruby-gobject-introspection.pc
 
 %files -n ruby-atk
 %defattr(644,root,root,755)
@@ -833,6 +860,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/AlphaDemo
 %{ruby_ridir}/AssistantRunner
 %{ruby_ridir}/Atk
+%{ruby_ridir}/AtkTestUtils
 %{ruby_ridir}/ButtonBoxSample
 %{ruby_ridir}/ButtonSample
 %{ruby_ridir}/Cairo
@@ -843,6 +871,8 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/CanvasSampleFifteen
 %{ruby_ridir}/CanvasSamplePrimitives
 %{ruby_ridir}/CheckButtonSample
+%{ruby_ridir}/Clutter
+%{ruby_ridir}/ClutterTestUtils
 %{ruby_ridir}/ColorSelectionSample
 %{ruby_ridir}/Demo
 %{ruby_ridir}/DestWindow
@@ -861,6 +891,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/GObjectIntrospectionTestUtils
 %{ruby_ridir}/GammaCurveSample
 %{ruby_ridir}/Gdk
+%{ruby_ridir}/GdkTestUtils
 %{ruby_ridir}/GdkX11
 %{ruby_ridir}/Gesture
 %{ruby_ridir}/GestureProcessor
@@ -921,9 +952,12 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/TooltipsSample
 %{ruby_ridir}/Vte
 %{ruby_ridir}/WMHintsSample
+%{ruby_ridir}/WebKitGtk2
+%{ruby_ridir}/WebKitGtkTestUtils
 %{ruby_ridir}/Window
 %{ruby_ridir}/atk
 %{ruby_ridir}/cairo-gobject
+%{ruby_ridir}/clutter
 %{ruby_ridir}/gdk_pixbuf2
 %{ruby_ridir}/gio2
 %{ruby_ridir}/glib2
@@ -936,11 +970,17 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/poppler
 %{ruby_ridir}/rsvg2
 %{ruby_ridir}/vte
+%{ruby_ridir}/webkit-gtk2
 %if %{with gtk3}
+%{ruby_ridir}/ClutterGtk
+%{ruby_ridir}/ClutterGtkTestUtils
+%{ruby_ridir}/WebKitGtk
+%{ruby_ridir}/clutter-gtk
 %{ruby_ridir}/gdk3
 %{ruby_ridir}/gtk3
 %{ruby_ridir}/gtksourceview3
 %{ruby_ridir}/vte3
+%{ruby_ridir}/webkit-gtk
 %endif
 
 %files examples
