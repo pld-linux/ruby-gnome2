@@ -1,5 +1,5 @@
 # TODO
-# - update to 2.2.0
+# - actually build clutter, clutter-gtk, clutter-gstreamer, webkit-gtk, webkit-gtk2 modules
 #
 # Conditional build:
 %bcond_without	gtk3		# GTK+ 3.x based packages too
@@ -7,14 +7,14 @@
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
 Name:		ruby-gnome2
-Version:	1.2.6
+Version:	2.2.0
 Release:	1
 License:	LGPL v2.1
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	5ed08cab5ba94bc1f5f1478f2740279a
+# Source0-md5:	5addc6fde34061387ab7b5c16a0075e5
 URL:		http://ruby-gnome2.sourceforge.jp/
-BuildRequires:	atk-devel >= 1.0
+BuildRequires:	atk-devel >= 1:1.12.0
 BuildRequires:	cairo-devel >= 1.10.0
 BuildRequires:	cairo-gobject-devel >= 1.12.10
 #BuildRequires:	clutter-devel >= 1.12.0
@@ -30,11 +30,11 @@ BuildRequires:	gtk+2-devel >= 2:2.12.0
 BuildRequires:	gtksourceview2-devel >= 2
 %{?with_gtk3:BuildRequires:	gtksourceview3-devel >= 3.4.2}
 BuildRequires:	librsvg-devel >= 2.8
-BuildRequires:	pango-devel >= 1:1.0
+BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	pkgconfig
-BuildRequires:	poppler-glib-devel >= 0.8.0
+BuildRequires:	poppler-glib-devel >= 0.12.0
 BuildRequires:	rpmbuild(macros) >= 1.277
-BuildRequires:	ruby-devel >= 1.8.5
+BuildRequires:	ruby-devel >= 1.9
 %{?with_gtk3:BuildRequires:	ruby-devel >= 1.9.2}
 BuildRequires:	ruby-pkg-config
 BuildRequires:	ruby-rcairo-devel
@@ -53,35 +53,33 @@ GNOME 2 libraries for Ruby.
 Biblioteki GNOME 2 dla języka Ruby.
 
 %package -n ruby-glib2
-Summary:	Ruby/Glib2, Ruby/GIO2 - Ruby bindings of GLib 2.x
-Summary(pl.UTF-8):	Ruby/Glib2, Ruby/GIO2 - wiązania języka Ruby do bibliotek GLib 2.x
+Summary:	Ruby/Glib2 - Ruby binding of GLib 2.x
+Summary(pl.UTF-8):	Ruby/Glib2 - wiązanie języka Ruby do biblioteki GLib 2.x
 Group:		Development/Languages
 Requires:	glib2 >= 1:2.16.0
-Requires:	ruby >= 1.8.5
+Requires:	ruby >= 1.9
 Obsoletes:	ruby-gnome2
 
 %description -n ruby-glib2
-Ruby/Glib2 is a Ruby binding of GLib 2.x. Ruby/GIO2 is a Ruby binding
-of gio 2.x.
+Ruby/Glib2 is a Ruby binding of GLib 2.x.
 
 %description -n ruby-glib2 -l pl.UTF-8
-Ruby/Glib2 to wiązanie języka Ruby do biblioteki GLib 2.x. Ruby/GIO2
-to wiązanie języka Ruby do biblioteki gio 2.x.
+Ruby/Glib2 to wiązanie języka Ruby do biblioteki GLib 2.x.
 
 %package -n ruby-glib2-devel
-Summary:	Header files for Ruby/GLib2 and Ruby/GIO2 libraries
-Summary(pl.UTF-8):	Pliki nagłówkowe bibliotek Ruby/GLib2 i Ruby/GIO2
+Summary:	Header files for Ruby/GLib2 library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GLib2
 Group:		Development/Libraries
 Requires:	glib2-devel >= 1:2.16.0
-Requires:	ruby-devel >= 1.8.5
+Requires:	ruby-devel >= 1.9
 Requires:	ruby-glib2 = %{version}-%{release}
 Obsoletes:	ruby-gnome2-devel
 
 %description -n ruby-glib2-devel
-Header files for Ruby/GLib2 and Ruby/GIO2 libraries.
+Header files for Ruby/GLib2 library.
 
 %description -n ruby-glib2-devel -l pl.UTF-8
-Pliki nagłówkowe bibliotek Ruby/GLib2 i Ruby/GIO2.
+Pliki nagłówkowe biblioteki Ruby/GLib2.
 
 %package -n ruby-gobject-introspection
 Summary:	Ruby/GObjectIntrospection - Ruby binding of GObject Introspection
@@ -110,11 +108,24 @@ Header files for Ruby/GObjectIntrospection library.
 %description -n ruby-gobject-introspection-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Ruby/GObjectIntrospection.
 
+%package -n ruby-gio2
+Summary:	Ruby/GIO2 - Ruby binding of GIO 2.x library
+Summary(pl.UTF-8):	Ruby/GIO2 - wiązanie języka Ruby do biblioteki GIO 2.x
+Group:		Development/Languages
+Requires:	glib2 >= 1:2.16.0
+Requires:	ruby-gobject-introspection = %{version}-%{release}
+
+%description -n ruby-gio2
+Ruby/GIO2 is a Ruby binding of GIO 2.x library.
+
+%description -n ruby-gio2 -l pl.UTF-8
+Ruby/GIO2 to wiązanie języka Ruby do biblioteki GIO 2.x.
+
 %package -n ruby-atk
 Summary:	Ruby/ATK - Ruby binding of ATK
 Summary(pl.UTF-8):	Ruby/ATK - wiązanie języka Ruby do biblioteki ATK
 Group:		Development/Languages
-Requires:	atk >= 1.0
+Requires:	atk >= 1:1.12.0
 Requires:	ruby-glib2 = %{version}-%{release}
 
 %description -n ruby-atk
@@ -127,7 +138,7 @@ Ruby/ATK to wiązanie języka Ruby do biblioteki ATK.
 Summary:	Header files for Ruby/ATK library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/ATK
 Group:		Development/Libraries
-Requires:	atk-devel >= 1.0
+Requires:	atk-devel >= 1:1.12.0
 Requires:	ruby-atk = %{version}-%{release}
 Requires:	ruby-glib2-devel = %{version}-%{release}
 
@@ -156,7 +167,7 @@ Summary:	Ruby/Pango - Ruby binding of pango 1.x
 Summary(pl.UTF-8):	Ruby/Pango - wiązanie języka Ruby do biblioteki pango 1.x
 Group:		Development/Languages
 Requires:	cairo >= 1.10.0
-Requires:	pango >= 1:1.0
+Requires:	pango >= 1:1.14.0
 Requires:	ruby-glib2 = %{version}-%{release}
 Requires:	ruby-rcairo
 
@@ -171,7 +182,7 @@ Summary:	Header files for Ruby/Pango library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/Pango
 Group:		Development/Libraries
 Requires:	cairo-devel >= 1.10.0
-Requires:	pango-devel >= 1.0
+Requires:	pango-devel >= 1:1.14.0
 Requires:	ruby-glib2-devel = %{version}-%{release}
 Requires:	ruby-pango = %{version}-%{release}
 
@@ -333,7 +344,7 @@ Pliki nagłówkowe biblioteki Ruby/GtkSourceView2.
 Summary:	Ruby/Poppler - Ruby binding of poppler-glib
 Summary(pl.UTF-8):	Ruby/Poppler - wiązanie języka Ruby do biblioteki poppler-glib
 Group:		Development/Languages
-Requires:	poppler-glib >= 0.8.0
+Requires:	poppler-glib >= 0.12.0
 Requires:	ruby-gdk_pixbuf2 = %{version}-%{release}
 Requires:	ruby-glib2 = %{version}-%{release}
 Requires:	ruby-gtk2 = %{version}-%{release}
@@ -348,7 +359,7 @@ Ruby/Poppler to wiązanie języka Ruby do biblioteki poppler-glib.
 Summary:	Header files for Ruby/Poppler library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/Poppler
 Group:		Development/Libraries
-Requires:	poppler-glib-devel >= 0.8.0
+Requires:	poppler-glib-devel >= 0.12.0
 Requires:	ruby-gdk_pixbuf2-devel = %{version}-%{release}
 Requires:	ruby-glib2-devel = %{version}-%{release}
 Requires:	ruby-gtk2-devel = %{version}-%{release}
@@ -546,8 +557,6 @@ find . -name '*.rb' | xargs sed -i -e '1s,#.*local/bin/ruby,#!%{_bindir}/ruby,'
 
 cp -p glib2/README README.glib2
 cp -p glib2/TODO TODO.glib2
-cp -p gio2/README README.gio2
-cp -p gio2/TODO TODO.gio2
 cp -p gdk3/README.md README.gdk3.md
 cp -p gtk3/README.md README.gtk3.md
 
@@ -557,7 +566,7 @@ cp -p gtk3/README.md README.gtk3.md
 comps="
 	atk
 	clutter
-	clutter-gtk
+	clutter-gstreamer
 	cairo-gobject
 	gdk_pixbuf2
 	gio2
@@ -634,7 +643,7 @@ cp -a vte/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/vte
 
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,RbConfig,TC_*,Test*,page-*,rdoc,ri}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,REXML,RbConfig,Test*,page-*,rdoc,ri}
 %if %{without gtk3}
 %{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{ClutterGtk*,WebKitGtk,clutter-gtk,gdk3,gtk3,gtksourceview3,vte3,webkit-gtk}
 %endif
@@ -645,26 +654,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-glib2
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README README.glib2 TODO.glib2 README.gio2 TODO.gio2
-%attr(755,root,root) %{ruby_archdir}/gio2.so
+%doc AUTHORS NEWS README README.glib2 TODO.glib2
 %attr(755,root,root) %{ruby_archdir}/glib2.so
-%{ruby_rubylibdir}/gio2.rb
 %{ruby_rubylibdir}/glib-mkenums.rb
 %{ruby_rubylibdir}/glib2.rb
 %{ruby_rubylibdir}/gnome2-raketask.rb
-# these files are expected to exist not only on Win32
-%{ruby_rubylibdir}/gnome2-win32-binary-build-task.rb
-%{ruby_rubylibdir}/gnome2-win32-binary-download-task.rb
+%dir %{ruby_rubylibdir}/gnome2
+%{ruby_rubylibdir}/gnome2/rake
 %{ruby_rubylibdir}/mkmf-gnome2.rb
-%{ruby_rubylibdir}/gio2
 %{ruby_rubylibdir}/glib2
 
 %files -n ruby-glib2-devel
 %defattr(644,root,root,755)
 %{ruby_archdir}/glib-enum-types.h
 %{ruby_archdir}/rbgcompat.h
-%{ruby_archdir}/rbgio2.h
-%{ruby_archdir}/rbgio2conversions.h
 %{ruby_archdir}/rbglib.h
 %{ruby_archdir}/rbglib2conversions.h
 %{ruby_archdir}/rbglibdeprecated.h
@@ -672,7 +675,6 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_archdir}/rbgutil.h
 %{ruby_archdir}/rbgutil_list.h
 %{ruby_archdir}/rbgutildeprecated.h
-%{_pkgconfigdir}/ruby-gio2.pc
 %{_pkgconfigdir}/ruby-glib2.pc
 
 %files -n ruby-gobject-introspection
@@ -686,6 +688,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{ruby_archdir}/rb-gobject-introspection.h
 %{_pkgconfigdir}/ruby-gobject-introspection.pc
+
+%files -n ruby-gio2
+%defattr(644,root,root,755)
+%doc gio2/README.md
+%attr(755,root,root) %{ruby_archdir}/gio2.so
+%{ruby_rubylibdir}/gio2.rb
+%{ruby_rubylibdir}/gio2
 
 %files -n ruby-atk
 %defattr(644,root,root,755)
@@ -751,6 +760,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc goocanvas/README
 %attr(755,root,root) %{ruby_archdir}/goocanvas.so
 %{ruby_rubylibdir}/goocanvas.rb
+%{ruby_rubylibdir}/goo
 
 %files -n ruby-goocanvas-devel
 %defattr(644,root,root,755)
@@ -758,9 +768,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-gstreamer
 %defattr(644,root,root,755)
-%doc gstreamer/README
+%doc gstreamer/README.md
 %attr(755,root,root) %{ruby_archdir}/gstreamer.so
 %{ruby_rubylibdir}/gst.rb
+%{ruby_rubylibdir}/gst
 
 %files -n ruby-gstreamer-devel
 %defattr(644,root,root,755)
@@ -829,7 +840,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-gtksourceview3
 %defattr(644,root,root,755)
-%doc gtksourceview3/README
+%doc gtksourceview3/README.md
 %attr(755,root,root) %{ruby_archdir}/gtksourceview3.so
 %{ruby_rubylibdir}/gtksourceview3.rb
 %{ruby_rubylibdir}/gtksourceview3
@@ -840,7 +851,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-vte3
 %defattr(644,root,root,755)
-%doc vte3/README
+%doc vte3/README.md
 %attr(755,root,root) %{ruby_archdir}/vte3.so
 %{ruby_rubylibdir}/vte3.rb
 %{ruby_rubylibdir}/vte3
@@ -867,11 +878,19 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/CairoGObject
 %{ruby_ridir}/CairoGObjectTestUtils
 %{ruby_ridir}/Canvas
+%{ruby_ridir}/CanvasSampleAnimation
 %{ruby_ridir}/CanvasSampleArrowhead
+%{ruby_ridir}/CanvasSampleEvents
+%{ruby_ridir}/CanvasSampleFeatures
 %{ruby_ridir}/CanvasSampleFifteen
+%{ruby_ridir}/CanvasSampleFocus
 %{ruby_ridir}/CanvasSamplePrimitives
 %{ruby_ridir}/CheckButtonSample
 %{ruby_ridir}/Clutter
+%{ruby_ridir}/ClutterColorTest
+%{ruby_ridir}/ClutterGStreamerTestUtils
+%{ruby_ridir}/ClutterGst
+%{ruby_ridir}/ClutterGstTest
 %{ruby_ridir}/ClutterTestUtils
 %{ruby_ridir}/ColorSelectionSample
 %{ruby_ridir}/Demo
@@ -884,7 +903,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/FontSelectionSample
 %{ruby_ridir}/GLib
 %{ruby_ridir}/GLibTestUtils
-%{ruby_ridir}/GNOME2Package
+%{ruby_ridir}/GNOME2
 %{ruby_ridir}/GNOME2Win32BinaryBuildTask
 %{ruby_ridir}/GNOME2Win32BinaryDownloadTask
 %{ruby_ridir}/GObjectIntrospection
@@ -897,10 +916,10 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/GestureProcessor
 %{ruby_ridir}/GesturedWidget
 %{ruby_ridir}/Gio
+%{ruby_ridir}/GioTestUtils
 %{ruby_ridir}/Goo
 %{ruby_ridir}/GooCanvasSample
 %{ruby_ridir}/Gst
-%{ruby_ridir}/GstTestUtils
 %{ruby_ridir}/Gtk
 %{ruby_ridir}/GtkSource
 %{ruby_ridir}/GtkTestUtils
@@ -908,9 +927,6 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/LabelSample
 %{ruby_ridir}/Layout
 %{ruby_ridir}/LayoutSample
-%{ruby_ridir}/MediaInfo
-%{ruby_ridir}/MediaInfoStream
-%{ruby_ridir}/MediaInfoTrack
 %{ruby_ridir}/MenuSample
 %{ruby_ridir}/MultiTerm
 %{ruby_ridir}/MyButton
@@ -950,6 +966,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/ToggleButtonSample
 %{ruby_ridir}/ToolbarSample
 %{ruby_ridir}/TooltipsSample
+%{ruby_ridir}/VideoApp
 %{ruby_ridir}/Vte
 %{ruby_ridir}/WMHintsSample
 %{ruby_ridir}/WebKitGtk2
@@ -958,6 +975,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/atk
 %{ruby_ridir}/cairo-gobject
 %{ruby_ridir}/clutter
+%{ruby_ridir}/clutter-gstreamer
 %{ruby_ridir}/gdk_pixbuf2
 %{ruby_ridir}/gio2
 %{ruby_ridir}/glib2
@@ -973,6 +991,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/webkit-gtk2
 %if %{with gtk3}
 %{ruby_ridir}/ClutterGtk
+%{ruby_ridir}/ClutterGtkEmbedTest
 %{ruby_ridir}/ClutterGtkTestUtils
 %{ruby_ridir}/WebKitGtk
 %{ruby_ridir}/clutter-gtk
