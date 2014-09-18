@@ -252,6 +252,35 @@ Header files for Ruby/GTK2 library.
 %description -n ruby-gtk2-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Ruby/GTK2.
 
+%package -n ruby-clutter
+Summary:	Ruby/Clutter - Ruby binding of Clutter library
+Summary(pl.UTF-8):	Ruby/Clutter - wiązanie języka Ruby do biblioteki Clutter
+Group:		Development/Languages
+Requires:	clutter >= 1.16.4
+Requires:	ruby-cairo-gobject = %{version}-%{release}
+Requires:	ruby-gobject-introspection = %{version}-%{release}
+
+%description -n ruby-clutter
+Ruby/Clutter is a Ruby binding of Clutter library.
+
+%description -n ruby-clutter -l pl.UTF-8
+Ruby/Clutter to wiązanie języka Ruby do biblioteki Clutter.
+
+%package -n ruby-clutter-gstreamer
+Summary:	Ruby/ClutterGStreamer - Ruby binding of Clutter-GStreamer library
+Summary(pl.UTF-8):	Ruby/ClutterGStreamer - wiązanie języka Ruby do biblioteki Clutter-GStreamer
+Group:		Development/Languages
+Requires:	clutter-gst >= 2.0.10
+Requires:	ruby-clutter = %{version}-%{release}
+Requires:	ruby-gstreamer = %{version}-%{release}
+
+%description -n ruby-clutter-gstreamer
+Ruby/ClutterGStreamer is a Ruby binding of Clutter-GStreamer library.
+
+%description -n ruby-clutter-gstreamer -l pl.UTF-8
+Ruby/ClutterGStreamer to wiązanie języka Ruby do biblioteki
+Clutter-GStreamer.
+
 %package -n ruby-goocanvas
 Summary:	Ruby/GooCanvas - Ruby binding of GooCanvas
 Summary(pl.UTF-8):	Ruby/GooCanvas - wiązanie języka Ruby do biblioteki GooCanvas
@@ -426,6 +455,22 @@ Header files for Ruby/VTE library.
 %description -n ruby-vte-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Ruby/VTE.
 
+%package -n ruby-webkit-gtk2
+Summary:	Ruby/WebKitGTK2 - Ruby binding of WebKitGTK+ (GTK+ 2.x based) library
+Summary(pl.UTF-8):	Ruby/WebKitGTK2 - wiązanie języka Ruby do biblioteki WebKitGTK+ (dla GTK+ 2.x)
+Group:		Development/Languages
+Requires:	gtk-webkit >= 2.2.3
+Requires:	ruby-gobject-introspection = %{version}-%{release}
+Requires:	ruby-gtk2 = %{version}-%{release}
+
+%description -n ruby-webkit-gtk2
+Ruby/WebKitGTK2 is a Ruby binding of WebKitGTK+ library (based on
+GTK+ 2.x).
+
+%description -n ruby-webkit-gtk2 -l pl.UTF-8
+Ruby/WebKitGTK2 to wiązanie języka Ruby do biblioteki WebKitGTK+
+(opartej na GTK+ 2.x).
+
 %package -n ruby-gtk3
 Summary:	Ruby/GTK3 - Ruby binding of GTK+ 3.x
 Summary(pl.UTF-8):	Ruby/GTK3 - wiązanie języka Ruby do bibliotek GTK+ 3.x
@@ -460,6 +505,20 @@ Header files for Ruby/GTK3 library.
 
 %description -n ruby-gtk3-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Ruby/GTK3.
+
+%package -n ruby-clutter-gtk
+Summary:	Ruby/ClutterGTK - Ruby binding of Clutter-GTK library
+Summary(pl.UTF-8):	Ruby/ClutterGTK - wiązanie języka Ruby do biblioteki Clutter-GTK
+Group:		Development/Languages
+Requires:	clutter-gtk >= 1.4.4
+Requires:	ruby-clutter = %{version}-%{release}
+Requires:	ruby-gtk3 = %{version}-%{release}
+
+%description -n ruby-clutter-gtk
+Ruby/ClutterGTK is a Ruby binding of Clutter-GTK library.
+
+%description -n ruby-clutter-gtk -l pl.UTF-8
+Ruby/ClutterGTK to wiązanie języka Ruby do biblioteki Clutter-GTK.
 
 %package -n ruby-gtksourceview3
 Summary:	Ruby/GtkSourceView3 - Ruby binding of gtksourceview 3.x
@@ -516,6 +575,22 @@ Header files for Ruby/VTE3 library.
 
 %description -n ruby-vte3-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Ruby/VTE3.
+
+%package -n ruby-webkit-gtk
+Summary:	Ruby/WebKitGTK - Ruby binding of WebKitGTK+ (GTK+ 3.x based) library
+Summary(pl.UTF-8):	Ruby/WebKitGTK - wiązanie języka Ruby do biblioteki WebKitGTK+ (dla GTK+ 3.x)
+Group:		Development/Languages
+Requires:	gtk-webkit3 >= 2.2.3
+Requires:	ruby-gobject-introspection = %{version}-%{release}
+Requires:	ruby-gtk3 = %{version}-%{release}
+
+%description -n ruby-webkit-gtk
+Ruby/WebKitGTK is a Ruby binding of WebKitGTK+ library (based on
+GTK+ 3.x).
+
+%description -n ruby-webkit-gtk -l pl.UTF-8
+Ruby/WebKitGTK to wiązanie języka Ruby do biblioteki WebKitGTK+
+(opartej na GTK+ 3.x).
 
 %package doc-ri
 Summary:	Ruby-GNOME2 ri documentation
@@ -612,6 +687,21 @@ install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir},%{ruby_ridir}} \
 	pkgconfigdir=$RPM_BUILD_ROOT%{_pkgconfigdir} \
 	RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_archdir}
 
+# omitted by make install
+cp -pr clutter/lib/{clutter,clutter.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -p clutter-gstreamer/lib/clutter-gst.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -p webkit-gtk2/lib/webkit-gtk2.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
+%if %{with gtk3}
+cp -p clutter-gtk/lib/clutter-gtk.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -p webkit-gtk/lib/webkit-gtk.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
+%endif
+
+cp -a clutter/sample \
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter
+
+cp -a clutter-gstreamer/sample \
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter-gstreamer
+
 cp -a gdk_pixbuf2/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gdk_pixbuf2
 
@@ -641,6 +731,26 @@ cp -a rsvg2/sample \
 
 cp -a vte/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/vte
+
+cp -a webkit-gtk2/sample \
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webkit-gtk2
+
+%if %{with gtk3}
+cp -a clutter-gtk/sample \
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter-gtk
+
+cp -a gtk3/sample \
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtk3
+
+cp -a gtksourceview3/sample \
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtksourceview3
+
+cp -a vte3/sample \
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/vte3
+
+cp -a webkit-gtk/sample \
+	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webkit-gtk
+%endif
 
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 %{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,REXML,RbConfig,Test*,page-*,rdoc,ri}
@@ -755,6 +865,23 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_archdir}/rbgtkmacros.h
 %{_pkgconfigdir}/ruby-gtk2.pc
 
+%files -n ruby-clutter
+%defattr(644,root,root,755)
+%doc clutter/README.md
+%{ruby_rubylibdir}/clutter.rb
+%{ruby_rubylibdir}/clutter
+
+%files -n ruby-clutter-gstreamer
+%defattr(644,root,root,755)
+%doc clutter-gstreamer/README.md
+%{ruby_rubylibdir}/clutter-gst.rb
+
+# R: gobject-introspection + gtk2 + webkit
+%files -n ruby-webkit-gtk2
+%defattr(644,root,root,755)
+%doc webkit-gtk2/README.md
+%{ruby_rubylibdir}/webkit-gtk2.rb
+
 %files -n ruby-goocanvas
 %defattr(644,root,root,755)
 %doc goocanvas/README
@@ -838,6 +965,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/ruby-gdk3.pc
 %{_pkgconfigdir}/ruby-gtk3.pc
 
+%files -n ruby-clutter-gtk
+%defattr(644,root,root,755)
+%doc clutter-gtk/README.md
+%{ruby_rubylibdir}/clutter-gtk.rb
+
 %files -n ruby-gtksourceview3
 %defattr(644,root,root,755)
 %doc gtksourceview3/README.md
@@ -859,6 +991,11 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ruby-vte3-devel
 %defattr(644,root,root,755)
 %{_pkgconfigdir}/ruby-vte3.pc
+
+%files -n ruby-webkit-gtk
+%defattr(644,root,root,755)
+%doc webkit-gtk/README.md
+%{ruby_rubylibdir}/webkit-gtk.rb
 %endif
 
 %files doc-html
