@@ -20,7 +20,6 @@ BuildRequires:	clutter-devel >= 1.12.0
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	glib2-devel >= 1:2.16.0
 BuildRequires:	gobject-introspection-devel >= 1.35.4
-%{?with_gtk3:BuildRequires:	goocanvas2-devel >= 2.0}
 BuildRequires:	gstreamer0.10-devel >= 0.10.35
 BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.35
 BuildRequires:	gtk+2-devel >= 2:2.12.0
@@ -490,34 +489,6 @@ Ruby/ClutterGTK is a Ruby binding of Clutter-GTK library.
 %description -n ruby-clutter-gtk -l pl.UTF-8
 Ruby/ClutterGTK to wiązanie języka Ruby do biblioteki Clutter-GTK.
 
-%package -n ruby-goocanvas
-Summary:	Ruby/GooCanvas - Ruby binding of GooCanvas
-Summary(pl.UTF-8):	Ruby/GooCanvas - wiązanie języka Ruby do biblioteki GooCanvas
-Group:		Development/Languages
-Requires:	goocanvas2 >= 2.0
-Requires:	ruby-gobject-introspection = %{version}-%{release}
-Requires:	ruby-gtk3 = %{version}-%{release}
-
-%description -n ruby-goocanvas
-Ruby/GooCanvas is a Ruby binding of GooCanvas.
-
-%description -n ruby-goocanvas -l pl.UTF-8
-Ruby/GooCanvas to wiązanie języka Ruby do biblioteki GooCanvas.
-
-%package -n ruby-goocanvas-devel
-Summary:	Header files for Ruby/GooCanvas library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GooCanvas
-Group:		Development/Libraries
-Requires:	goocanvas2-devel >= 2.0
-Requires:	ruby-gobject-introspection-devel = %{version}-%{release}
-Requires:	ruby-gtk3-devel = %{version}-%{release}
-
-%description -n ruby-goocanvas-devel
-Header files for Ruby/GooCanvas library.
-
-%description -n ruby-goocanvas-devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki Ruby/GooCanvas.
-
 %package -n ruby-gtksourceview3
 Summary:	Ruby/GtkSourceView3 - Ruby binding of gtksourceview 3.x
 Summary(pl.UTF-8):	Ruby/GtkSourceView3 - wiązanie języka Ruby do biblioteki gtksourceview 3.x
@@ -656,7 +627,6 @@ comps="
 %if %{with gtk3}
 	clutter-gtk
 	gdk3
-	goocanvas
 	gtk3
 	gtksourceview3
 	vte3
@@ -734,9 +704,6 @@ cp -a webkit-gtk2/sample \
 cp -a clutter-gtk/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter-gtk
 
-cp -a goocanvas/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/goocanvas
-
 cp -a gtk3/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtk3
 
@@ -753,7 +720,7 @@ cp -a webkit-gtk/sample \
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 %{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,REXML,RbConfig,Test*,page-*,rdoc,ri}
 %if %{without gtk3}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{ClutterGtk*,Goo*,WebKitGtk,clutter-gtk,gdk3,goocanvas,gtk3,gtksourceview3,vte3,webkit-gtk}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{ClutterGtk*,Goo*,WebKitGtk,clutter-gtk,gdk3,gtk3,gtksourceview3,vte3,webkit-gtk}
 %endif
 %{__rm} $RPM_BUILD_ROOT%{ruby_ridir}/{cache.ri,created.rid}
 
@@ -762,7 +729,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-glib2
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README README.glib2 TODO.glib2
+%doc AUTHORS NEWS README.md README.glib2 TODO.glib2
 %attr(755,root,root) %{ruby_archdir}/glib2.so
 %{ruby_rubylibdir}/glib-mkenums.rb
 %{ruby_rubylibdir}/glib2.rb
@@ -956,17 +923,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc clutter-gtk/README.md
 %{ruby_rubylibdir}/clutter-gtk.rb
 
-%files -n ruby-goocanvas
-%defattr(644,root,root,755)
-%doc goocanvas/README
-%attr(755,root,root) %{ruby_archdir}/goocanvas.so
-%{ruby_rubylibdir}/goocanvas.rb
-%{ruby_rubylibdir}/goo
-
-%files -n ruby-goocanvas-devel
-%defattr(644,root,root,755)
-%{_pkgconfigdir}/ruby-goocanvas.pc
-
 %files -n ruby-gtksourceview3
 %defattr(644,root,root,755)
 %doc gtksourceview3/README.md
@@ -1125,11 +1081,9 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/ClutterGtkEmbedTest
 %{ruby_ridir}/ClutterGtkTestUtils
 %{ruby_ridir}/Goo
-%{ruby_ridir}/GooCanvasSample
 %{ruby_ridir}/WebKitGtk
 %{ruby_ridir}/clutter-gtk
 %{ruby_ridir}/gdk3
-%{ruby_ridir}/goocanvas
 %{ruby_ridir}/gtk3
 %{ruby_ridir}/gtksourceview3
 %{ruby_ridir}/vte3
