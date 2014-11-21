@@ -38,7 +38,8 @@ BuildRequires:	ruby-rcairo-devel
 BuildRequires:	ruby-rubygems
 BuildRequires:	sed >= 4.0
 BuildRequires:	vte0-devel >= 0.12.1
-%{?with_gtk3:BuildRequires:	vte-devel >= 0.32.2}
+#%{?with_gtk3:BuildRequires:	vte-devel >= 0.32.2}
+%{?with_gtk3:BuildRequires:	vte2.90-devel}
 BuildRequires:	gtk-webkit-devel >= 1.8.1
 %{?with_gtk3:BuildRequires:	gtk-webkit3-devel >= 1.8.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
