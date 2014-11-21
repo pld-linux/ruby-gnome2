@@ -771,6 +771,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{ruby_archdir}/gio2.so
 %{ruby_rubylibdir}/gio2.rb
 %{ruby_rubylibdir}/gio2
+%{_pkgconfigdir}/ruby-gio2.pc
 
 %files -n ruby-atk
 %defattr(644,root,root,755)
@@ -848,6 +849,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{ruby_archdir}/gstreamer.so
 %{ruby_rubylibdir}/gst.rb
 %{ruby_rubylibdir}/gst
+%{ruby_rubylibdir}/gstreamer.rb
 
 %files -n ruby-gstreamer-devel
 %defattr(644,root,root,755)
@@ -903,20 +905,14 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ruby-gtk3
 %defattr(644,root,root,755)
 %doc README.gdk3.md README.gtk3.md
-%attr(755,root,root) %{ruby_archdir}/gdk3.so
 %attr(755,root,root) %{ruby_archdir}/gtk3.so
-%{ruby_rubylibdir}/gdk3.rb
-%{ruby_rubylibdir}/gdk3
 %{ruby_rubylibdir}/gtk3.rb
 %{ruby_rubylibdir}/gtk3
 
 %files -n ruby-gtk3-devel
 %defattr(644,root,root,755)
-%{ruby_archdir}/rbgdk3.h
-%{ruby_archdir}/rbgdk3conversions.h
 %{ruby_archdir}/rbgtk3.h
 %{ruby_archdir}/rbgtk3conversions.h
-%{_pkgconfigdir}/ruby-gdk3.pc
 %{_pkgconfigdir}/ruby-gtk3.pc
 
 %files -n ruby-clutter-gtk
@@ -969,13 +965,6 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/CairoGObject
 %{ruby_ridir}/CairoGObjectTestUtils
 %{ruby_ridir}/Canvas
-%{ruby_ridir}/CanvasSampleAnimation
-%{ruby_ridir}/CanvasSampleArrowhead
-%{ruby_ridir}/CanvasSampleEvents
-%{ruby_ridir}/CanvasSampleFeatures
-%{ruby_ridir}/CanvasSampleFifteen
-%{ruby_ridir}/CanvasSampleFocus
-%{ruby_ridir}/CanvasSamplePrimitives
 %{ruby_ridir}/CheckButtonSample
 %{ruby_ridir}/Clutter
 %{ruby_ridir}/ClutterColorTest
@@ -1002,7 +991,6 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/GammaCurveSample
 %{ruby_ridir}/Gdk
 %{ruby_ridir}/GdkTestUtils
-%{ruby_ridir}/GdkX11
 %{ruby_ridir}/Gesture
 %{ruby_ridir}/GestureProcessor
 %{ruby_ridir}/GesturedWidget
@@ -1081,7 +1069,6 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/ClutterGtk
 %{ruby_ridir}/ClutterGtkEmbedTest
 %{ruby_ridir}/ClutterGtkTestUtils
-%{ruby_ridir}/Goo
 %{ruby_ridir}/WebKitGtk
 %{ruby_ridir}/clutter-gtk
 %{ruby_ridir}/gdk3
