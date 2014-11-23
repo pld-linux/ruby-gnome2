@@ -1,7 +1,11 @@
 #
 # Conditional build:
 %bcond_without	gtk3		# GTK+ 3.x based packages too
+%bcond_without	vte3		# VTE 3.x binding
 
+%if %{without gtk3}
+%undefine	with_vte3
+%endif
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
 Name:		ruby-gnome2
@@ -39,7 +43,7 @@ BuildRequires:	ruby-rubygems
 BuildRequires:	sed >= 4.0
 BuildRequires:	vte0-devel >= 0.12.1
 #%{?with_gtk3:BuildRequires:	vte-devel >= 0.32.2}
-%{?with_gtk3:BuildRequires:	vte2.90-devel}
+%{?with_vte3:BuildRequires:	vte2.90-devel >= 0.32.2}
 BuildRequires:	gtk-webkit-devel >= 1.8.1
 %{?with_gtk3:BuildRequires:	gtk-webkit3-devel >= 1.8.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -57,6 +61,7 @@ Group:		Development/Languages
 Requires:	glib2 >= 1:2.16.0
 Requires:	ruby >= 1.9
 Obsoletes:	ruby-gnome2
+Obsoletes:	ruby-goocanvas < 2.2.1
 
 %description -n ruby-glib2
 Ruby/Glib2 is a Ruby binding of GLib 2.x.
@@ -72,6 +77,7 @@ Requires:	glib2-devel >= 1:2.16.0
 Requires:	ruby-devel >= 1.9
 Requires:	ruby-glib2 = %{version}-%{release}
 Obsoletes:	ruby-gnome2-devel
+Obsoletes:	ruby-goocanvas-devel < 2.2.1
 
 %description -n ruby-glib2-devel
 Header files for Ruby/GLib2 library.
@@ -630,7 +636,9 @@ comps="
 	gdk3
 	gtk3
 	gtksourceview3
+%if %{with vte3}
 	vte3
+%endif
 	webkit-gtk
 %endif
 "
@@ -711,8 +719,10 @@ cp -a gtk3/sample \
 cp -a gtksourceview3/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtksourceview3
 
+%if %{with vte3}
 cp -a vte3/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/vte3
+%endif
 
 cp -a webkit-gtk/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webkit-gtk
@@ -721,7 +731,10 @@ cp -a webkit-gtk/sample \
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 %{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,REXML,RbConfig,Test*,page-*,rdoc,ri}
 %if %{without gtk3}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{ClutterGtk*,Goo*,WebKitGtk,clutter-gtk,gdk3,gtk3,gtksourceview3,vte3,webkit-gtk}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{ClutterGtk*,Goo*,WebKitGtk,WebKitGtkTestUtils,clutter-gtk,gdk3,gtk3,gtksourceview3,webkit-gtk}
+%endif
+%if %{without vte3}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/vte3
 %endif
 %{__rm} $RPM_BUILD_ROOT%{ruby_ridir}/{cache.ri,created.rid}
 
@@ -931,6 +944,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_pkgconfigdir}/ruby-gtksourceview3.pc
 
+%if %{with vte3}
 %files -n ruby-vte3
 %defattr(644,root,root,755)
 %doc vte3/README.md
@@ -941,6 +955,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ruby-vte3-devel
 %defattr(644,root,root,755)
 %{_pkgconfigdir}/ruby-vte3.pc
+%endif
 
 %files -n ruby-webkit-gtk
 %defattr(644,root,root,755)
@@ -967,10 +982,17 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/Canvas
 %{ruby_ridir}/CheckButtonSample
 %{ruby_ridir}/Clutter
+%{ruby_ridir}/ClutterBlurEffectTest
+%{ruby_ridir}/ClutterBrightnessContrastEffectTest
+%{ruby_ridir}/ClutterCanvasTest
 %{ruby_ridir}/ClutterColorTest
+%{ruby_ridir}/ClutterColorizeEffectTest
+%{ruby_ridir}/ClutterDesaturateEffectTest
 %{ruby_ridir}/ClutterGStreamerTestUtils
 %{ruby_ridir}/ClutterGst
 %{ruby_ridir}/ClutterGstTest
+%{ruby_ridir}/ClutterPageTurnEffect
+%{ruby_ridir}/ClutterShaderEffect
 %{ruby_ridir}/ClutterTestUtils
 %{ruby_ridir}/ColorSelectionSample
 %{ruby_ridir}/Demo
@@ -1047,7 +1069,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/Vte
 %{ruby_ridir}/WMHintsSample
 %{ruby_ridir}/WebKitGtk2
-%{ruby_ridir}/WebKitGtkTestUtils
+%{ruby_ridir}/WebKitGtk2TestUtils
 %{ruby_ridir}/Window
 %{ruby_ridir}/atk
 %{ruby_ridir}/cairo-gobject
@@ -1070,11 +1092,14 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/ClutterGtkEmbedTest
 %{ruby_ridir}/ClutterGtkTestUtils
 %{ruby_ridir}/WebKitGtk
+%{ruby_ridir}/WebKitGtkTestUtils
 %{ruby_ridir}/clutter-gtk
 %{ruby_ridir}/gdk3
 %{ruby_ridir}/gtk3
 %{ruby_ridir}/gtksourceview3
+%if %{with vte3}
 %{ruby_ridir}/vte3
+%endif
 %{ruby_ridir}/webkit-gtk
 %endif
 
