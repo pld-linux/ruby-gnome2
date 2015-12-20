@@ -9,12 +9,12 @@
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
 Name:		ruby-gnome2
-Version:	2.2.3
+Version:	3.0.7
 Release:	1
 License:	LGPL v2.1
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	c55db58f909b1d778c4b95a0da3cd73d
+# Source0-md5:	f714b70ebb1093a540ff4bfe6c105c66
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	atk-devel >= 1:1.12.0
 BuildRequires:	cairo-devel >= 1.10.0
@@ -606,7 +606,7 @@ Przykłady do Ruby-GNOME2.
 %setup -q -n %{name}-all-%{version}
 find . -name '*.rb' | xargs sed -i -e '1s,#.*local/bin/ruby,#!%{_bindir}/ruby,'
 
-cp -p glib2/README README.glib2
+cp -p glib2/README.md README.glib2.md
 cp -p glib2/TODO TODO.glib2
 cp -p gdk3/README.md README.gdk3.md
 cp -p gtk3/README.md README.gtk3.md
