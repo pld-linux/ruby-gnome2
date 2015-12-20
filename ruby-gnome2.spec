@@ -1,7 +1,8 @@
 #
 # Conditional build:
 %bcond_without	gtk3		# GTK+ 3.x based packages too
-%bcond_without	vte3		# VTE 3.x binding
+%bcond_with	gtksourceview3	# GKTSourceView 3.x binding
+%bcond_with	vte3		# VTE 3.x binding
 
 %if %{without gtk3}
 %undefine	with_vte3
@@ -716,8 +717,10 @@ cp -a clutter-gtk/sample \
 cp -a gtk3/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtk3
 
+%if %{with gtksourceview3}
 cp -a gtksourceview3/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtksourceview3
+%endif
 
 %if %{with vte3}
 cp -a vte3/sample \
@@ -743,7 +746,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-glib2
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README.md README.glib2 TODO.glib2
+%doc AUTHORS NEWS README.md README.glib2.md TODO.glib2
 %attr(755,root,root) %{ruby_archdir}/glib2.so
 %{ruby_rubylibdir}/glib-mkenums.rb
 %{ruby_rubylibdir}/glib2.rb
@@ -814,7 +817,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{ruby_archdir}/rbpango.h
 %{ruby_archdir}/rbpangoconversions.h
-%{ruby_archdir}/rbpangoversion.h
 %{_pkgconfigdir}/ruby-pango.pc
 
 %files -n ruby-gdk_pixbuf2
@@ -924,8 +926,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-gtk3-devel
 %defattr(644,root,root,755)
-%{ruby_archdir}/rbgtk3.h
-%{ruby_archdir}/rbgtk3conversions.h
 %{_pkgconfigdir}/ruby-gtk3.pc
 
 %files -n ruby-clutter-gtk
@@ -933,6 +933,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc clutter-gtk/README.md
 %{ruby_rubylibdir}/clutter-gtk.rb
 
+%if %{with gtksourceview3}
 %files -n ruby-gtksourceview3
 %defattr(644,root,root,755)
 %doc gtksourceview3/README.md
@@ -943,6 +944,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ruby-gtksourceview3-devel
 %defattr(644,root,root,755)
 %{_pkgconfigdir}/ruby-gtksourceview3.pc
+%endif
 
 %if %{with vte3}
 %files -n ruby-vte3
@@ -990,7 +992,6 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/ClutterDesaturateEffectTest
 %{ruby_ridir}/ClutterGStreamerTestUtils
 %{ruby_ridir}/ClutterGst
-%{ruby_ridir}/ClutterGstTest
 %{ruby_ridir}/ClutterPageTurnEffect
 %{ruby_ridir}/ClutterShaderEffect
 %{ruby_ridir}/ClutterTestUtils
@@ -1000,14 +1001,11 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/DialogSample
 %{ruby_ridir}/DraggableWidget
 %{ruby_ridir}/EntrySample
-%{ruby_ridir}/FileChooserSample
 %{ruby_ridir}/FileSelectionSample
 %{ruby_ridir}/FontSelectionSample
 %{ruby_ridir}/GLib
 %{ruby_ridir}/GLibTestUtils
 %{ruby_ridir}/GNOME2
-%{ruby_ridir}/GNOME2Win32BinaryBuildTask
-%{ruby_ridir}/GNOME2Win32BinaryDownloadTask
 %{ruby_ridir}/GObjectIntrospection
 %{ruby_ridir}/GObjectIntrospectionTestUtils
 %{ruby_ridir}/GammaCurveSample
