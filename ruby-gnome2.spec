@@ -29,6 +29,8 @@ BuildRequires:	gstreamer0.10-devel >= 0.10.35
 BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.35
 BuildRequires:	gtk+2-devel >= 2:2.12.0
 %{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.4.2}
+BuildRequires:	gtk-webkit-devel >= 1.8.1
+%{?with_gtk3:BuildRequires:	gtk-webkit3-devel >= 1.8.1}
 BuildRequires:	gtksourceview2-devel >= 2
 %{?with_gtk3:BuildRequires:	gtksourceview3-devel >= 3.4.2}
 BuildRequires:	librsvg-devel >= 2.8
@@ -42,11 +44,9 @@ BuildRequires:	ruby-pkg-config
 BuildRequires:	ruby-rcairo-devel
 BuildRequires:	ruby-rubygems
 BuildRequires:	sed >= 4.0
-BuildRequires:	vte0-devel >= 0.12.1
 #%{?with_gtk3:BuildRequires:	vte-devel >= 0.32.2}
+BuildRequires:	vte0-devel >= 0.12.1
 %{?with_vte3:BuildRequires:	vte2.90-devel >= 0.32.2}
-BuildRequires:	gtk-webkit-devel >= 1.8.1
-%{?with_gtk3:BuildRequires:	gtk-webkit3-devel >= 1.8.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -441,8 +441,8 @@ Requires:	ruby-gobject-introspection = %{version}-%{release}
 Requires:	ruby-gtk2 = %{version}-%{release}
 
 %description -n ruby-webkit-gtk2
-Ruby/WebKitGTK2 is a Ruby binding of WebKitGTK+ library (based on
-GTK+ 2.x).
+Ruby/WebKitGTK2 is a Ruby binding of WebKitGTK+ library (based on GTK+
+2.x).
 
 %description -n ruby-webkit-gtk2 -l pl.UTF-8
 Ruby/WebKitGTK2 to wiązanie języka Ruby do biblioteki WebKitGTK+
@@ -562,8 +562,8 @@ Requires:	ruby-gobject-introspection = %{version}-%{release}
 Requires:	ruby-gtk3 = %{version}-%{release}
 
 %description -n ruby-webkit-gtk
-Ruby/WebKitGTK is a Ruby binding of WebKitGTK+ library (based on
-GTK+ 3.x).
+Ruby/WebKitGTK is a Ruby binding of WebKitGTK+ library (based on GTK+
+3.x).
 
 %description -n ruby-webkit-gtk -l pl.UTF-8
 Ruby/WebKitGTK to wiązanie języka Ruby do biblioteki WebKitGTK+
