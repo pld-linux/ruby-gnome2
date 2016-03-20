@@ -995,10 +995,10 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/CheckButtonSample
 %{ruby_ridir}/Clutter
 %{ruby_ridir}/ClutterBlurEffectTest
-%{ruby_ridir}/ClutterBrightnessContrastEffectTest
+#%{ruby_ridir}/ClutterBrightnessContrastEffectTest
 %{ruby_ridir}/ClutterCanvasTest
 %{ruby_ridir}/ClutterColorTest
-%{ruby_ridir}/ClutterColorizeEffectTest
+#%{ruby_ridir}/ClutterColorizeEffectTest
 %{ruby_ridir}/ClutterDesaturateEffectTest
 %{ruby_ridir}/ClutterGStreamerTestUtils
 %{ruby_ridir}/ClutterGst
@@ -1048,7 +1048,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/Pong
 %{ruby_ridir}/Poppler
 %{ruby_ridir}/PopplerTestUtils
-%{ruby_ridir}/Print
+#%{ruby_ridir}/Print
 %{ruby_ridir}/ProgressBarSample
 %{ruby_ridir}/RSVG
 %{ruby_ridir}/RadioButtonSample
@@ -1078,7 +1078,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/WMHintsSample
 %{ruby_ridir}/WebKitGtk2
 %{ruby_ridir}/WebKitGtk2TestUtils
-%{ruby_ridir}/Window
+#%{ruby_ridir}/Window
 %{ruby_ridir}/atk
 %{ruby_ridir}/cairo-gobject
 %{ruby_ridir}/clutter
