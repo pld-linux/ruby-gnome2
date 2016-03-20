@@ -974,6 +974,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_rubylibdir}/webkit-gtk.rb
 %endif
 
+%if %{with doc}
 %files doc-html
 %defattr(644,root,root,755)
 %doc rdoc/*
@@ -1108,6 +1109,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_ridir}/vte3
 %endif
 %{ruby_ridir}/webkit-gtk
+%endif
 %endif
 
 %files examples
