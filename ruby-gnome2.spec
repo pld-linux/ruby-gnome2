@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	gtk3		# GTK+ 3.x based packages too
+%bcond_without	doc			# don't build ri/rdoc
 %bcond_with	gtksourceview3	# GKTSourceView 3.x binding
 %bcond_with	vte3		# VTE 3.x binding
 
@@ -650,12 +651,17 @@ ruby extconf.rb \
 	$comps
 %{__make}
 
-rdoc -o rdoc
-rdoc --ri -o ri
+%if %{with doc}
+exclude="-x \.(so|o|gif|png|jpg|ri|xpm|pdf|gresource)$ -x rdoc -x ri"
+rm -rf rdoc ri
+rdoc -o rdoc $exclude
+rdoc --ri -o ri $exclude
+rm ri/{cache.ri,created.rid}
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir},%{ruby_ridir}} \
+install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir}} \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %{__make} install \
@@ -731,6 +737,8 @@ cp -a webkit-gtk/sample \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webkit-gtk
 %endif
 
+%if %{with doc}
+install -d $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 %{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,REXML,RbConfig,Test*,page-*,rdoc,ri}
 %if %{without gtk3}
@@ -739,7 +747,7 @@ cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 %if %{without vte3}
 %{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/vte3
 %endif
-%{__rm} $RPM_BUILD_ROOT%{ruby_ridir}/{cache.ri,created.rid}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
