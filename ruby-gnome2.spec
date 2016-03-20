@@ -26,8 +26,8 @@ BuildRequires:	clutter-devel >= 1.12.0
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	glib2-devel >= 1:2.16.0
 BuildRequires:	gobject-introspection-devel >= 1.35.4
-BuildRequires:	gstreamer0.10-devel >= 0.10.35
-BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.35
+BuildRequires:	gstreamer-devel >= 0.10.35
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10.35
 BuildRequires:	gtk+2-devel >= 2:2.12.0
 %{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.4.2}
 BuildRequires:	gtk-webkit-devel >= 1.8.1
@@ -38,6 +38,7 @@ BuildRequires:	librsvg-devel >= 2.8
 BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	pkgconfig
 BuildRequires:	poppler-glib-devel >= 0.12.0
+BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel >= 1.9
 %{?with_gtk3:BuildRequires:	ruby-devel >= 1.9.2}
@@ -291,8 +292,8 @@ Clutter-GStreamer.
 Summary:	Ruby/GStreamer - Ruby binding of GStreamer
 Summary(pl.UTF-8):	Ruby/GStreamer - wiązanie języka Ruby do biblioteki GStreamer
 Group:		Development/Languages
-Requires:	gstreamer0.10 >= 0.10.35
-Requires:	gstreamer0.10-plugins-base >= 0.10.35
+Requires:	gstreamer >= 0.10.35
+Requires:	gstreamer-plugins-base >= 0.10.35
 Requires:	ruby-gdk_pixbuf2 = %{version}-%{release}
 Requires:	ruby-glib2 = %{version}-%{release}
 Requires:	ruby-pango = %{version}-%{release}
@@ -307,8 +308,8 @@ Ruby/GStreamer to wiązanie języka Ruby do biblioteki GStreamer.
 Summary:	Header files for Ruby/GStreamer library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GStreamer
 Group:		Development/Libraries
-Requires:	gstreamer0.10-devel >= 0.10.35
-Requires:	gstreamer0.10-plugins-base-devel >= 0.10.35
+Requires:	gstreamer-devel >= 0.10.35
+Requires:	gstreamer-plugins-base-devel >= 0.10.35
 Requires:	ruby-gdk_pixbuf2-devel = %{version}-%{release}
 Requires:	ruby-glib2-devel = %{version}-%{release}
 Requires:	ruby-pango-devel = %{version}-%{release}
