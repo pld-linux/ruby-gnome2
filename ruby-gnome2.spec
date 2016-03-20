@@ -21,19 +21,13 @@ URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	atk-devel >= 1:1.12.0
 BuildRequires:	cairo-devel >= 1.10.0
 BuildRequires:	cairo-gobject-devel >= 1.12.10
-BuildRequires:	clutter-devel >= 1.12.0
-%{?with_gtk3:BuildRequires:	clutter-gtk-devel >= 1.2.0}
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	glib2-devel >= 1:2.16.0
 BuildRequires:	gobject-introspection-devel >= 1.35.4
 BuildRequires:	gstreamer-devel >= 0.10.35
-BuildRequires:	gstreamer-plugins-base-devel >= 0.10.35
 BuildRequires:	gtk+2-devel >= 2:2.12.0
 %{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.4.2}
-BuildRequires:	gtk-webkit-devel >= 1.8.1
-%{?with_gtk3:BuildRequires:	gtk-webkit3-devel >= 1.8.1}
 BuildRequires:	gtksourceview2-devel >= 2
-%{?with_gtk3:BuildRequires:	gtksourceview3-devel >= 3.4.2}
 BuildRequires:	librsvg-devel >= 2.8
 BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	pkgconfig
@@ -46,7 +40,6 @@ BuildRequires:	ruby-pkg-config
 BuildRequires:	ruby-rcairo-devel
 BuildRequires:	ruby-rubygems
 BuildRequires:	sed >= 4.0
-#%{?with_gtk3:BuildRequires:	vte-devel >= 0.32.2}
 BuildRequires:	vte0-devel >= 0.12.1
 %{?with_vte3:BuildRequires:	vte2.90-devel >= 0.32.2}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
