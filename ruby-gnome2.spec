@@ -740,7 +740,7 @@ cp -a webkit-gtk/sample \
 %if %{with doc}
 install -d $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,REXML,RbConfig,Test*,page-*,rdoc,ri}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,REXML,RbConfig,Test*,page-*}
 %if %{without gtk3}
 %{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{ClutterGtk*,Goo*,WebKitGtk,WebKitGtkTestUtils,clutter-gtk,gdk3,gtk3,gtksourceview3,webkit-gtk}
 %endif
