@@ -1,0 +1,10 @@
+--- ruby-gnome2-all-3.0.7/poppler/ext/poppler/rbpoppler.c~	2013-12-28 22:39:04.000000000 +0900
++++ ruby-gnome2-all-3.0.7/poppler/ext/poppler/rbpoppler.c	2016-03-28 23:46:43.495559476 +0900
+@@ -56,7 +56,6 @@
+                                 INT2FIX(POPPLER_MICRO_VERSION)));
+ 
+     G_DEF_CLASS(POPPLER_TYPE_ERROR, "Error", RG_TARGET_NAMESPACE);
+-    G_DEF_CLASS(POPPLER_TYPE_ORIENTATION, "Orientation", RG_TARGET_NAMESPACE);
+ 
+     G_DEF_CLASS(POPPLER_TYPE_PAGE_TRANSITION_TYPE,
+                 "PageTransitionType", RG_TARGET_NAMESPACE);
