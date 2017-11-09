@@ -612,9 +612,9 @@ cp -p gtk3/README.md README.gtk3.md
 
 comps="
 	atk
+	cairo-gobject
 	clutter
 	clutter-gstreamer
-	cairo-gobject
 	gdk_pixbuf2
 	gio2
 	glib2
@@ -628,6 +628,7 @@ comps="
 	vte
 	webkit-gtk2
 %if %{with gtk3}
+	clutter-gdk
 	clutter-gtk
 	gdk3
 	gtk3
@@ -636,6 +637,7 @@ comps="
 	vte3
 %endif
 	webkit-gtk
+	webkit2-gtk
 %endif
 "
 
