@@ -1,0 +1,561 @@
+diff -ur ruby-gnome2-all-3.1.9/atk/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/atk/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/atk/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/atk/dependency-check/Rakefile	2017-11-11 20:51:12.317214391 +0100
+@@ -15,30 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("atk")
+-      unless NativePackageInstaller.install(:altlinux => "libatk-devel",
+-                                            :debian => "libatk1.0-dev",
+-                                            :redhat => "atk-devel",
+-                                            :arch => "atk",
+-                                            :homebrew => "atk",
+-                                            :macports => "atk",
+-                                            :msys2 => "atk")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/clutter/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/clutter/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/clutter/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/clutter/dependency-check/Rakefile	2017-11-11 20:51:47.780886888 +0100
+@@ -15,26 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("clutter-1.0")
+-      unless NativePackageInstaller.install(:debian => "libclutter-1.0-dev",
+-                                            :homebrew => "clutter",
+-                                            :msys2 => "clutter")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/clutter-gstreamer/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/clutter-gstreamer/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/clutter-gstreamer/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/clutter-gstreamer/dependency-check/Rakefile	2017-11-11 20:52:24.494453464 +0100
+@@ -15,26 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("clutter-gst-3.0")
+-      unless NativePackageInstaller.install(:debian => "libclutter-gst-3.0-dev",
+-                                            :homebrew => "clutter-gst",
+-                                            :msys2 => "clutter-gst")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/clutter-gtk/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/clutter-gtk/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/clutter-gtk/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/clutter-gtk/dependency-check/Rakefile	2017-11-11 20:52:55.645156402 +0100
+@@ -15,26 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("clutter-gtk-1.0")
+-      unless NativePackageInstaller.install(:debian => "libclutter-gtk-1.0-dev",
+-                                            :homebrew => "clutter-gtk",
+-                                            :msys2 => "clutter-gtk")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/gdk3/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/gdk3/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/gdk3/dependency-check/Rakefile	2017-07-15 05:39:46.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/gdk3/dependency-check/Rakefile	2017-11-11 20:53:26.112583699 +0100
+@@ -15,29 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("gdk-3.0")
+-      unless NativePackageInstaller.install(:altlinux => "libgtk+3-devel",
+-                                            :debian => "libgtk-3-dev",
+-                                            :redhat => "gtk3-devel",
+-                                            :homebrew => "gtk+3",
+-                                            :macports => "gtk3",
+-                                            :msys2 => "gtk3")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/gdk_pixbuf2/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/gdk_pixbuf2/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/gdk_pixbuf2/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/gdk_pixbuf2/dependency-check/Rakefile	2017-11-11 20:54:15.561741491 +0100
+@@ -15,31 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("gdk-pixbuf-2.0")
+-      unless NativePackageInstaller.install(:altlinux => "gdk-pixbuf-devel",
+-                                            :debian => "libgdk-pixbuf2.0-dev",
+-                                            :redhat => "gtk2-devel",
+-                                            :fedora => "gdk-pixbuf2-devel",
+-                                            :arch => "gdk-pixbuf2",
+-                                            :homebrew => "gdk-pixbuf",
+-                                            :macports => "gdk-pixbuf2",
+-                                            :msys2 => "gdk-pixbuf2")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/glib2/lib/mkmf-gnome2.rb ruby-gnome2-all-3.1.9-no-native/glib2/lib/mkmf-gnome2.rb
+--- ruby-gnome2-all-3.1.9/glib2/lib/mkmf-gnome2.rb	2017-11-11 21:00:39.250594541 +0100
++++ ruby-gnome2-all-3.1.9-no-native/glib2/lib/mkmf-gnome2.rb	2017-11-11 20:56:16.744017411 +0100
+@@ -13,7 +13,6 @@
+ require 'mkmf'
+ require 'pkg-config'
+ require 'glib-mkenums'
+-require "native-package-installer"
+ 
+ $CFLAGS += " #{ENV['CFLAGS']}" if ENV['CFLAGS']
+ 
+@@ -147,18 +146,8 @@
+   end
+ end
+ 
+-def setup_homebrew_libffi
+-  platform = NativePackageInstaller::Platform.detect
+-  return unless platform.is_a?(NativePackageInstaller::Platform::Homebrew)
+-
+-  libffi_prefix = `brew --prefix libffi`.chomp
+-  PKGConfig.add_path("#{libffi_prefix}/lib/pkgconfig")
+-end
+-
+ #add_depend_package("glib2", "ext/glib2", "/...../ruby-gnome2")
+ def add_depend_package(target_name, target_srcdir, top_srcdir, options={})
+-  setup_homebrew_libffi if target_name == "gobject-introspection"
+-
+   gem_spec = find_gem_spec(target_name)
+   if gem_spec
+     target_source_dir = File.join(gem_spec.full_gem_path, "ext/#{target_name}")
+@@ -472,24 +461,14 @@
+   PKGConfig.have_package('cairo') and have_header('rb_cairo.h')
+ end
+ 
+-def install_missing_native_package(native_package_info)
+-  NativePackageInstaller.install(native_package_info)
+-end
+-
+ def required_pkg_config_package(package_info, native_package_info=nil)
+   if package_info.is_a?(Array)
+     required_package_info = package_info
+   else
+     required_package_info = [package_info]
+   end
+-  if required_package_info.include?("gobject-introspection-1.0")
+-    setup_homebrew_libffi
+-  end
+   return true if PKGConfig.have_package(*required_package_info)
+ 
+-  native_package_info ||= {}
+-  return false unless install_missing_native_package(native_package_info)
+-
+   PKGConfig.have_package(*required_package_info)
+ end
+ 
+diff -ur ruby-gnome2-all-3.1.9/glib2/Rakefile ruby-gnome2-all-3.1.9-no-native/glib2/Rakefile
+--- ruby-gnome2-all-3.1.9/glib2/Rakefile	2017-10-16 02:10:30.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/glib2/Rakefile	2017-11-11 20:56:34.721561590 +0100
+@@ -38,7 +38,6 @@
+   package.description = "Ruby/GLib2 is a Ruby binding of GLib-2.x."
+   package.dependency.gem.runtime = [
+     ["pkg-config", ">= 1.2.2"],
+-    ["native-package-installer", ">= 1.0.3"],
+   ]
+   package.dependency.gem.development = [["test-unit", ">= 2"]]
+   package.windows.packages = []
+diff -ur ruby-gnome2-all-3.1.9/gnumeric/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/gnumeric/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/gnumeric/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/gnumeric/dependency-check/Rakefile	2017-11-11 20:56:58.862297606 +0100
+@@ -15,22 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless NativePackageInstaller.install(:debian => "gir1.2-gnumeric")
+-      exit(false)
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/goffice/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/goffice/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/goffice/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/goffice/dependency-check/Rakefile	2017-11-11 20:57:18.960070919 +0100
+@@ -31,37 +31,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("libgoffice-0.10")
+-      goffice010_spec = {
+-        :debian => "libgoffice-0.10-dev",
+-        :homebrew => "goffice",
+-      }
+-      unless NativePackageInstaller.install(goffice010_spec)
+-        unless PKGConfig.check_version?("libgoffice-0.8")
+-          goffice08_spec = {
+-            :debian => "libgoffice-0.8-dev",
+-            :redhat => "goffice08-devel",
+-            :homebrew => "goffice",
+-          }
+-          unless NativePackageInstaller.install(goffice08_spec)
+-            exit(false)
+-          end
+-        end
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/gsf/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/gsf/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/gsf/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/gsf/dependency-check/Rakefile	2017-11-11 20:57:35.596221440 +0100
+@@ -15,26 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("libgsf-1")
+-      unless NativePackageInstaller.install(:debian => "libgsf-1-dev",
+-                                            :homebrew => "libgsf",
+-                                            :msys2 => "libgsf")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/gtksourceview3/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/gtksourceview3/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/gtksourceview3/dependency-check/Rakefile	2017-07-15 05:39:46.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/gtksourceview3/dependency-check/Rakefile	2017-11-11 20:58:27.945184500 +0100
+@@ -15,29 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("gtksourceview-3.0")
+-      unless NativePackageInstaller.install(:altlinux => "libgtksourceview3-devel",
+-                                            :debian => "libgtksourceview-3.0-dev",
+-                                            :redhat => "gtksourceview3-devel",
+-                                            :homebrew => "gtksourceview3",
+-                                            :macports => "gtksourceview3",
+-                                            :msys2 => "gtksourceview3")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/poppler/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/poppler/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/poppler/dependency-check/Rakefile	2017-10-15 15:51:26.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/poppler/dependency-check/Rakefile	2017-11-11 20:58:49.923301917 +0100
+@@ -15,30 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("poppler", 0, 12, 0)
+-      unless NativePackageInstaller.install(:alt_linux => "libpoppler-glib-devel",
+-                                            :debian => "libpoppler-glib-dev",
+-                                            :redhat => "poppler-glib-devel",
+-                                            :arch_linux => "poppler",
+-                                            :homebrew => "poppler",
+-                                            :macports => "poppler",
+-                                            :msys2 => "poppler")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/rsvg2/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/rsvg2/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/rsvg2/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/rsvg2/dependency-check/Rakefile	2017-11-11 20:59:23.918285867 +0100
+@@ -15,30 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("librsvg-2.0")
+-      unless NativePackageInstaller.install(:altlinux => "librsvg-devel",
+-                                            :debian => "librsvg2-dev",
+-                                            :redhat => "librsvg2-devel",
+-                                            :arch => "librsvg",
+-                                            :homebrew => "librsvg",
+-                                            :macports => "librsvg",
+-                                            :msys2 => "librsvg")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/vte3/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/vte3/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/vte3/dependency-check/Rakefile	2017-04-25 15:01:26.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/vte3/dependency-check/Rakefile	2017-11-11 20:59:54.182701045 +0100
+@@ -15,28 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-case RUBY_PLATFORM
+-when /mingw|mswin/
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("vte-2.91")
+-      unless NativePackageInstaller.install(:altlinux => "libvte3-devel",
+-                                            :debian => "libvte-2.91-dev",
+-                                            :redhat => "vte3-devel",
+-                                            :homebrew => "vte3")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/webkit2-gtk/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/webkit2-gtk/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/webkit2-gtk/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/webkit2-gtk/dependency-check/Rakefile	2017-11-11 21:00:10.379849328 +0100
+@@ -15,25 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("webkit2gtk-4.0")
+-      unless NativePackageInstaller.install(:debian => "libwebkit2gtk-4.0-dev",
+-                                            :homebrew => "webkitgtk")
+-        exit(false)
+-      end
+-    end
+-  end
+-end
+diff -ur ruby-gnome2-all-3.1.9/webkit-gtk/dependency-check/Rakefile ruby-gnome2-all-3.1.9-no-native/webkit-gtk/dependency-check/Rakefile
+--- ruby-gnome2-all-3.1.9/webkit-gtk/dependency-check/Rakefile	2017-05-29 14:57:02.000000000 +0200
++++ ruby-gnome2-all-3.1.9-no-native/webkit-gtk/dependency-check/Rakefile	2017-11-11 21:00:25.083577525 +0100
+@@ -15,25 +15,8 @@
+ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+ require "pkg-config"
+-require "native-package-installer"
+ 
+-if File.exist?(File.join(__dir__, "..", "vendor"))
+-  task :default => "nothing"
+-else
+-  task :default => "dependency:check"
+-end
++task :default => "nothing"
+ 
+ task :nothing do
+ end
+-
+-namespace :dependency do
+-  desc "Check dependency"
+-  task :check do
+-    unless PKGConfig.check_version?("webkitgtk-3.0")
+-      unless NativePackageInstaller.install(:debian => "libwebkitgtk-3.0-dev",
+-                                            :msys2 => "webkitgtk3")
+-        exit(false)
+-      end
+-    end
+-  end
+-end

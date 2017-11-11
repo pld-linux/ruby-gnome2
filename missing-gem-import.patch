@@ -1,0 +1,10 @@
+--- ruby-gnome2-all-3.1.9/glib2/lib/mkmf-gnome2.rb~	2017-11-11 21:02:01.000000000 +0100
++++ ruby-gnome2-all-3.1.9/glib2/lib/mkmf-gnome2.rb	2017-11-11 21:09:44.142428283 +0100
+@@ -13,6 +13,7 @@
+ require 'mkmf'
+ require 'pkg-config'
+ require 'glib-mkenums'
++require 'rubygems'
+ 
+ $CFLAGS += " #{ENV['CFLAGS']}" if ENV['CFLAGS']
+ 
