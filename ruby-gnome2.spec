@@ -13,7 +13,7 @@ Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
 Name:		ruby-gnome2
 Version:	3.1.9
-Release:	1
+Release:	2
 License:	LGPL v2.1
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
@@ -221,7 +221,6 @@ Summary:	Header files for Ruby/GTK2 library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GTK2
 Group:		Development/Libraries
 Requires:	gtk+2-devel >= 2:2.12.0
-Requires:	ruby-atk-devel = %{version}-%{release}
 Requires:	ruby-glib2-devel = %{version}-%{release}
 Requires:	ruby-gtk2 = %{version}-%{release}
 Requires:	ruby-pango-devel = %{version}-%{release}
@@ -430,7 +429,6 @@ Summary:	Header files for Ruby/GTK3 library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GTK3
 Group:		Development/Libraries
 Requires:	gtk+3-devel >= 3.4.2
-Requires:	ruby-atk-devel = %{version}-%{release}
 Requires:	ruby-devel >= 1.9.2
 Requires:	ruby-glib2-devel = %{version}-%{release}
 Requires:	ruby-gtk3 = %{version}-%{release}
