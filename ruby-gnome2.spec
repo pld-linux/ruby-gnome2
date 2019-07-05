@@ -1,54 +1,42 @@
 # TODO: update ri subpackage files
 #
 # Conditional build:
+%bcond_without	doc		# don't build ri/rdoc
 %bcond_without	gtk3		# GTK+ 3.x based packages too
-%bcond_without	doc			# don't build ri/rdoc
-%bcond_without	gtksourceview3	# GKTSourceView 3.x binding
-%bcond_without	vte3		# VTE 3.x binding
 
-%if %{without gtk3}
-%undefine	with_vte3
-%endif
 Summary:	GNOME 2 libraries for Ruby
 Summary(pl.UTF-8):	Biblioteki GNOME 2 dla języka Ruby
 Name:		ruby-gnome2
-Version:	3.2.5
+Version:	3.3.6
 Release:	1
 License:	LGPL v2.1
 Group:		Development/Languages
 Source0:	http://downloads.sourceforge.net/ruby-gnome2/%{name}-all-%{version}.tar.gz
-# Source0-md5:	2b163e85b4cb0f92ea396a6d0f824eb1
+# Source0-md5:	eae2a41d1df634f51d9b0387f07b93a2
 Patch0:		no-native-package-install.patch
 Patch1:		missing-gem-import.patch
 URL:		http://ruby-gnome2.sourceforge.jp/
 BuildRequires:	atk-devel >= 1:1.12.0
 BuildRequires:	cairo-devel >= 1.10.0
 BuildRequires:	cairo-gobject-devel >= 1.12.10
-BuildRequires:	clutter-devel
-BuildRequires:	clutter-gst-devel
-BuildRequires:	clutter-gtk-devel
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	glib2-devel >= 1:2.16.0
 BuildRequires:	gobject-introspection-devel >= 1.35.4
-BuildRequires:	gstreamer-devel >= 0.10.35
+BuildRequires:	gstreamer-devel >= 1.0.0
 BuildRequires:	gtk+2-devel >= 2:2.12.0
 %{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.4.2}
 BuildRequires:	gtksourceview2-devel >= 2
-BuildRequires:	libgsf-devel
-BuildRequires:	librsvg-devel >= 2.8
 BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	pkgconfig
-BuildRequires:	poppler-glib-devel >= 0.12.0
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-devel >= 1.9
 %{?with_gtk3:BuildRequires:	ruby-devel >= 1.9.2}
-BuildRequires:	ruby-pkg-config
-BuildRequires:	ruby-rcairo-devel
+BuildRequires:	ruby-pkg-config >= 1.3.5
+BuildRequires:	ruby-rcairo-devel >= 1.16.2
 BuildRequires:	ruby-rubygems
 BuildRequires:	sed >= 4.0
 BuildRequires:	vte0-devel >= 0.12.1
-%{?with_vte3:BuildRequires:	vte2.90-devel >= 0.32.2}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -62,7 +50,7 @@ Summary:	Ruby/Glib2 - Ruby binding of GLib 2.x
 Summary(pl.UTF-8):	Ruby/Glib2 - wiązanie języka Ruby do biblioteki GLib 2.x
 Group:		Development/Languages
 Requires:	glib2 >= 1:2.16.0
-Requires:	ruby >= 1.9
+Requires:	ruby >= 1.9.2
 Obsoletes:	ruby-gnome2
 Obsoletes:	ruby-goocanvas < 2.2.1
 
@@ -106,6 +94,7 @@ GObject Introspection.
 Summary:	Header files for Ruby/GObjectIntrospection library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GObjectIntrospection
 Group:		Development/Languages
+Requires:	gobject-introspection-devel >= 1.35.4
 Requires:	ruby-glib2-devel = %{version}-%{release}
 Requires:	ruby-gobject-introspection = %{version}-%{release}
 
@@ -148,7 +137,7 @@ Summary(pl.UTF-8):	Ruby/CairoGObject - wiązania języka Ruby do biblioteki cair
 Group:		Development/Languages
 Requires:	cairo-gobject >= 1.12.10
 Requires:	ruby-glib2 = %{version}-%{release}
-Requires:	ruby-rcairo
+Requires:	ruby-rcairo >= 1.16.2
 
 %description -n ruby-cairo-gobject
 Ruby/CairoGObject is a Ruby binding of cairo-gobject library.
@@ -160,10 +149,9 @@ Ruby/CairoGObject to wiązanie języka Ruby do biblioteki cairo-gobject.
 Summary:	Ruby/Pango - Ruby binding of pango 1.x
 Summary(pl.UTF-8):	Ruby/Pango - wiązanie języka Ruby do biblioteki pango 1.x
 Group:		Development/Languages
-Requires:	cairo >= 1.10.0
 Requires:	pango >= 1:1.14.0
-Requires:	ruby-glib2 = %{version}-%{release}
-Requires:	ruby-rcairo
+Requires:	ruby-cairo-gobject = %{version}-%{release}
+Requires:	ruby-gobject-introspection = %{version}-%{release}
 
 %description -n ruby-pango
 Ruby/Pango is a Ruby binding of pango 1.x.
@@ -175,9 +163,9 @@ Ruby/Pango to wiązanie języka Ruby do biblioteki pango 1.x.
 Summary:	Header files for Ruby/Pango library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/Pango
 Group:		Development/Libraries
-Requires:	cairo-devel >= 1.10.0
 Requires:	pango-devel >= 1:1.14.0
 Requires:	ruby-glib2-devel = %{version}-%{release}
+Requires:	ruby-gobject-introspection-devel = %{version}-%{release}
 Requires:	ruby-pango = %{version}-%{release}
 
 %description -n ruby-pango-devel
@@ -207,7 +195,6 @@ Group:		Development/Languages
 Requires:	gtk+2 >= 2:2.12.0
 Requires:	ruby-atk = %{version}-%{release}
 Requires:	ruby-gdk_pixbuf2 = %{version}-%{release}
-Requires:	ruby-glib2 = %{version}-%{release}
 Requires:	ruby-pango = %{version}-%{release}
 
 %description -n ruby-gtk2
@@ -223,7 +210,6 @@ Group:		Development/Libraries
 Requires:	gtk+2-devel >= 2:2.12.0
 Requires:	ruby-glib2-devel = %{version}-%{release}
 Requires:	ruby-gtk2 = %{version}-%{release}
-Requires:	ruby-pango-devel = %{version}-%{release}
 
 %description -n ruby-gtk2-devel
 Header files for Ruby/GTK2 library.
@@ -238,6 +224,7 @@ Group:		Development/Languages
 Requires:	clutter >= 1.16.4
 Requires:	ruby-cairo-gobject = %{version}-%{release}
 Requires:	ruby-gobject-introspection = %{version}-%{release}
+Requires:	ruby-pango = %{version}-%{release}
 
 %description -n ruby-clutter
 Ruby/Clutter is a Ruby binding of Clutter library.
@@ -249,8 +236,9 @@ Ruby/Clutter to wiązanie języka Ruby do biblioteki Clutter.
 Summary:	Ruby/ClutterGStreamer - Ruby binding of Clutter-GStreamer library
 Summary(pl.UTF-8):	Ruby/ClutterGStreamer - wiązanie języka Ruby do biblioteki Clutter-GStreamer
 Group:		Development/Languages
-Requires:	clutter-gst >= 2.0.10
+Requires:	clutter-gst >= 3.0
 Requires:	ruby-clutter = %{version}-%{release}
+Requires:	ruby-gdk_pixbuf2 = %{version}-%{release}
 Requires:	ruby-gstreamer = %{version}-%{release}
 
 %description -n ruby-clutter-gstreamer
@@ -264,11 +252,9 @@ Clutter-GStreamer.
 Summary:	Ruby/GStreamer - Ruby binding of GStreamer
 Summary(pl.UTF-8):	Ruby/GStreamer - wiązanie języka Ruby do biblioteki GStreamer
 Group:		Development/Languages
-Requires:	gstreamer >= 0.10.35
-Requires:	gstreamer-plugins-base >= 0.10.35
-Requires:	ruby-gdk_pixbuf2 = %{version}-%{release}
-Requires:	ruby-glib2 = %{version}-%{release}
-Requires:	ruby-pango = %{version}-%{release}
+Requires:	gstreamer >= 1.0.0
+Requires:	gstreamer-plugins-base >= 1.0.0
+Requires:	ruby-gobject-introspection = %{version}-%{release}
 
 %description -n ruby-gstreamer
 Ruby/GStreamer is a Ruby binding of GStreamer.
@@ -280,8 +266,8 @@ Ruby/GStreamer to wiązanie języka Ruby do biblioteki GStreamer.
 Summary:	Header files for Ruby/GStreamer library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/GStreamer
 Group:		Development/Libraries
-Requires:	gstreamer-devel >= 0.10.35
-Requires:	gstreamer-plugins-base-devel >= 0.10.35
+Requires:	gstreamer-devel >= 1.0.0
+Requires:	gstreamer-plugins-base-devel >= 1.0.0
 Requires:	ruby-glib2-devel = %{version}-%{release}
 Requires:	ruby-pango-devel = %{version}-%{release}
 
@@ -324,9 +310,9 @@ Summary:	Ruby/Poppler - Ruby binding of poppler-glib
 Summary(pl.UTF-8):	Ruby/Poppler - wiązanie języka Ruby do biblioteki poppler-glib
 Group:		Development/Languages
 Requires:	poppler-glib >= 0.12.0
-Requires:	ruby-gdk_pixbuf2 = %{version}-%{release}
-Requires:	ruby-glib2 = %{version}-%{release}
-Requires:	ruby-gtk2 = %{version}-%{release}
+Requires:	ruby-cairo-gobject = %{version}-%{release}
+Requires:	ruby-gio2 = %{version}-%{release}
+Obsoletes:	ruby-poppler-devel
 
 %description -n ruby-poppler
 Ruby/Poppler is a Ruby binding of poppler-glib.
@@ -334,28 +320,13 @@ Ruby/Poppler is a Ruby binding of poppler-glib.
 %description -n ruby-poppler -l pl.UTF-8
 Ruby/Poppler to wiązanie języka Ruby do biblioteki poppler-glib.
 
-%package -n ruby-poppler-devel
-Summary:	Header files for Ruby/Poppler library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ruby/Poppler
-Group:		Development/Libraries
-Requires:	poppler-glib-devel >= 0.12.0
-Requires:	ruby-glib2-devel = %{version}-%{release}
-Requires:	ruby-gtk2-devel = %{version}-%{release}
-
-%description -n ruby-poppler-devel
-Header files for Ruby/Poppler library.
-
-%description -n ruby-poppler-devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki Ruby/Poppler.
-
 %package -n ruby-rsvg2
 Summary:	Ruby/RSVG - Ruby binding of librsvg
 Summary(pl.UTF-8):	Ruby/RSVG - wiązanie języka Ruby do biblioteki librsvg
 Group:		Development/Languages
 Requires:	librsvg >= 2.8
+Requires:	ruby-cairo-gobject = %{version}-%{release}
 Requires:	ruby-gdk_pixbuf2 = %{version}-%{release}
-Requires:	ruby-glib2 = %{version}-%{release}
-Requires:	ruby-rcairo
 Obsoletes:	ruby-rsvg2-devel
 
 %description -n ruby-rsvg2
@@ -407,15 +378,41 @@ Ruby/WebKitGTK2 is a Ruby binding of WebKitGTK+ library (based on GTK+
 Ruby/WebKitGTK2 to wiązanie języka Ruby do biblioteki WebKitGTK+
 (opartej na GTK+ 2.x).
 
+%package -n ruby-gsf
+Summary:	Ruby/GSF - Ruby binding of GSF
+Summary(pl.UTF-8):	Ruby/GSF - wiązanie języka Ruby do biblioteki GSF
+Group:		Development/Languages
+Requires:	libgsf >= 1.14.0
+Requires:	ruby-gio2 = %{version}-%{release}
+
+%description -n ruby-gsf
+Ruby/GSF is a Ruby binding of GSF.
+
+%description -n ruby-gsf -l pl.UTF-8
+Ruby/GSF to wiązanie języka Ruby do biblioteki GSF.
+
+%package -n ruby-gegl
+Summary:	Ruby/GEGL - Ruby binding of GEGL
+Summary(pl.UTF-8):	Ruby/GEGL - wiązanie języka Ruby do biblioteki GEGL
+Group:		Development/Languages
+Requires:	ruby-gio2 = %{version}-%{release}
+Requires:	gegl >= 0.4
+
+%description -n ruby-gegl
+Ruby/GEGL is a Ruby binding of GEGL.
+
+%description -n ruby-gegl -l pl.UTF-8
+Ruby/GEGL to wiązanie języka Ruby do biblioteki GEGL.
+
 %package -n ruby-gtk3
 Summary:	Ruby/GTK3 - Ruby binding of GTK+ 3.x
 Summary(pl.UTF-8):	Ruby/GTK3 - wiązanie języka Ruby do bibliotek GTK+ 3.x
 Group:		Development/Languages
 Requires:	gtk+3 >= 3.4.2
-Requires:	ruby >= 1.9.2
 Requires:	ruby-atk = %{version}-%{release}
+Requires:	ruby-cairo-gobject = %{version}-%{release}
 Requires:	ruby-gdk_pixbuf2 = %{version}-%{release}
-Requires:	ruby-glib2 = %{version}-%{release}
+Requires:	ruby-gio2 = %{version}-%{release}
 Requires:	ruby-pango = %{version}-%{release}
 
 %description -n ruby-gtk3
@@ -440,12 +437,27 @@ Header files for Ruby/GTK3 library.
 %description -n ruby-gtk3-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Ruby/GTK3.
 
+%package -n ruby-clutter-gdk
+Summary:	Ruby/ClutterGDK - Ruby binding of Clutter-GDK library
+Summary(pl.UTF-8):	Ruby/ClutterGDK - wiązanie języka Ruby do biblioteki Clutter-GDK
+Group:		Development/Languages
+Requires:	clutter >= 1.14.4
+Requires:	ruby-clutter = %{version}-%{release}
+Requires:	ruby-gtk3 = %{version}-%{release}
+
+%description -n ruby-clutter-gdk
+Ruby/ClutterGDK is a Ruby binding of Clutter-GDK library.
+
+%description -n ruby-clutter-gdk -l pl.UTF-8
+Ruby/ClutterGDK to wiązanie języka Ruby do biblioteki Clutter-GDK.
+
 %package -n ruby-clutter-gtk
 Summary:	Ruby/ClutterGTK - Ruby binding of Clutter-GTK library
 Summary(pl.UTF-8):	Ruby/ClutterGTK - wiązanie języka Ruby do biblioteki Clutter-GTK
 Group:		Development/Languages
 Requires:	clutter-gtk >= 1.4.4
 Requires:	ruby-clutter = %{version}-%{release}
+Requires:	ruby-clutter-gdk = %{version}-%{release}
 Requires:	ruby-gtk3 = %{version}-%{release}
 
 %description -n ruby-clutter-gtk
@@ -469,12 +481,26 @@ Ruby/GtkSourceView3 is a Ruby binding of gtksourceview 3.x.
 Ruby/GtkSourceView3 to wiązanie języka Ruby do biblioteki
 gtksourceview 3.x.
 
+%package -n ruby-gtksourceview4
+Summary:	Ruby/GtkSourceView4 - Ruby binding of gtksourceview 4.x
+Summary(pl.UTF-8):	Ruby/GtkSourceView4 - wiązanie języka Ruby do biblioteki gtksourceview 4.x
+Group:		Development/Languages
+Requires:	gtksourceview4 >= 4.0.0
+Requires:	ruby-gtk3 = %{version}-%{release}
+
+%description -n ruby-gtksourceview4
+Ruby/GtkSourceView4 is a Ruby binding of gtksourceview 4.x.
+
+%description -n ruby-gtksourceview4 -l pl.UTF-8
+Ruby/GtkSourceView4 to wiązanie języka Ruby do biblioteki
+gtksourceview 4.x.
+
 %package -n ruby-vte3
 Summary:	Ruby/VTE3 - Ruby binding of VTE on GTK+ 3.x
 Summary(pl.UTF-8):	Ruby/VTE3 - wiązanie języka Ruby do biblioteki VTE na GTK+ 3.x
 Group:		Development/Languages
 Requires:	ruby-gtk3 = %{version}-%{release}
-Requires:	vte >= 0.32.2
+Requires:	vte >= 0.37.0
 Obsoletes:	ruby-vte3-devel
 
 %description -n ruby-vte3
@@ -489,7 +515,6 @@ Summary:	Ruby/WebKitGTK - Ruby binding of WebKitGTK+ (GTK+ 3.x based) library
 Summary(pl.UTF-8):	Ruby/WebKitGTK - wiązanie języka Ruby do biblioteki WebKitGTK+ (dla GTK+ 3.x)
 Group:		Development/Languages
 Requires:	gtk-webkit3 >= 2.2.3
-Requires:	ruby-gobject-introspection = %{version}-%{release}
 Requires:	ruby-gtk3 = %{version}-%{release}
 
 %description -n ruby-webkit-gtk
@@ -499,6 +524,48 @@ Ruby/WebKitGTK is a Ruby binding of WebKitGTK+ library (based on GTK+
 %description -n ruby-webkit-gtk -l pl.UTF-8
 Ruby/WebKitGTK to wiązanie języka Ruby do biblioteki WebKitGTK+
 (opartej na GTK+ 3.x).
+
+%package -n ruby-webkit2-gtk
+Summary:	Ruby/WebKit2GTK - Ruby binding of WebKit2GTK+ (GTK+ 3.x based) library
+Summary(pl.UTF-8):	Ruby/WebKit2GTK - wiązanie języka Ruby do biblioteki WebKit2GTK+ (dla GTK+ 3.x)
+Group:		Development/Languages
+Requires:	gtk-webkit4 >= 2.2.3
+Requires:	ruby-gtk3 = %{version}-%{release}
+
+%description -n ruby-webkit2-gtk
+Ruby/WebKit2GTK is a Ruby binding of WebKit2GTK+ library (based on
+GTK+ 3.x).
+
+%description -n ruby-webkit2-gtk -l pl.UTF-8
+Ruby/WebKit2GTK to wiązanie języka Ruby do biblioteki WebKit2GTK+
+(opartej na GTK+ 3.x).
+
+%package -n ruby-goffice
+Summary:	Ruby/GOFFICE - Ruby binding of GOFFICE
+Summary(pl.UTF-8):	Ruby/GOFFICE - wiązanie języka Ruby do biblioteki GOFFICE
+Group:		Development/Languages
+Requires:	libgoffice >= 0.10
+Requires:	ruby-gsf = %{version}-%{release}
+Requires:	ruby-gtk3 = %{version}-%{release}
+
+%description -n ruby-goffice
+Ruby/GOFFICE is a Ruby binding of GOFFICE.
+
+%description -n ruby-goffice -l pl.UTF-8
+Ruby/GOFFICE to wiązanie języka Ruby do biblioteki GOFFICE.
+
+%package -n ruby-gnumeric
+Summary:	Ruby/Gnumeric - Ruby binding of Gnumeric
+Summary(pl.UTF-8):	Ruby/Gnumeric - wiązanie języka Ruby do Gnumerica
+Group:		Development/Languages
+Requires:	libspreadsheet >= 1.12
+Requires:	ruby-goffice = %{version}-%{release}
+
+%description -n ruby-gnumeric
+Ruby/Gnumeric is a Ruby binding of Gnumeric.
+
+%description -n ruby-gnumeric -l pl.UTF-8
+Ruby/Gnumeric to wiązanie języka Ruby do Gnumerica.
 
 %package doc-ri
 Summary:	Ruby-GNOME2 ri documentation
@@ -554,9 +621,11 @@ comps="
 	clutter
 	clutter-gstreamer
 	gdk_pixbuf2
+	gegl
 	gio2
 	glib2
 	gobject-introspection
+	gsf
 	gstreamer
 	gtk2
 	gtksourceview2
@@ -569,11 +638,12 @@ comps="
 	clutter-gdk
 	clutter-gtk
 	gdk3
+	gnumeric
+	goffice
 	gtk3
 	gtksourceview3
-%if %{with vte3}
+	gtksourceview4
 	vte3
-%endif
 	webkit-gtk
 	webkit2-gtk
 %endif
@@ -590,7 +660,7 @@ exclude="-x \.(so|o|gif|png|jpg|ri|xpm|pdf|gresource)$ -x rdoc -x ri -x test"
 rm -rf rdoc ri
 rdoc -o rdoc $exclude
 rdoc --ri -o ri $exclude
-rm ri/{cache.ri,created.rid}
+%{__rm} ri/{cache.ri,created.rid}
 %endif
 
 %install
@@ -609,73 +679,53 @@ install -d $RPM_BUILD_ROOT{%{ruby_archdir},%{ruby_rubylibdir}} \
 cp -p atk/lib/atk.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
 cp -pr clutter/lib/{clutter,clutter.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
 cp -p clutter-gstreamer/lib/clutter-gst.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
-cp -p webkit-gtk2/lib/webkit-gtk2.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
 cp -pr gdk_pixbuf2/lib/{gdk_pixbuf2,gdk_pixbuf2.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -pr gegl/lib/{gegl,gegl.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -pr gsf/lib/{gsf,gsf.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
 cp -pr poppler/lib/{poppler,poppler.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
 cp -pr rsvg2/lib/{rsvg2,rsvg2.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -p webkit-gtk2/lib/webkit-gtk2.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
 %if %{with gtk3}
+cp -p clutter-gdk/lib/clutter-gdk.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
 cp -p clutter-gtk/lib/clutter-gtk.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
-cp -p webkit-gtk/lib/webkit-gtk.rb $RPM_BUILD_ROOT%{ruby_rubylibdir}
 cp -pr gdk3/lib/{gdk3,gdk3.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -pr goffice/lib/{goffice,goffice.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -pr gnumeric/lib/{gnm,gnm.rb,gnumeric.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
 cp -pr gtksourceview3/lib/{gtksourceview3,gtksourceview3.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
-%if %{with vte3}
+cp -pr gtksourceview4/lib/{gtksourceview4,gtksourceview4.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
 cp -pr vte3/lib/{vte3,vte3.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -pr webkit-gtk/lib/{webkit-gtk,webkit-gtk.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -pr webkit2-gtk/lib/{webkit2-gtk,webkit2-gtk.rb} $RPM_BUILD_ROOT%{ruby_rubylibdir}
 %endif
-%endif
 
-cp -a clutter/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter
-
-cp -a clutter-gstreamer/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter-gstreamer
-
-cp -a gdk_pixbuf2/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gdk_pixbuf2
-
-cp -a glib2/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/glib2
-
-cp -a gstreamer/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gstreamer
-
-cp -a gtk2/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtk2
-
-cp -a gtksourceview2/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtksourceview2
-
-cp -a poppler/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/poppler
-
-cp -a rsvg2/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/rsvg2
-
-cp -a vte/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/vte
-
-cp -a webkit-gtk2/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webkit-gtk2
-
+cp -a clutter/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter
+cp -a clutter-gstreamer/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter-gstreamer
+cp -a gdk_pixbuf2/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gdk_pixbuf2
+cp -a gegl/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gegl
+cp -a glib2/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/glib2
+cp -a gstreamer/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gstreamer
+cp -a gtk2/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtk2
+cp -a gtksourceview2/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtksourceview2
+cp -a poppler/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/poppler
+cp -a rsvg2/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/rsvg2
+cp -a vte/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/vte
+cp -a webkit-gtk2/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webkit-gtk2
 %if %{with gtk3}
-cp -a clutter-gtk/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter-gtk
-
-cp -a gtk3/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtk3
-
-cp -a webkit-gtk/sample \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webkit-gtk
+cp -a clutter-gtk/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/clutter-gtk
+cp -a gtk3/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/gtk3
+cp -a webkit-gtk/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webkit-gtk
+cp -a webkit2-gtk/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webkit-gtk
 %endif
 
 %if %{with doc}
 install -d $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Math,Object,REXML,RbConfig,Test*,page-*}
+# system classes
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Fiddle,Math,Object,REXML,RbConfig,URI,unknown}
+# tests, demos etc.
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{A,AssistantRunner,Canvas,CanvasItem,ColorSwatch,CustomEntry,DestWindow,DraggableWidget,Fish,FlowBoxWindow,Gesture*,GtkJobQueue,GtkMessageRow,Inspector,MaskEntry,Message,MultiTerm,MyButton*,MyGtk*,MyWindow,Pager,PaintableWindow,Pong,Section,SrcWindow,Stats,StatusIconSample,Test*,page-*,*Demo}
 %if %{without gtk3}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{ClutterGtk*,Goo*,WebKitGtk,WebKitGtkTestUtils,clutter-gtk,gdk3,gtk3,gtksourceview3,webkit-gtk}
-%endif
-%if %{without vte3}
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/vte3
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{ClutterGtk*,Goo*,WebKitGtk,WebKitGtkTestUtils,clutter-gdk,clutter-gtk,gdk3,gnumeric,goffice,gtk3,gtksourceview3,gtksourceview4,vte3,webkit-gtk,webkit2-gtk}
 %endif
 %endif
 
@@ -760,7 +810,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-gtk2
 %defattr(644,root,root,755)
-%doc gtk2/README
+%doc gtk2/README.md
 %attr(755,root,root) %{ruby_archdir}/gtk2.so
 %{ruby_rubylibdir}/gtk2.rb
 %{ruby_rubylibdir}/gtk2
@@ -799,7 +849,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-gtksourceview2
 %defattr(644,root,root,755)
-%doc gtksourceview2/README
+%doc gtksourceview2/README.md
 %attr(755,root,root) %{ruby_archdir}/gtksourceview2.so
 %{ruby_rubylibdir}/gtksourceview2.rb
 
@@ -821,7 +871,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n ruby-vte
 %defattr(644,root,root,755)
-%doc vte/README
+%doc vte/README.md
 %attr(755,root,root) %{ruby_archdir}/vte.so
 %{ruby_rubylibdir}/vte.rb
 %{ruby_rubylibdir}/vte
@@ -834,6 +884,18 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc webkit-gtk2/README.md
 %{ruby_rubylibdir}/webkit-gtk2.rb
+
+%files -n ruby-gsf
+%defattr(644,root,root,755)
+%doc gsf/README.md
+%{ruby_rubylibdir}/gsf
+%{ruby_rubylibdir}/gsf.rb
+
+%files -n ruby-gegl
+%defattr(644,root,root,755)
+%doc gegl/README.md
+%{ruby_rubylibdir}/gegl
+%{ruby_rubylibdir}/gegl.rb
 
 %if %{with gtk3}
 %files -n ruby-gtk3
@@ -849,31 +911,58 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_pkgconfigdir}/ruby-gtk3.pc
 
+%files -n ruby-clutter-gdk
+%defattr(644,root,root,755)
+%doc clutter-gdk/README.md
+%{ruby_rubylibdir}/clutter-gdk.rb
+
 %files -n ruby-clutter-gtk
 %defattr(644,root,root,755)
 %doc clutter-gtk/README.md
 %{ruby_rubylibdir}/clutter-gtk.rb
 
-%if %{with gtksourceview3}
 %files -n ruby-gtksourceview3
 %defattr(644,root,root,755)
 %doc gtksourceview3/README.md
 %{ruby_rubylibdir}/gtksourceview3.rb
 %{ruby_rubylibdir}/gtksourceview3
-%endif
 
-%if %{with vte3}
+%files -n ruby-gtksourceview4
+%defattr(644,root,root,755)
+%doc gtksourceview4/README.md
+%{ruby_rubylibdir}/gtksourceview4.rb
+%{ruby_rubylibdir}/gtksourceview4
+
 %files -n ruby-vte3
 %defattr(644,root,root,755)
 %doc vte3/README.md
 %{ruby_rubylibdir}/vte3.rb
 %{ruby_rubylibdir}/vte3
-%endif
 
 %files -n ruby-webkit-gtk
 %defattr(644,root,root,755)
 %doc webkit-gtk/README.md
 %{ruby_rubylibdir}/webkit-gtk.rb
+%{ruby_rubylibdir}/webkit-gtk
+
+%files -n ruby-webkit2-gtk
+%defattr(644,root,root,755)
+%doc webkit2-gtk/README.md
+%{ruby_rubylibdir}/webkit2-gtk.rb
+%{ruby_rubylibdir}/webkit2-gtk
+
+%files -n ruby-goffice
+%defattr(644,root,root,755)
+%doc goffice/README.md
+%{ruby_rubylibdir}/goffice
+%{ruby_rubylibdir}/goffice.rb
+
+%files -n ruby-gnumeric
+%defattr(644,root,root,755)
+%doc gnumeric/README.md
+%{ruby_rubylibdir}/gnm
+%{ruby_rubylibdir}/gnm.rb
+%{ruby_rubylibdir}/gnumeric.rb
 %endif
 
 %if %{with doc}
@@ -883,53 +972,44 @@ rm -rf $RPM_BUILD_ROOT
 
 %files doc-ri
 %defattr(644,root,root,755)
-%{ruby_ridir}/A
-%{ruby_ridir}/AlphaDemo
-%{ruby_ridir}/AssistantRunner
 %{ruby_ridir}/Atk
 %{ruby_ridir}/Cairo
 %{ruby_ridir}/CairoGObject
-%{ruby_ridir}/Canvas
 %{ruby_ridir}/Clutter
+%{ruby_ridir}/ClutterGdk
 %{ruby_ridir}/ClutterGst
-%{ruby_ridir}/Demo
-%{ruby_ridir}/DestWindow
-%{ruby_ridir}/DraggableWidget
+%{ruby_ridir}/GI
 %{ruby_ridir}/GLib
 %{ruby_ridir}/GNOME2
 %{ruby_ridir}/GObjectIntrospection
+%{ruby_ridir}/GOffice
 %{ruby_ridir}/Gdk
-%{ruby_ridir}/Gesture
-%{ruby_ridir}/GestureProcessor
-%{ruby_ridir}/GesturedWidget
+%{ruby_ridir}/GdkPixbuf
+%{ruby_ridir}/Gegl
 %{ruby_ridir}/Gio
+%{ruby_ridir}/Gsf
 %{ruby_ridir}/Gst
 %{ruby_ridir}/Gtk
 %{ruby_ridir}/GtkSource
-%{ruby_ridir}/Inspector
 %{ruby_ridir}/Layout
-%{ruby_ridir}/MultiTerm
-%{ruby_ridir}/MyButton
-%{ruby_ridir}/MyButton2
-%{ruby_ridir}/MyGtkPlug
-%{ruby_ridir}/MyGtkSocket
-%{ruby_ridir}/Pager
 %{ruby_ridir}/Pango
-%{ruby_ridir}/Pong
 %{ruby_ridir}/Poppler
-%{ruby_ridir}/SrcWindow
-%{ruby_ridir}/StatusIconSample
+%{ruby_ridir}/Rsvg
 %{ruby_ridir}/VideoApp
 %{ruby_ridir}/Vte
+%{ruby_ridir}/WebKit2Gtk
 %{ruby_ridir}/WebKitGtk2
 %{ruby_ridir}/atk
 %{ruby_ridir}/cairo-gobject
 %{ruby_ridir}/clutter
 %{ruby_ridir}/clutter-gstreamer
 %{ruby_ridir}/gdk_pixbuf2
+%{ruby_ridir}/gegl
 %{ruby_ridir}/gio2
 %{ruby_ridir}/glib2
 %{ruby_ridir}/gobject-introspection
+%{ruby_ridir}/goffice
+%{ruby_ridir}/gsf
 %{ruby_ridir}/gstreamer
 %{ruby_ridir}/gtk2
 %{ruby_ridir}/gtksourceview2
@@ -941,14 +1021,15 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with gtk3}
 %{ruby_ridir}/ClutterGtk
 %{ruby_ridir}/WebKitGtk
+%{ruby_ridir}/clutter-gdk
 %{ruby_ridir}/clutter-gtk
 %{ruby_ridir}/gdk3
 %{ruby_ridir}/gtk3
 %{ruby_ridir}/gtksourceview3
-%if %{with vte3}
+%{ruby_ridir}/gtksourceview4
 %{ruby_ridir}/vte3
-%endif
 %{ruby_ridir}/webkit-gtk
+%{ruby_ridir}/webkit2-gtk
 %endif
 %endif
 
