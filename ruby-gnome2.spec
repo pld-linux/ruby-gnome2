@@ -608,7 +608,7 @@ Przykłady do Ruby-GNOME2.
 %patch1 -p1
 %patch2 -p1
 
-find . -name '*.rb' | xargs sed -i -e '1s,#.*local/bin/ruby,#!%{_bindir}/ruby,'
+find . -name '*.rb' | xargs %{__sed} -i -e '1s,/usr/bin/env ruby$,%{__ruby},' -e '1s,./usr/local/bin/ruby$,%{__ruby},'
 
 cp -p glib2/README.md README.glib2.md
 cp -p glib2/TODO TODO.glib2
@@ -724,7 +724,7 @@ cp -a webkit2-gtk/sample $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/webki
 install -d $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 # system classes
-%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{Fiddle,Math,Object,REXML,RbConfig,URI,unknown}
+%{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/Object
 # tests, demos etc.
 %{__rm} -r $RPM_BUILD_ROOT%{ruby_ridir}/{A,AssistantRunner,Canvas,CanvasItem,ColorSwatch,CustomEntry,DestWindow,DraggableWidget,Fish,FlowBoxWindow,Gesture*,GtkJobQueue,GtkMessageRow,Inspector,MaskEntry,Message,MultiTerm,MyButton*,MyGtk*,MyWindow,Pager,PaintableWindow,Pong,Section,SrcWindow,Stats,StatusIconSample,Test*,page-*,*Demo}
 %if %{without gtk3}
