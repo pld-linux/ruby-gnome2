@@ -604,9 +604,9 @@ Przykłady do Ruby-GNOME2.
 
 %prep
 %setup -q -n %{name}-all-%{version}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
 
 find . -name '*.rb' | xargs %{__sed} -i -e '1s,/usr/bin/env ruby$,%{__ruby},' -e '1s,./usr/local/bin/ruby$,%{__ruby},'
 
